@@ -1,0 +1,720 @@
+<!DOCTYPE html><html  lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Урок 3. Память проекта: что агенту знать заранее и как это хранить — курс «Агент под контролем»</title>
+<style>:root{color-scheme:dark;--bg:#10140f;--bg-raised:#171d15;--ink:#e7f0df;--muted:#a3b09c;--line:#2a3526;--accent:#d6f25c;--accent-ink:#17200c;--mono:"IBM Plex Mono","Cascadia Mono","Segoe UI Mono",ui-monospace,monospace;--sans:"Segoe UI","PT Root UI",system-ui,sans-serif;--topbar:64px}*{box-sizing:border-box}html{scroll-padding-top:calc(var(--topbar) + 1rem)}#__nuxt,body,html{background:var(--bg);color:var(--ink);margin:0;min-height:100%}body{font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}a{color:inherit}::-moz-selection{background:var(--accent);color:var(--accent-ink)}::selection{background:var(--accent);color:var(--accent-ink)}.shell{display:flex;flex-direction:column;min-height:100vh}.topbar{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:#10140fe0;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.topbar-row{align-items:center;display:flex;gap:1.5rem;height:var(--topbar);margin:0 auto;width:min(1280px,calc(100% - 2rem))}.wordmark{align-items:center;display:inline-flex;font-family:var(--mono);font-weight:700;gap:.5rem;letter-spacing:.02em;margin:0;text-decoration:none;white-space:nowrap}.mark{height:2rem;-o-object-fit:contain;object-fit:contain;width:2rem}.nav{align-items:center;display:flex;gap:.25rem}.nav-link{background:none;border:0;border-radius:8px;color:var(--muted);cursor:pointer;font:inherit;font-size:.93rem;padding:.45rem .65rem;text-decoration:none;white-space:nowrap}.drop.open .drop-toggle,.nav-link.router-link-active,.nav-link:hover{background:var(--bg-raised);color:var(--ink)}.nav-link.chat-link,.nav-link.studio-link{align-items:center;background:var(--accent);color:var(--accent-ink);display:inline-flex;font-weight:700;gap:.35rem}.nav-link.chat-link:hover,.nav-link.studio-link:hover{background:var(--accent);color:var(--accent-ink);filter:brightness(1.08)}.chat-icon,.studio-icon{fill:currentColor;height:1rem;width:1rem}.studio-icon path:last-child{fill:var(--accent)}.caret{font-size:.7rem;opacity:.7}.drop{position:relative}.drop-panel{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px #00000073;display:none;left:0;padding:.5rem;position:absolute;top:100%;width:22rem}.drop.open .drop-panel{display:grid;gap:.15rem}.drop-item{border-radius:8px;display:flex;flex-direction:column;padding:.55rem .7rem;text-decoration:none}.drop-item span{color:var(--muted);font-size:.82rem}.drop-item.router-link-active,.drop-item:hover{background:#d6f25c14}.drop-item:hover b{color:var(--accent)}.actions{align-items:center;display:flex;gap:.6rem;margin-left:auto}.install{color:var(--muted);font-size:.93rem;padding:.45rem .8rem;text-decoration:none}.install:hover{color:var(--ink)}.enter{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font:inherit;font-weight:700;padding:.5rem 1rem}.enter:hover{filter:brightness(1.08)}.menu-toggle{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;display:none;font-size:1rem;height:2.4rem;width:2.4rem}.cabinet,.signed-in{color:var(--ink);font-size:.93rem;font-weight:700;text-decoration:none}.cabinet:hover{color:var(--accent)}.account{align-items:center;display:flex;gap:.6rem}.balance{font-family:var(--mono);font-size:.85rem}.topup{position:relative}.topup summary{background:var(--accent);border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;list-style:none;padding:.45rem .7rem}.topup summary::-webkit-details-marker{display:none}.topup-menu{background:var(--bg-raised);border:1px solid var(--line);border-radius:8px;min-width:7rem;padding:.3rem;position:absolute;right:0;top:calc(100% + .3rem);z-index:5}.topup button{background:none;border:0;color:var(--ink);cursor:pointer;display:block;font:inherit;padding:.4rem .7rem;text-align:left;width:100%}.topup button:hover{color:var(--accent)}.logout{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit}.logout:hover{color:var(--ink)}.nav-label{color:var(--muted);font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.mobile-nav{display:grid;gap:1rem;margin:0 auto;padding:.5rem 0 1.25rem;width:min(1280px,calc(100% - 2rem))}.mobile-nav a{text-decoration:none}.mobile-group{display:grid;gap:.5rem}.session-banner{background:var(--bg-raised);color:var(--accent);margin:0;padding:.7rem 1.5rem;text-align:center}.page{flex:1;margin:0 auto;padding:2rem 0 5rem;width:min(1280px,calc(100% - 2rem))}.foot{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding:3rem 0}.foot-inner{display:grid;gap:2rem;grid-template-columns:1.4fr repeat(2,1fr) 1.2fr;margin:0 auto;width:min(1280px,calc(100% - 2rem))}.foot .wordmark{color:var(--ink)}.foot-note{margin:.8rem 0 0;max-width:18rem}.foot-col{align-content:start;display:grid;gap:.45rem}.foot-col a{text-decoration:none}.foot-col a:hover{color:var(--accent)}.foot-button{background:none;border:0;color:inherit;cursor:pointer;font:inherit;justify-self:start;padding:0}.foot-button:hover{color:var(--accent)}@media(max-width:960px){.install,.nav{display:none}.menu-toggle{display:inline-grid;place-items:center}.foot-inner{grid-template-columns:1fr 1fr}}@media(max-width:520px){.foot-inner{grid-template-columns:1fr}}</style>
+<style>.dialog[data-v-7579e13d]{background:#080a07b8;display:grid;inset:0;padding:1rem;place-items:center;position:fixed;z-index:20}.dialog-card[data-v-7579e13d]{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;padding:1.25rem;width:min(28rem,100%)}label a[data-v-7579e13d]{color:var(--accent)}.error[data-v-7579e13d]{color:#ffb4a8;margin:0 0 .6rem}.choices[data-v-7579e13d]{display:flex;gap:.6rem;margin-top:.8rem}.choices button[data-v-7579e13d],.dialog-card>button[data-v-7579e13d]{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;padding:.7rem 1.1rem}button[data-v-7579e13d]:disabled{cursor:not-allowed;opacity:.45}.dismiss[data-v-7579e13d]{background:transparent;border:1px solid var(--line);color:var(--muted);margin-top:1rem}</style>
+<style>.cookie-notice[data-v-904500e8]{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;bottom:calc(1rem + env(safe-area-inset-bottom,0px));box-shadow:0 12px 32px #00000073;display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;left:50%;padding:.9rem 1.1rem;position:fixed;transform:translate(-50%);width:min(960px,calc(100% - 2rem));z-index:20}.cookie-notice p[data-v-904500e8]{color:var(--muted);flex:1 1 22rem;font-size:.9rem;margin:0}.cookie-notice a[data-v-904500e8]{color:var(--accent)}.cookie-actions[data-v-904500e8]{display:flex;gap:.6rem;margin-left:auto}.cookie-deny[data-v-904500e8]{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font:inherit;padding:.5rem .9rem}.cookie-deny[data-v-904500e8]:hover{border-color:var(--muted)}</style>
+<style>.lesson-page{display:grid;gap:2.5rem;width:100%}.hc-crumbs{color:var(--muted);display:flex;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;gap:.35rem .75rem}.hc-crumbs a{color:var(--accent);text-decoration:none}.hc-crumbs span:before{color:var(--line);content:"/";margin-right:.75rem}.hc-try{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;padding:1.1rem 1.25rem}.hc-try p{color:var(--muted);margin:.3rem 0 0;max-width:40rem}.hc-try-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.75rem}.hc-try-actions a{color:var(--accent)}.hc-try-actions .hc-try-install{background:var(--accent);border-radius:6px;color:var(--accent-ink);font-weight:700;padding:.55rem 1rem;text-decoration:none}.hc-pager{display:grid;gap:.75rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc-pager a{background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;color:var(--ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc-pager a:hover{border-color:var(--accent)}.hc-pager small{color:var(--muted)}.hc-pager .next{grid-column:2;text-align:right}@media(max-width:560px){.hc-pager{grid-template-columns:minmax(0,1fr)}.hc-pager .next{grid-column:1}}</style>
+<style>.hc{--hc-bg:var(--bg);--hc-surface:var(--bg-raised);--hc-surface-2:#1f281c;--hc-ink:var(--ink);--hc-muted:var(--muted);--hc-line:var(--line);--hc-accent:var(--accent);--hc-accent-soft:rgba(214,242,92,.12);--hc-accent-ink:var(--accent-ink);--hc-warm:#f0a35e;--hc-warm-soft:#33261a;--hc-ok:#62d38f;--hc-ok-soft:#15301f;--hc-bad:#ff8a7e;--hc-bad-soft:#3a1c19;--hc-warn:#e6c14d;--hc-warn-soft:#352d12;--hc-code-bg:#0b0f0a;--hc-code-ink:#dfe8d6;--hc-shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);--hc-f-display:var(--sans);--hc-f-body:var(--sans);--hc-f-mono:var(--mono);--hc-fs-xs:.78rem;--hc-fs-sm:.9rem;--hc-fs-md:1.02rem;--hc-fs-lg:1.22rem;--hc-fs-xl:1.45rem;--hc-fs-2xl:clamp(1.6rem,3vw,2.2rem);--hc-r-sm:6px;--hc-r-md:10px;--hc-col:46rem;--hc-wide:80rem;color-scheme:dark}.hc *{box-sizing:border-box}@media(prefers-reduced-motion:reduce){.hc *,.hc :after,.hc :before{animation-duration:.01ms!important;transition-duration:.01ms!important}}.hc{background:var(--hc-bg);color:var(--hc-ink);font:400 var(--hc-fs-md)/1.62 var(--hc-f-body);margin:0;-webkit-font-smoothing:antialiased}.hc a{color:var(--hc-accent);text-underline-offset:3px}.hc a:hover{text-decoration-thickness:2px}.hc :focus-visible{border-radius:4px;outline:3px solid var(--hc-accent);outline-offset:2px}.hc h1,.hc h2,.hc h3,.hc h4{line-height:1.2;margin:0;text-wrap:balance}.hc h1,.hc h2{font-family:var(--hc-f-display);font-weight:600;letter-spacing:-.01em}.hc h1{font-size:var(--hc-fs-2xl)}.hc h2{font-size:var(--hc-fs-xl)}.hc h3{font-size:var(--hc-fs-lg)}.hc h3,.hc h4{font-weight:650}.hc h4{font-size:var(--hc-fs-md)}.hc ol,.hc p,.hc ul{margin:0}.hc ol,.hc ul{padding-left:1.3em}.hc li+li{margin-top:.3em}.hc code,.hc kbd,.hc pre{font-family:var(--hc-f-mono);font-size:.88em}.hc :not(pre)>code{background:var(--hc-code-bg);border-radius:4px;color:var(--hc-code-ink);overflow-wrap:anywhere;padding:.08em .36em}.hc kbd{background:var(--hc-surface);border:solid var(--hc-line);border-radius:4px;border-width:1px 1px 2px;padding:0 .35em}.hc strong{font-weight:650}.hc [hidden]{display:none!important}.hc .visually-hidden{clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}.hc .hc-page{display:grid;gap:2.5rem;grid-template-columns:12rem minmax(0,1fr);margin:0 auto;max-width:var(--hc-wide);padding-block:2rem 4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.hc .rail{align-self:start;position:sticky;top:calc(var(--topbar) + 1.5rem)}.hc .rail ol{counter-reset:step;display:grid;gap:.15rem;list-style:none;margin:0;padding:0}.hc .rail li{margin:0}.hc .rail a{align-items:center;border-radius:var(--hc-r-sm);color:var(--hc-muted);display:flex;font-size:var(--hc-fs-sm);gap:.6rem;padding:.35rem .5rem;text-decoration:none}.hc .rail a:before{border:1.5px solid var(--hc-line);border-radius:50%;content:counter(step);counter-increment:step;display:grid;flex:none;font:600 .72rem var(--hc-f-mono);height:1.5rem;place-items:center;width:1.5rem}.hc .rail a:hover{background:var(--hc-surface-2);color:var(--hc-ink)}.hc .rail a.is-current{color:var(--hc-ink);font-weight:600}.hc .rail a.is-current:before{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .rail .rail-progress{color:var(--hc-muted);font-size:var(--hc-fs-xs);margin-top:1rem}.hc .meter{background:var(--hc-surface-2);border-radius:99px;height:6px;margin-top:.35rem;overflow:hidden}.hc .meter>i{background:var(--hc-ok);display:block;height:100%;transition:width .4s;width:0}.hc .content{display:grid;gap:3.5rem;min-width:0}.hc .content>*{min-width:0}.hc .analogy,.hc .content,.hc .lesson-hero,.hc .level,.hc .outcomes,.hc .prose,.hc .q,.hc .quiz,.hc .stand,.hc .step{grid-template-columns:minmax(0,1fr)}.hc .lesson-hero{display:grid;gap:1rem;max-width:var(--hc-col)}.hc .eyebrow{color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .lead{color:var(--hc-muted);font-size:var(--hc-fs-lg);line-height:1.5}.hc .facts{display:flex;flex-wrap:wrap;gap:.5rem}.hc .fact{border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-muted);font-size:var(--hc-fs-xs);padding:.2rem .65rem}.hc .fact,.hc .outcomes{background:var(--hc-surface)}.hc .outcomes{border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.5rem;padding:1rem 1.2rem}.hc .outcomes h2{color:var(--hc-muted);font:650 var(--hc-fs-sm) var(--hc-f-body);letter-spacing:.06em;text-transform:uppercase}.hc .step{display:grid;gap:1.1rem;scroll-margin-top:5rem}.hc .step>:not(.stand):not(.wide){max-width:var(--hc-col)}.hc .step-head{display:grid;gap:.35rem}.hc .step-tag{align-items:center;color:var(--hc-muted);display:inline-flex;font:600 var(--hc-fs-xs) var(--hc-f-mono);gap:.5rem;letter-spacing:.08em;text-transform:uppercase}.hc .step-tag b{background:var(--hc-ink);border-radius:4px;color:var(--hc-bg);font-weight:600;padding:.05rem .4rem}.hc .step ol+p,.hc .step p+ol,.hc .step p+p,.hc .step p+ul,.hc .step ul+p{margin-top:0}.hc .prose{display:grid;gap:.85rem}.hc .level{border-left:3px solid var(--hc-line);display:grid;gap:.75rem;padding-left:1rem}.hc .level[data-level="1"]{border-color:var(--hc-ok)}.hc .level[data-level="2"]{border-color:var(--hc-accent)}.hc .level[data-level="3"]{border-color:var(--hc-warm)}.hc .level-tag{color:var(--hc-muted);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.06em;text-transform:uppercase}.hc .analogy{background:var(--hc-warm-soft);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:1.1rem 1.25rem}.hc .analogy .label{color:var(--hc-warm);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .analogy p{font-size:var(--hc-fs-lg);line-height:1.45}.hc .map-pairs{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))}.hc .map-pairs>div{background:var(--hc-surface);border-radius:var(--hc-r-sm);display:grid;font-size:var(--hc-fs-sm);gap:.1rem;padding:.55rem .75rem}.hc .map-pairs b{font-weight:600}.hc .map-pairs span{color:var(--hc-muted)}.hc .note,.hc .tip,.hc .warn{border-radius:var(--hc-r-md);display:block;font-size:var(--hc-fs-sm);padding:.85rem 1rem}.hc .note{background:var(--hc-accent-soft)}.hc .tip{background:var(--hc-ok-soft)}.hc .warn{background:var(--hc-bad-soft)}.hc .note>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .tip>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .warn>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div){margin-top:.45rem}.hc .note>b:first-child,.hc .tip>b:first-child,.hc .warn>b:first-child{display:block;font-size:var(--hc-fs-xs);letter-spacing:.06em;margin-bottom:.35rem;text-transform:uppercase}.hc .term{border-bottom:1.5px dotted var(--hc-accent);cursor:help;position:relative}.hc .term:focus:after,.hc .term:hover:after{background:var(--hc-ink);border-radius:var(--hc-r-sm);box-shadow:var(--hc-shadow);color:var(--hc-bg);content:attr(data-tip);font:400 var(--hc-fs-xs)/1.45 var(--hc-f-body);left:0;max-width:min(20rem,80vw);padding:.5rem .65rem;position:absolute;top:calc(100% + 6px);white-space:normal;width:-moz-max-content;width:max-content;z-index:30}.hc details.more{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md)}.hc details.more>summary{align-items:baseline;cursor:pointer;display:flex;font-size:var(--hc-fs-sm);font-weight:600;gap:.6rem;list-style:none;padding:.7rem 1rem}.hc details.more>summary::-webkit-details-marker{display:none}.hc details.more>summary:before{color:var(--hc-accent);content:"+";flex:none;font:600 1rem var(--hc-f-mono);width:1rem}.hc details.more[open]>summary:before{content:"−"}.hc details.more>summary .hint{color:var(--hc-muted);font-weight:400}.hc details.more>.more-body{display:grid;gap:.75rem;min-width:0;padding:0 1rem 1rem}.hc pre{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font-size:.84rem;line-height:1.55;margin:0;overflow-x:auto;padding:.85rem 1rem;position:relative;-moz-tab-size:2;-o-tab-size:2;tab-size:2}.hc pre .c{color:var(--hc-muted);font-style:italic}.hc pre .k{color:var(--hc-accent);font-weight:600}.hc pre .s{color:var(--hc-ok)}.hc pre .w{color:var(--hc-warm)}.hc .code-wrap{min-width:0;position:relative}.hc .copy-btn{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-body);opacity:.85;padding:.15rem .5rem;position:absolute;right:.4rem;top:.4rem}.hc .copy-btn:hover{color:var(--hc-ink);opacity:1}.hc .code-tabs{display:grid;gap:0;min-width:0}.hc .code-tabs .tab-bar{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:-1px}.hc .code-tabs .tab-bar button{background:transparent;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-mono);padding:.35rem .7rem}.hc .code-tabs .tab-bar button[aria-selected=true]{background:var(--hc-code-bg);border-color:var(--hc-line);color:var(--hc-ink)}.hc .code-tabs pre{border-top-left-radius:0}.hc .stand{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);box-shadow:var(--hc-shadow);display:grid;gap:1rem;min-width:0;padding:1.1rem}.hc .stand-head{align-items:baseline;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between}.hc .stand-head h3{font-size:var(--hc-fs-md)}.hc .stand-head .badge{background:var(--hc-accent-soft);border-radius:4px;color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.15rem .5rem}.hc .stand .task{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .row{align-items:center;display:flex;flex-wrap:wrap;gap:.6rem}.hc .grid-2{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc .grid-3{display:grid;gap:.75rem;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.hc .grid-2,.hc .grid-3{grid-template-columns:minmax(0,1fr)}}.hc .btn{align-items:center;background:var(--hc-accent);border:1px solid var(--hc-accent);border-radius:var(--hc-r-sm);color:var(--hc-accent-ink);cursor:pointer;display:inline-flex;font:600 var(--hc-fs-sm) var(--hc-f-body);gap:.4rem;padding:.5rem .95rem}.hc .btn:hover{filter:brightness(1.08)}.hc .btn:disabled{cursor:not-allowed;filter:none;opacity:.45}.hc .btn.secondary{background:transparent;color:var(--hc-accent)}.hc .btn.quiet{background:transparent;border-color:var(--hc-line);color:var(--hc-muted)}.hc .btn.small{font-size:var(--hc-fs-xs);padding:.25rem .6rem}.hc .chip-btn{background:var(--hc-surface-2);border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-ink);cursor:pointer;font:500 var(--hc-fs-sm) var(--hc-f-body);padding:.3rem .8rem}.hc .chip-btn[aria-pressed=true]{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc label{font-size:var(--hc-fs-sm);font-weight:600}.hc .field{display:grid;gap:.3rem;min-width:0}.hc .field small{color:var(--hc-muted);font-weight:400}.hc input[type=number],.hc input[type=text],.hc select,.hc textarea{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);font:400 var(--hc-fs-sm) var(--hc-f-body);min-width:0;padding:.5rem .65rem;width:100%}.hc textarea{line-height:1.5;resize:vertical}.hc .mono,.hc textarea.code{font-family:var(--hc-f-mono);font-size:.84rem}.hc textarea.code{background:var(--hc-code-bg);color:var(--hc-code-ink);min-height:14rem;overflow:auto;-moz-tab-size:2;-o-tab-size:2;tab-size:2;white-space:pre}.hc input[type=range]{accent-color:var(--hc-accent);width:100%}.hc input[type=checkbox],.hc input[type=radio]{accent-color:var(--hc-accent);height:1.05rem;width:1.05rem}.hc .output{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font:400 .82rem/1.55 var(--hc-f-mono);max-height:22rem;min-height:3rem;overflow:auto;overflow-wrap:anywhere;padding:.75rem .9rem;white-space:pre-wrap}.hc .output:empty:before{color:var(--hc-muted);content:attr(data-empty)}.hc .output .ok{color:var(--hc-ok)}.hc .output .bad{color:var(--hc-bad)}.hc .output .dim{color:var(--hc-muted)}.hc .result-line{font-size:var(--hc-fs-sm);font-weight:600}.hc .result-line.ok{color:var(--hc-ok)}.hc .result-line.bad{color:var(--hc-bad)}.hc .pill{background:var(--hc-surface-2);border-radius:4px;color:var(--hc-muted);display:inline-block;font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.1rem .45rem}.hc .pill.ok{background:var(--hc-ok-soft);color:var(--hc-ok)}.hc .pill.bad{background:var(--hc-bad-soft);color:var(--hc-bad)}.hc .pill.warn{background:var(--hc-warn-soft);color:var(--hc-warn)}.hc .pill.accent{background:var(--hc-accent-soft);color:var(--hc-accent)}.hc .flow{align-items:stretch;display:flex;flex-wrap:wrap;gap:.4rem}.hc .flow .node{background:var(--hc-surface-2);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);display:grid;flex:1 1 8rem;font-size:var(--hc-fs-sm);gap:.15rem;min-width:0;padding:.55rem .7rem;transition:border-color .25s,background .25s,transform .25s}.hc .flow .node small{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .flow .node.is-active{background:var(--hc-accent-soft);border-color:var(--hc-accent);transform:translateY(-2px)}.hc .flow .node.is-done{border-color:var(--hc-ok)}.hc .flow .node.is-bad{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .flow .arrow{align-self:center;color:var(--hc-muted);font-family:var(--hc-f-mono)}@media(max-width:560px){.hc .flow{flex-direction:column}.hc .flow .arrow{align-self:center;transform:rotate(90deg)}}.hc .table-wrap{min-width:0;overflow-x:auto}.hc table{border-collapse:collapse;font-size:var(--hc-fs-sm);width:100%}.hc td,.hc th{border-bottom:1px solid var(--hc-line);padding:.45rem .6rem;text-align:left;vertical-align:top}.hc th{color:var(--hc-muted);font-size:var(--hc-fs-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase}.hc td.num,.hc th.num{font-variant-numeric:tabular-nums;text-align:right}.hc .quiz{display:grid;gap:1rem}.hc .q{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:.9rem 1rem}.hc .q>p{font-weight:600}.hc .q .options{display:grid;gap:.4rem}.hc .q .options button{background:var(--hc-bg);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);cursor:pointer;font:400 var(--hc-fs-sm)/1.45 var(--hc-f-body);padding:.5rem .75rem;text-align:left}.hc .q .options button:hover{border-color:var(--hc-accent)}.hc .q .options button.is-right{background:var(--hc-ok-soft);border-color:var(--hc-ok)}.hc .q .options button.is-wrong{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .q .why{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .quiz-score{color:var(--hc-muted)}.hc .q .q-kind,.hc .quiz-score{font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs)}.hc .q .q-kind{background:var(--hc-warn-soft);border-radius:999px;color:var(--hc-warn);justify-self:start;padding:.1rem .6rem}.hc .q[data-multi] .options button{padding-left:2.1rem;position:relative}.hc .q[data-multi] .options button:before{border:1.5px solid var(--hc-muted);border-radius:3px;content:"";height:.85rem;left:.7rem;position:absolute;top:.68rem;width:.85rem}.hc .q[data-multi] .options button[aria-pressed=true]{border-color:var(--hc-accent)}.hc .q[data-multi] .options button[aria-pressed=true]:before{background:var(--hc-accent);border-color:var(--hc-accent);box-shadow:inset 0 0 0 2px var(--hc-bg)}.hc .q[data-multi] .options button.is-right{border-color:var(--hc-ok)}.hc .q[data-multi] .options button.is-wrong{border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-wrong:before{background:var(--hc-bad);border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-right:before{background:var(--hc-ok);border-color:var(--hc-ok)}.hc .q>p.why{font-weight:400}.hc .q .options button.is-missed{border-color:var(--hc-ok);border-style:dashed}.hc .q .options button.is-missed:after{color:var(--hc-ok);content:" — тоже верный";font-size:var(--hc-fs-xs)}.hc .q .q-actions{display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;margin:0;min-width:0;padding:.75rem}.hc .stage3d-view{aspect-ratio:16/9;background:radial-gradient(120% 90% at 50% 30%,#1d2619 0,var(--hc-bg) 75%);border-radius:var(--hc-r-sm);min-height:16rem;overflow:hidden;position:relative}.hc .stage3d-view canvas{cursor:grab;display:block;height:100%;width:100%}.hc .stage3d-view canvas:active{cursor:grabbing}.hc .stage3d-labels{inset:0;overflow:hidden;pointer-events:none;position:absolute}.hc .stage3d-label{background:#10140fc7;border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-ink);font:600 var(--hc-fs-xs)/1.2 var(--hc-f-mono);left:0;margin-top:-6px;padding:.12rem .4rem;position:absolute;top:0;transition:opacity .2s;white-space:nowrap}.hc .stage3d-label.accent{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-label.warm{background:var(--hc-warm);border-color:var(--hc-warm);color:#2a1a0c}.hc .stage3d-label.bad{background:var(--hc-bad);border-color:var(--hc-bad);color:#2a0f0c}.hc .stage3d-label.ok{background:var(--hc-ok);border-color:var(--hc-ok);color:#0c2416}.hc .stage3d-label.dim{color:var(--hc-muted);font-weight:400}.hc .stage3d-gate{background:var(--hc-accent);border:0;border-radius:999px;bottom:.5rem;color:var(--hc-accent-ink);font:600 var(--hc-fs-xs)/1 var(--hc-f-body);padding:.55rem .9rem;position:absolute;right:.5rem}.hc .stage3d.is-active .stage3d-view{outline:2px solid var(--hc-accent)}.hc .stage3d-bar{align-items:center;display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d-range{accent-color:var(--hc-accent);flex:1 1 8rem;min-width:6rem}.hc .stage3d-clock{color:var(--hc-muted);font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs);min-width:6.5rem}.hc .stage3d-zoom{min-width:2.2rem}.hc .stage3d-chapters{display:flex;flex-wrap:wrap;gap:.35rem}.hc .stage3d-chip{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:999px;color:var(--hc-muted);cursor:pointer;font:400 var(--hc-fs-xs)/1.2 var(--hc-f-body);padding:.3rem .65rem}.hc .stage3d-chip:hover{border-color:var(--hc-accent);color:var(--hc-ink)}.hc .stage3d-chip.is-current{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-caption{font-size:var(--hc-fs-sm);min-height:3.2em}.hc .stage3d-caption b{color:var(--hc-accent)}.hc .stage3d-hint{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .stage3d-alt{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .stage3d.is-ready .stage3d-alt{height:1px;overflow:hidden;position:absolute;width:1px;clip:rect(0 0 0 0);white-space:nowrap}.hc .stage3d.is-fallback .stage3d-bar,.hc .stage3d.is-fallback .stage3d-caption,.hc .stage3d.is-fallback .stage3d-chapters,.hc .stage3d.is-fallback .stage3d-hint,.hc .stage3d.is-fallback .stage3d-view{display:none}.hc .stage3d.is-fallback .stage3d-alt{height:auto;overflow:visible;position:static;width:auto;clip:auto;white-space:normal}@media(max-width:640px){.hc .stage3d-view{aspect-ratio:1/1}.hc .stage3d-chapters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.1rem;scrollbar-width:none}.hc .stage3d-chip{flex:none}.hc .stage3d-label{font-size:.66rem;padding:.08rem .3rem}}.hc .checklist{display:grid;gap:.35rem;list-style:none;padding:0}.hc .checklist li{margin:0}.hc .checklist label{align-items:flex-start;border-radius:var(--hc-r-sm);cursor:pointer;display:flex;font-size:var(--hc-fs-md);font-weight:400;gap:.65rem;padding:.45rem .6rem}.hc .checklist label:hover{background:var(--hc-surface)}.hc .checklist input{flex:none;margin-top:.3rem}.hc .checklist input:checked+span{color:var(--hc-muted);text-decoration:line-through;text-decoration-color:var(--hc-ok)}.hc .done-banner{display:none}.hc .done-banner.is-shown{display:block}.hc .links{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr))}.hc .links h3{color:var(--hc-muted);font-size:var(--hc-fs-sm);letter-spacing:.06em;margin-bottom:.5rem;text-transform:uppercase}.hc .links ul{display:grid;gap:.6rem;list-style:none;padding:0}.hc .links li{display:grid;font-size:var(--hc-fs-sm);gap:.1rem;margin:0}.hc .links li a{font-weight:600}.hc .links li span{color:var(--hc-muted)}.hc .pager{display:grid;gap:.75rem;grid-template-columns:1fr 1fr}.hc .pager a{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);color:var(--hc-ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc .pager a:hover{border-color:var(--hc-accent)}.hc .pager small{color:var(--hc-muted)}.hc .pager .next{grid-column:2;text-align:right}.hc .footer-note{color:var(--hc-muted);font-size:var(--hc-fs-xs)}@media(max-width:900px){.hc .hc-page{gap:1.5rem;grid-template-columns:minmax(0,1fr);padding-block:1.25rem 3rem}.hc .rail{background:var(--hc-bg);margin-inline:-4px;padding-block:.4rem;position:sticky;top:var(--topbar);z-index:15}.hc .rail ol{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none}.hc .rail a{padding:.25rem .5rem;white-space:nowrap}.hc .rail .rail-progress{display:none}.hc .content{gap:2.75rem}}@keyframes hc-pop{0%{opacity:.4;transform:scale(.92)}to{opacity:1;transform:scale(1)}}.hc .pop{animation:hc-pop .25s ease-out}@keyframes hc-pulse-border{0%,to{box-shadow:0 0 color-mix(in srgb,var(--hc-accent) 45%,transparent)}50%{box-shadow:0 0 0 6px transparent}}.hc .pulse{animation:hc-pulse-border 1.2s ease-out 2}.hc .hc-page{margin:0;max-width:none;padding:0}</style>
+<link rel="stylesheet" href="/_nuxt/kurs.DD10fpVf.css" crossorigin>
+<link rel="preload" as="fetch" crossorigin="anonymous" href="/harness-workshop/pamyat-proekta/_payload.json?_b=bf5202ef-ce93-452f-a446-f914d6982c20">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/CTh8PW4y.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Dz0IdVIb.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DilMsGqD.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/IyBFBHus.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BDOsQ_0q.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DXJlw0Jk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/CaHZSLHm.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B_31BsbJ.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DBB-u2Qj.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B2gctKlH.js">
+<script type="module" src="/_nuxt/CTh8PW4y.js" crossorigin></script>
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Dk5E2ZeK.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DB0u_L4B.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BHIx1wkp.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DT9HhtpA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DsIVt1uA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Csp-tBFP.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DVk6OOaH.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CHzdfqXZ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DIqqaU9V.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Caps8ti_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BzyUlbQC.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BXZQtsXx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DUk71ozx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Dm8p2LOi.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DMHLwBTJ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C8s7KUif.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CfRiDiXh.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/B7QZ0aMn.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/jI-YWrlY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BbeGPlLB.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DJOctqjL.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/9d2q4aVm.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/2Z7xxhpV.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C3VDPMZ_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DYQ6arQ6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DNum2g3V.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DOkdDJzx.js">
+<meta name="description" content="Что агенту знать о проекте заранее, как это хранить и как выдавать только нужное. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="theme-color" content="#10140f">
+<link rel="icon" type="image/png" href="/images/klepa-mark.png">
+<link rel="apple-touch-icon" href="/images/klepa-mark.png">
+<meta name="keywords" content="память, ADR, поиск, курс ИИ-агенты, ИИ для программистов, нейросеть пишет код">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Klepa AI">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Урок 3. Память проекта: что агенту знать заранее и как это хранить — курс «Агент под контролем»">
+<meta property="og:description" content="Что агенту знать о проекте заранее, как это хранить и как выдавать только нужное. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta property="og:url" content="https://klepa.gpt-chat.by/harness-workshop/pamyat-proekta/">
+<meta property="og:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Klepa AI — AI-агент для VS Code">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Урок 3. Память проекта: что агенту знать заранее и как это хранить — курс «Агент под контролем»">
+<meta name="twitter:description" content="Что агенту знать о проекте заранее, как это хранить и как выдавать только нужное. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="twitter:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<link rel="canonical" href="https://klepa.gpt-chat.by/harness-workshop/pamyat-proekta/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Klepa AI","item":"https://klepa.gpt-chat.by/"},{"@type":"ListItem","position":2,"name":"Урок 3. Память проекта","item":"https://klepa.gpt-chat.by/harness-workshop/pamyat-proekta/"}]}</script></head><body><div id="__nuxt"><div class="shell"><header class="topbar"><div class="topbar-row"><a href="/" class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt width="32" height="32"> Klepa AI </a><nav class="nav" aria-label="Разделы сайта"><!--[--><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Продукт <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/installing/" class="drop-item"><b>Установка</b><span>Как поставить расширение Klepa в VS Code.</span></a><a href="/quickstart/" class="drop-item"><b>Быстрый старт</b><span>Первый запрос, ключ и бесплатные модели.</span></a><a href="/features/" class="drop-item"><b>Возможности</b><span>Режимы Ask, Plan, Code и Debug и остальные функции плагина.</span></a><a href="/best-practices/" class="drop-item"><b>Практики</b><span>Как ставить задачи, чтобы агент правил нужные файлы.</span></a><a href="/vibe-coding/" class="drop-item"><b>Вайбкодинг</b><span>Что это и как начать писать код с ИИ-агентом.</span></a><a href="/harness-workshop/" class="drop-item"><b>Курс</b><span>Бесплатный курс: как работать с ИИ-агентом в своём проекте.</span></a><a href="/image-generation/" class="drop-item"><b>Картинки</b><span>Генерация изображений прямо из редактора.</span></a><a href="/marketplace/" class="drop-item"><b>Marketplace</b><span>Готовые режимы, навыки и MCP-серверы.</span></a><a href="/support/" class="drop-item"><b>Поддержка</b><span>Вопросы по установке, оплате и работе агента.</span></a><!--]--></div></div><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Сравнения <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/analogi/" class="drop-item"><b>Все агенты</b><span>Klepa рядом с другими агентами для кода.</span></a><a href="/vs-claude-code/" class="drop-item"><b>vs Claude Code</b><span>Чем плагин в редакторе отличается от Claude Code.</span></a><a href="/vs-cursor/" class="drop-item"><b>vs Cursor</b><span>Klepa и Cursor: VPN, оплата и работа в VS Code.</span></a><a href="/vs-copilot/" class="drop-item"><b>vs Copilot</b><span>Автодополнение Copilot и агент, который ведёт задачу.</span></a><a href="/claude-code-besplatno/" class="drop-item"><b>Claude Code бесплатно</b><span>Как попробовать Claude без подписки Cursor.</span></a><a href="/claude-code-oplata/" class="drop-item"><b>Оплата Claude Code</b><span>Оплата картами МИР и БЕЛКАРТ без иностранной карты.</span></a><a href="/claude-code-ustanovka/" class="drop-item"><b>Установка Claude Code</b><span>Команды для Windows, macOS и Linux и что будет при входе.</span></a><!--]--></div></div><!--]--><a href="/pricing/" class="nav-link"> Цены </a><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false"> О сервисе <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/about/" class="drop-item"><b>О нас</b><span>Кто делает Klepa и реквизиты поставщика.</span></a><a href="/offer/" class="drop-item"><b>Публичная оферта</b><span>Договор возмездного оказания услуг.</span></a><a href="/privacy-policy/" class="drop-item"><b>Политика конфиденциальности</b><span>Как обрабатываются персональные данные.</span></a><a href="/about/#requisites" class="drop-item"><b>Реквизиты и контакты</b><span>УНП, адрес и способы связи.</span></a><!--]--></div></div><a class="nav-link" href="https://agent.gpt-chat.by/" target="_blank" rel="noopener"> Агент </a><a class="nav-link studio-link" href="https://video-studio.gpt-chat.by/" target="_blank" rel="noopener"><svg class="studio-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="7" width="22" height="18" rx="4"></rect><path d="M24 13 L30 9 V23 L24 19 Z"></path><path d="M10 12 L17 16 L10 20 Z"></path></svg> Студия </a><a class="nav-link chat-link" href="https://gpt-chat.by/" target="_blank" rel="noopener"><svg class="chat-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7A2.5 2.5 0 0 1 16.5 16H9l-3.6 2.7A.8.8 0 0 1 4 18V6.5Z"></path></svg> Чат </a></nav><div class="actions"><a class="install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить</a><button type="button" class="enter"> Войти </button><button type="button" class="menu-toggle" aria-expanded="false" aria-label="Меню">☰</button></div></div><!----></header><!----><!----><main class="page"><!--[--><div></div><div class="hc lesson-page"><nav class="hc-crumbs" aria-label="Курс"><a href="/harness-workshop/" class="">Агент под контролем</a><span>Часть 2 · Агент в вашем проекте</span></nav><div class="hc-lesson"><div class="hc-page">
+  <nav class="rail" aria-label="Шаги урока">
+    <ol>
+      <li><a href="#analogy">Аналогия</a></li>
+      <li><a href="#explain">Объяснение</a></li>
+      <li><a href="#interactive">Интерактив</a></li>
+      <li><a href="#practice">Тесты</a></li>
+      <li><a href="#checklist">Чек-лист</a></li>
+      <li><a href="#links">Ссылки</a></li>
+    </ol>
+    <div class="rail-progress"><span data-meter-label>Пройдено: 0%</span><div class="meter"><i data-meter></i></div></div>
+  </nav>
+
+  <main class="content">
+    <header class="lesson-hero">
+      <span class="eyebrow">Часть 2 · Агент в вашем проекте · Урок 3</span>
+      <h1>Память проекта: что агенту знать заранее и как это хранить</h1>
+      <p class="lead">Модель ничего не помнит между сессиями. Всё, что агент должен знать о проекте, надо где-то хранить и вовремя ему подавать. Разберём, что хранить, как раскладывать и как доставать без лишних токенов.</p>
+      <div class="facts">
+        <span class="fact">~50 минут</span>
+        <span class="fact">4 интерактива</span>
+        <span class="fact">12 вопросов</span>
+        <span class="fact">Примеры: JS · TS · PHP · Python</span>
+      </div>
+      <div class="outcomes">
+        <h2>После урока вы сможете</h2>
+        <ul>
+          <li>объяснить, зачем агенту внешняя память и чем она отличается от окна контекста;</li>
+          <li>разложить знания проекта на заметки: правила, решения, справку, грабли;</li>
+          <li>выбрать способ выдачи знаний: всё сразу, оглавление или поиск;</li>
+          <li>написать простой поиск по заметкам с бюджетом токенов;</li>
+          <li>не дать устаревшей заметке сломать работу агента.</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ============ 1. АНАЛОГИЯ ============ -->
+    <section class="step" id="analogy">
+      <div class="step-head">
+        <span class="step-tag"><b>1</b> Аналогия</span>
+        <h2>Библиотекарь с каталогом</h2>
+      </div>
+      <div class="analogy">
+        <span class="label">Представьте</span>
+        <p>Новому сотруднику не читают вслух всю вики компании. Ему дают оглавление и говорят: «Нужно что-то — найди по каталогу». На столе лежат только книги для текущей задачи.</p>
+      </div>
+      <div class="stand lib" id="lib">
+        <div class="stand-head"><h3>Как библиотекарь находит ответ</h3><span class="badge">схема</span></div>
+        <div class="flow" id="lib-flow">
+          <div class="node"><b>Вопрос</b><small>«Как выкатить бэкенд?»</small></div>
+          <span class="arrow">→</span>
+          <div class="node"><b>Каталог</b><small>оглавление: 40 заметок, по строке на каждую</small></div>
+          <span class="arrow">→</span>
+          <div class="node"><b>Полка</b><small>берём 2 подходящие заметки</small></div>
+          <span class="arrow">→</span>
+          <div class="node"><b>Стол</b><small>только они попадают в контекст</small></div>
+        </div>
+        <div class="lib-desk" id="lib-desk"><span class="task">На столе пусто.</span></div>
+        <div class="row">
+          <button class="btn small" type="button" id="lib-play">▶ Показать</button>
+          <button class="btn small quiet" type="button" id="lib-reset">Сначала</button>
+        </div>
+      </div>
+      <div class="map-pairs" aria-label="Соответствия аналогии">
+        <div><b>Блокнот и вики новичка</b><span>= заметки памяти агента</span></div>
+        <div><b>Оглавление вики</b><span>= индекс (одна строка на заметку)</span></div>
+        <div><b>Библиотекарь</b><span>= поиск нужного по задаче</span></div>
+        <div><b>Рабочий стол</b><span>= окно контекста</span></div>
+        <div><b>Устаревшая страница вики</b><span>= заметка, которая разошлась с кодом</span></div>
+      </div>
+      <p>Главная мысль: хорошая память — это не «запомнить всё». Это <strong>быстро найти нужное и не тащить лишнее</strong>. Каждая лишняя заметка на столе стоит денег и мешает модели заметить главное.</p>
+    </section>
+
+    <!-- ============ 2. ОБЪЯСНЕНИЕ ============ -->
+    <section class="step" id="explain">
+      <div class="step-head">
+        <span class="step-tag"><b>2</b> Объяснение</span>
+        <h2>От простого к сложному</h2>
+      </div>
+
+      <div class="level" data-level="1">
+        <span class="level-tag">Уровень 1 · Суть</span>
+        <h3>Внешняя память — это папка с текстом и правило, как её читать</h3>
+        <p>Из урока 1 вы знаете: модель не хранит состояние. Закрыли сессию — всё забыто. Окно контекста ограничено. Значит, знания о проекте надо держать <strong>снаружи</strong>, в обычных файлах. Это и называют Second Brain (<span class="term" data-tip="«Второй мозг» — внешняя база знаний, которую человек или агент пополняет и из которой берёт нужное по задаче.">второй мозг</span>).</p>
+        <p>Схема простая. Перед задачей harness читает оглавление, выбирает подходящие заметки и кладёт их в контекст. После задачи агент дописывает новое знание.</p>
+        <div class="code-tabs">
+<pre data-lang="js">// Перед задачей
+const index = read("memory/INDEX.md");            // 40 строк: имя + описание
+const picked = choose(index, task);              // 2–3 заметки по теме задачи
+context.push(...picked.map(name => read(`memory/${name}.md`)));
+
+// После задачи
+if (learnedSomethingNew) write("memory/new-fact.md", note);</pre>
+<pre data-lang="php">&lt;?php
+// Перед задачей
+$index = file_get_contents('memory/INDEX.md');      // 40 строк: имя + описание
+$picked = choose($index, $task);                    // 2–3 заметки по теме задачи
+foreach ($picked as $name) {
+    $context[] = file_get_contents("memory/{$name}.md");
+}
+
+// После задачи
+if ($learnedSomethingNew) {
+    file_put_contents('memory/new-fact.md', $note);
+}</pre>
+<pre data-lang="py">from pathlib import Path
+
+# Перед задачей
+index = Path("memory/INDEX.md").read_text()      # 40 строк: имя + описание
+picked = choose(index, task)                      # 2–3 заметки по теме задачи
+context += [Path(f"memory/{name}.md").read_text() for name in picked]
+
+# После задачи
+if learned_something_new:
+    Path("memory/new-fact.md").write_text(note)</pre>
+        </div>
+        <div class="tip"><b>Что важно</b>Память — не замена коду и документации. Это короткие подсказки: где лежит правда, какие решения уже приняты, на какие грабли уже наступали.</div>
+      </div>
+
+      <div class="level" data-level="2">
+        <span class="level-tag">Уровень 2 · Детали</span>
+        <h3>Что хранить и как раскладывать</h3>
+        <p><strong>Пять видов знаний</strong>, которые окупаются почти в любом проекте:</p>
+        <ul>
+          <li><strong>Правила проекта.</strong> «Деньги храним в копейках, целым числом». «Миграции только через Doctrine».</li>
+          <li><strong>Архитектурные решения.</strong> Формат <span class="term" data-tip="Architecture Decision Record — короткая запись: какой был контекст, что решили, какие последствия. Одна запись — одно решение.">ADR</span>: контекст, решение, последствия. Объясняет «почему так», чтобы агент не «улучшил» обратно.</li>
+          <li><strong>Справка.</strong> Как запустить проект, тесты, деплой. Команды, которые агент выполнит сам.</li>
+          <li><strong>Продуктовый контекст.</strong> Кто пользователи, что для бизнеса важно, какие слова нельзя писать клиентам.</li>
+          <li><strong>Грабли.</strong> Инциденты и их причины: «перезапуск воркера руками обрывает очередь».</li>
+        </ul>
+        <p><strong>Как раскладывать.</strong> Одна мысль — один маленький файл. В начале файла — <span class="term" data-tip="Frontmatter — блок метаданных в начале markdown-файла между строками ---. Обычно в формате YAML: ключ: значение.">frontmatter</span>: имя, однострочное описание, тип. Отдельный файл-оглавление собирает по строке на каждую заметку. Заметки ссылаются друг на друга через <code>[[имя]]</code>.</p>
+        <pre data-lang="text">---
+name: money-in-kopecks
+description: Деньги храним целым числом в копейках, никогда не float
+type: rule
+updated: 2026-09-14
+---
+Все суммы в БД и коде — integer в копейках (1 BYN = 100).
+Float теряет точность: 0.1 + 0.2 != 0.3.
+Связано: [[adr-003-money-type]], [[incident-refund-rounding]]</pre>
+        <p><strong>Три способа выдачи</strong> знаний агенту:</p>
+        <ul>
+          <li><strong>Всё сразу.</strong> Склеить все заметки в системный промпт. Просто, но дорого. При росте базы важное тонет в шуме.</li>
+          <li><strong>Оглавление и подгрузка.</strong> Агент видит только индекс и сам открывает нужные файлы. Дёшево, точно, но требует хороших описаний.</li>
+          <li><strong>Поиск.</strong> Программа находит заметки по тексту задачи и подкладывает их. Работает на больших базах. Может промахнуться.</li>
+        </ul>
+        <details class="more">
+          <summary>Пример структуры каталога памяти <span class="hint">— как это выглядит на диске</span></summary>
+          <div class="more-body">
+<pre data-lang="text">memory/
+├── INDEX.md                      ← оглавление: по строке на заметку
+├── rules/
+│   ├── money-in-kopecks.md
+│   └── migrations-only-doctrine.md
+├── decisions/
+│   ├── adr-001-symfony-messenger.md
+│   └── adr-003-money-type.md
+├── howto/
+│   ├── run-tests.md
+│   └── deploy-backend.md
+├── product/
+│   └── never-mention-fees.md
+└── incidents/
+    └── 2026-08-worker-restart.md</pre>
+<pre data-lang="md"># INDEX.md
+- [money-in-kopecks](rules/money-in-kopecks.md) — деньги целым числом в копейках
+- [deploy-backend](howto/deploy-backend.md) — выкатка только через make up
+- [adr-001-symfony-messenger](decisions/adr-001-symfony-messenger.md) — очереди на Messenger, не на cron
+- [2026-08-worker-restart](incidents/2026-08-worker-restart.md) — ручной рестарт воркера обрывает очередь</pre>
+          </div>
+        </details>
+        <details class="more">
+          <summary>Пример ADR <span class="hint">— контекст, решение, последствия</span></summary>
+          <div class="more-body">
+<pre data-lang="md"># ADR-003. Тип для денежных сумм
+
+Статус: принято, 2026-03-02
+
+## Контекст
+Суммы хранились во float. При возвратах накопились расхождения в 1 копейку.
+
+## Решение
+Храним суммы целым числом в копейках (BIGINT). В коде — value object Money.
+
+## Последствия
++ Нет ошибок округления.
+- При выводе нужно делить на 100. Все старые колонки переводим миграцией.
+- Внешние API, которые отдают float, переводим в копейки на входе.</pre>
+          </div>
+        </details>
+        <details class="more">
+          <summary>AGENTS.md, который отсылает к памяти <span class="hint">— точка входа для агента</span></summary>
+          <div class="more-body">
+            <p>Файл правил (урок 2) остаётся коротким. Он не пересказывает всё, а говорит, где искать.</p>
+<pre data-lang="md"># Правила для агента
+
+- Перед задачей прочитай memory/INDEX.md и открой заметки по теме.
+- Заметка — подсказка, а не правда. Перед действием сверь её с кодом.
+- Если заметка разошлась с кодом — прав код. Исправь заметку и обнови дату.
+- Новое знание (решение, грабли) — отдельной заметкой и строкой в INDEX.md.
+- Как запускать тесты и деплой — docs/howto/*.md, не выдумывай команды.</pre>
+          </div>
+        </details>
+      </div>
+
+      <div class="level" data-level="3">
+        <span class="level-tag">Уровень 3 · Усложнение</span>
+        <h3>Поиск по смыслу, устаревание и иерархия правды</h3>
+        <p><strong>Поиск по словам</strong> находит заметки, где есть слова из запроса. Простой подсчёт совпадений работает плохо: частые слова вроде «код» есть везде. Алгоритм <span class="term" data-tip="BM25 — классическая формула ранжирования в поисковиках. Учитывает, как часто слово в документе, насколько оно редкое во всей базе и длину документа.">BM25</span> даёт больший вес редким словам и не любит слишком длинные документы.</p>
+        <p><strong>Поиск по смыслу</strong> решает проблему синонимов. «Деплой» и «выкатка» — разные слова, но смысл один. Текст превращают в <span class="term" data-tip="Embedding — список из сотен чисел, который описывает смысл текста. Близкие по смыслу тексты дают близкие списки.">эмбеддинг</span>: координаты смысла. Представьте карту, где похожие по смыслу фразы лежат рядом. Поиск — это «найди точки рядом с вопросом». Схему «найти, подложить в контекст, ответить» называют <span class="term" data-tip="Retrieval-Augmented Generation — генерация с подкладыванием найденных документов в контекст.">RAG</span>.</p>
+        <p><strong>Устаревание</strong> — главная беда любой базы знаний. Код меняют каждый день, а заметки — редко. Правила гигиены:</p>
+        <ul>
+          <li>в заметке есть дата обновления;</li>
+          <li>перед действием агент сверяет заметку с кодом;</li>
+          <li>нашёл расхождение — исправил заметку сразу, а не завёл вторую рядом;</li>
+          <li>противоречивые заметки — это баг, его чинят.</li>
+        </ul>
+        <div class="note"><b>Иерархия источников правды</b>Когда источники спорят, побеждает старший: прямое указание человека в задаче, потом код и тесты, потом спецификации (урок 5), потом документация, и только потом заметки памяти. Память лишь подсказывает, где смотреть.</div>
+        <details class="more">
+          <summary>BM25 и косинусная близость без страха <span class="hint">— для любопытных</span></summary>
+          <div class="more-body">
+            <p>BM25 для каждого слова запроса считает два множителя и складывает результат по всем словам:</p>
+            <ul>
+              <li><strong>IDF</strong> (редкость слова): чем в меньшем числе заметок встречается слово, тем оно ценнее. «Doctrine» ценнее, чем «проект».</li>
+              <li><strong>TF с насыщением</strong>: второе упоминание слова в заметке добавляет меньше, чем первое, десятое — почти ничего. Длинные заметки слегка штрафуются.</li>
+            </ul>
+<pre data-lang="text">score(док, запрос) = Σ IDF(слово) · tf·(k+1) / (tf + k·(1 − b + b·длина/средняя_длина))
+обычно k ≈ 1.2, b ≈ 0.75
+
+близость(a, b) = (a · b) / (|a| · |b|)   ← косинус угла между векторами смысла, от −1 до 1</pre>
+            <p>Эмбеддинги считает отдельная модель. Векторы хранят в базе с поиском ближайших соседей (например, расширение pgvector для Postgres). На старте проекта часто хватает обычного поиска по словам и хорошего оглавления.</p>
+          </div>
+        </details>
+        <details class="more">
+          <summary>Простой поиск по заметкам в коде <span class="hint">— JS, TS, PHP, Python</span></summary>
+          <div class="more-body">
+            <p>Подсчёт совпавших слов без стоп-слов. Не BM25, но для базы из сотни заметок уже полезно.</p>
+            <div class="code-tabs">
+<pre data-lang="js">import { readdirSync, readFileSync } from "node:fs";
+
+const STOP = new Set(["и", "в", "на", "как", "что", "по", "с", "для", "не"]);
+const words = s => s.toLowerCase().match(/[a-zа-яё0-9]+/g)?.filter(w => !STOP.has(w)) ?? [];
+
+function search(dir, query, limit = 3) {
+  const q = new Set(words(query));
+  return readdirSync(dir)
+    .filter(f => f.endsWith(".md"))
+    .map(f => {
+      const text = readFileSync(`${dir}/${f}`, "utf8");
+      const score = new Set(words(text).filter(w => q.has(w))).size;
+      return { file: f, score };
+    })
+    .filter(r => r.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}
+
+console.log(search("memory", "как выкатить бэкенд на прод"));</pre>
+<pre data-lang="ts">import { readdirSync, readFileSync } from "node:fs";
+
+interface Hit { file: string; score: number }
+
+const STOP = new Set(["и", "в", "на", "как", "что", "по", "с", "для", "не"]);
+const words = (s: string): string[] =>
+  (s.toLowerCase().match(/[a-zа-яё0-9]+/g) ?? []).filter(w => !STOP.has(w));
+
+export function search(dir: string, query: string, limit = 3): Hit[] {
+  const q = new Set(words(query));
+  return readdirSync(dir)
+    .filter(f => f.endsWith(".md"))
+    .map((file): Hit => {
+      const text = readFileSync(`${dir}/${file}`, "utf8");
+      return { file, score: new Set(words(text).filter(w => q.has(w))).size };
+    })
+    .filter(h => h.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}</pre>
+<pre data-lang="php">&lt;?php
+const STOP = ['и', 'в', 'на', 'как', 'что', 'по', 'с', 'для', 'не'];
+
+function words(string $s): array
+{
+    preg_match_all('/[a-zа-яё0-9]+/u', mb_strtolower($s), $m);
+    return array_values(array_diff($m[0], STOP));
+}
+
+function search(string $dir, string $query, int $limit = 3): array
+{
+    $q = array_unique(words($query));
+    $hits = [];
+    foreach (glob($dir . '/*.md') as $file) {
+        $score = count(array_intersect($q, array_unique(words(file_get_contents($file)))));
+        if ($score > 0) {
+            $hits[] = ['file' => basename($file), 'score' => $score];
+        }
+    }
+    usort($hits, fn ($a, $b) => $b['score'] <=> $a['score']);
+    return array_slice($hits, 0, $limit);
+}
+
+print_r(search(__DIR__ . '/memory', 'как выкатить бэкенд на прод'));</pre>
+<pre data-lang="py">import re
+from pathlib import Path
+
+STOP = {"и", "в", "на", "как", "что", "по", "с", "для", "не"}
+
+def words(s: str) -> list[str]:
+    return [w for w in re.findall(r"[a-zа-яё0-9]+", s.lower()) if w not in STOP]
+
+def search(folder: str, query: str, limit: int = 3) -> list[tuple[str, int]]:
+    q = set(words(query))
+    hits = []
+    for path in Path(folder).glob("*.md"):
+        score = len(q & set(words(path.read_text(encoding="utf-8"))))
+        if score:
+            hits.append((path.name, score))
+    return sorted(hits, key=lambda h: -h[1])[:limit]
+
+print(search("memory", "как выкатить бэкенд на прод"))</pre>
+            </div>
+            <p class="footer-note">Заметьте проблему: «выкатить» не найдёт заметку со словом «выкатка». Окончания разные. Поиск по смыслу или обрезка окончаний (стемминг) это лечат. В интерактиве ниже стоит грубая обрезка.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ 3. ИНТЕРАКТИВ ============ -->
+    <section class="step" id="interactive">
+      <div class="step-head">
+        <span class="step-tag"><b>3</b> Интерактив</span>
+        <h2>Память вымышленного проекта Shopik</h2>
+        <p>Shopik — бэкенд небольшого интернет-магазина на Symfony. У него есть база из 16 заметок. На ней и поработаем.</p>
+      </div>
+
+      <!-- 3.1 Карта знаний -->
+      <div class="stand" id="kmap-stand">
+        <div class="stand-head"><h3>Карта знаний</h3><span class="badge">интерактив 1 из 4</span></div>
+        <p class="task">Нажмите на заметку. Увидите её текст, на кого она ссылается и кто ссылается на неё. Так агент переходит от одной заметки к соседним.</p>
+        <div class="legend">
+          <span><i style="border-color: var(--hc-warm); background: var(--hc-warm-soft)"></i>выбрана</span>
+          <span><i style="border-color: var(--hc-accent); background: var(--hc-accent-soft)"></i>она ссылается</span>
+          <span><i style="border-color: var(--hc-ok); background: var(--hc-ok-soft)"></i>ссылаются на неё</span>
+        </div>
+        <div class="row" role="group" aria-label="Фильтр по типу" id="kmap-filter"></div>
+        <div class="kmap" id="kmap"></div>
+        <div class="kdetail" id="kmap-detail" aria-live="polite"><span class="task">Выберите заметку.</span></div>
+      </div>
+
+      <!-- 3.2 Поиск -->
+      <div class="stand" id="search-stand">
+        <div class="stand-head"><h3>Поиск и бюджет контекста</h3><span class="badge">интерактив 2 из 4</span></div>
+        <p class="task">Введите вопрос. Поиск упрощённый, похож на BM25: редкие слова весят больше. Окончания грубо обрезаются до 5 букв. Ползунок задаёт, сколько токенов мы готовы отдать памяти. Что не влезло — агент не увидит.</p>
+        <div class="row" role="group" aria-label="Готовые вопросы">
+          <button class="chip-btn" type="button" data-q="как выкатить бэкенд на прод">Как выкатить бэкенд?</button>
+          <button class="chip-btn" type="button" data-q="почему сумма возврата отличается на копейку">Возврат на копейку</button>
+          <button class="chip-btn" type="button" data-q="как запустить тесты локально">Запуск тестов</button>
+          <button class="chip-btn" type="button" data-q="деплой">Синоним: «деплой»</button>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="search-q">Вопрос агенту</label>
+            <input type="text" id="search-q" value="как выкатить бэкенд на прод">
+          </div>
+          <div class="field">
+            <label for="search-budget">Бюджет памяти: <span id="search-budget-val" class="mono">400</span> токенов</label>
+            <input type="range" id="search-budget" min="100" max="1500" step="50" value="400">
+          </div>
+        </div>
+        <div class="stats">
+          <div><b id="search-in">0</b>заметок в контексте</div>
+          <div><b id="search-used">0</b>токенов занято</div>
+          <div><b id="search-all">0</b>токенов, если грузить всё</div>
+        </div>
+        <ul class="hits" id="search-hits" aria-live="polite"></ul>
+        <details class="more">
+          <summary>Почему «деплой» ничего не нашёл <span class="hint">— откройте после пробы</span></summary>
+          <div class="more-body">
+            <p>В заметках написано «выкатка» и «make up», слова «деплой» нет. Поиск по словам не знает, что это синонимы. Варианты лечения: добавить синонимы в описание заметки, держать хорошее оглавление, чтобы агент выбирал сам, или включить поиск по смыслу (эмбеддинги).</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- 3.3 Устаревшая заметка -->
+      <div class="stand" id="stale">
+        <div class="stand-head"><h3>Заметка говорит одно, код — другое</h3><span class="badge">интерактив 3 из 4</span></div>
+        <p class="task">Задача агенту: «Добавь поле <code>deliveryDate</code> в ответ <code>GET /api/orders/{id}</code>». Заметка написана полгода назад. Переключите режим и пройдите по шагам.</p>
+        <div class="row" role="group" aria-label="Режим агента">
+          <button class="chip-btn" type="button" data-mode="check" aria-pressed="true">Агент сверяет с кодом</button>
+          <button class="chip-btn" type="button" data-mode="trust" aria-pressed="false">Агент верит заметке</button>
+        </div>
+        <div class="two-col">
+          <div class="pane" id="stale-mem"><h4>Память: orders-serialization.md</h4><pre id="stale-mem-text" class="no-copy"></pre></div>
+          <div class="pane" id="stale-code"><h4>Код проекта</h4><pre id="stale-code-text" class="no-copy"></pre></div>
+        </div>
+        <ol class="story" id="stale-story"></ol>
+        <div class="row">
+          <button class="btn quiet" type="button" id="stale-prev">← Назад</button>
+          <button class="btn" type="button" id="stale-next">Дальше →</button>
+          <button class="btn secondary" type="button" id="stale-play">▶ Авто</button>
+          <button class="btn quiet" type="button" id="stale-reset">Сначала</button>
+          <span class="task" id="stale-label">Шаг 0</span>
+        </div>
+      </div>
+
+      <!-- 3.4 Стратегии -->
+      <div class="stand" id="strat">
+        <div class="stand-head"><h3>Всё сразу, оглавление или поиск</h3><span class="badge">интерактив 4 из 4</span></div>
+        <p class="task">Пять вопросов агенту по базе Shopik на 60 заметок. Выберите стратегию и посмотрите, сколько токенов она съела и сколько ответов верны. Цифры учебные, но соотношение типичное.</p>
+        <div class="row" role="group" aria-label="Стратегия">
+          <button class="chip-btn" type="button" data-strat="all" aria-pressed="true">Всё сразу</button>
+          <button class="chip-btn" type="button" data-strat="index" aria-pressed="false">Оглавление и подгрузка</button>
+          <button class="chip-btn" type="button" data-strat="search" aria-pressed="false">Поиск</button>
+        </div>
+        <div class="strat-bars" id="strat-bars"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Вопрос</th><th>Результат</th><th>Почему</th></tr></thead>
+            <tbody id="strat-table"></tbody>
+          </table>
+        </div>
+        <p class="task" id="strat-sum" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ============ 4. ПРАКТИКА ============ -->
+    <section class="step" id="practice">
+      <div class="step-head">
+        <span class="step-tag"><b>4</b> Тесты</span>
+        <h2>Проверьте себя</h2>
+        <p>Код писать не нужно. Где верный ответ один, он засчитывается по клику. Где написано «Отметьте все верные ответы», выберите все подходящие и нажмите «Проверить»: зачёт только при точном совпадении. Ответы сохраняются в браузере.</p>
+      </div>
+
+      <div class="quiz">
+        <h3>Вопросы по уроку</h3>
+        <div class="q" data-q="l5-why">
+          <p>Зачем агенту внешняя память, если у модели огромное окно контекста?</p>
+          <div class="options">
+            <button>Чтобы модель быстрее думала</button>
+            <button data-right>Модель ничего не помнит между сессиями, а окно ограничено и дорого: знания надо хранить снаружи и подавать по задаче</button>
+            <button>Без памяти модель не умеет писать код</button>
+          </div>
+          <p class="why">Окно живёт один запрос. Новая сессия начинается с нуля. Память в файлах переживает сессии, а выдача по задаче экономит токены.</p>
+        </div>
+        <div class="q" data-q="l5-stale">
+          <p>Заметка говорит «сериализатор — JMS», а в коде Symfony Serializer. Что должен сделать агент?</p>
+          <div class="options">
+            <button>Следовать заметке: её написали люди</button>
+            <button>Спросить пользователя и ждать ответа</button>
+            <button data-right>Делать по коду и сразу исправить заметку, обновив дату</button>
+          </div>
+          <p class="why">Код — источник правды выше памяти. Расхождение — баг заметки. Его чинят сразу, а не копят вторую заметку рядом.</p>
+        </div>
+        <div class="q" data-q="l5-all">
+          <p>Почему плохо просто склеить все 300 заметок в системный промпт?</p>
+          <div class="options">
+            <button data-right>Дорого на каждом шаге, важное тонет в шуме, середину длинного текста модель замечает хуже</button>
+            <button>Модель откажется читать больше 10 файлов</button>
+            <button>Так нельзя по лицензии</button>
+          </div>
+          <p class="why">Помните урок 1: история отправляется на каждом шаге, и эффект «потерянной середины». Оглавление или поиск дают те же знания за долю токенов.</p>
+        </div>
+        <div class="q" data-q="l5-emb">
+          <p>Что такое эмбеддинг простыми словами?</p>
+          <div class="options">
+            <button>Сжатая копия текста для архива</button>
+            <button data-right>Список чисел — «координаты смысла»: близкие по смыслу тексты получают близкие координаты</button>
+            <button>Хэш текста для проверки целостности</button>
+          </div>
+          <p class="why">Поэтому поиск по эмбеддингам находит «выкатку» по запросу «деплой»: слова разные, смысл рядом.</p>
+        </div>
+        <div class="q" data-q="l3-kinds" data-multi>
+          <p>Что из этого стоит положить в память проекта?</p>
+          <div class="options">
+            <button data-right>«Деньги храним в копейках, целым числом»</button>
+            <button data-right>«Перезапуск воркера руками обрывает очередь»</button>
+            <button data-right>Почему очередь сделали на Messenger: контекст, решение, последствия</button>
+            <button>Выгрузку таблицы заказов, чтобы агент знал данные</button>
+          </div>
+          <p class="why">Правило, грабли и решение ADR — короткие знания, которых нет в коде, а ошибиться без них легко. Выгрузка данных — не знание о проекте: она огромная, быстро устаревает и может содержать личные данные клиентов.</p>
+        </div>
+        <div class="q" data-q="l3-note-shape" data-multi>
+          <p>Как устроена хорошая заметка в памяти?</p>
+          <div class="options">
+            <button data-right>Одна мысль — один небольшой файл</button>
+            <button data-right>В начале frontmatter: имя, однострочное описание, тип</button>
+            <button data-right>Ссылки на соседние заметки через <code>[[имя]]</code></button>
+            <button>Всё о проекте в одном большом файле, чтобы агенту не искать</button>
+          </div>
+          <p class="why">Маленькую заметку дёшево подложить в контекст и легко обновить. Описание из frontmatter попадает в оглавление — по нему агент решает, открывать ли файл. Ссылки ведут к соседним темам. Один большой файл — это «всё сразу» со всеми его минусами.</p>
+        </div>
+        <div class="q" data-q="l3-index-desc">
+          <p>Агент видит только оглавление INDEX.md. От чего зависит, откроет ли он нужную заметку?</p>
+          <div class="options">
+            <button data-right>От строки-описания этой заметки в оглавлении</button>
+            <button>От длины заметки: длинные открываются первыми</button>
+            <button>От даты создания файла</button>
+          </div>
+          <p class="why">Модель выбирает по тексту, который видит. Строка «deploy-backend — выкатка бэкенда: только make up» сразу говорит, когда она нужна. Строка «заметки про сервер» не говорит ничего.</p>
+        </div>
+        <div class="q" data-q="l3-budget">
+          <p>Поиск отсортировал заметки по очкам: A — 40 токенов, B — 25, C — 10. Бюджет — 50 токенов. Что он возьмёт по правилу из урока?</p>
+          <div class="options">
+            <button>Только A: дальше места нет</button>
+            <button data-right>A и C: B не влезла и пропущена, а C влезла</button>
+            <button>A и B: они важнее по очкам</button>
+          </div>
+          <p class="why">Идём по списку и берём, что влезает. После A осталось 10 токенов. B на 25 не влезает — её пропускаем, но не останавливаемся. C на 10 влезает ровно. Так бюджет используется полностью.</p>
+        </div>
+        <div class="q" data-q="l3-truth-order" data-multi>
+          <p>Источники спорят. Что верно про иерархию правды?</p>
+          <div class="options">
+            <button data-right>Прямое указание человека в задаче важнее кода</button>
+            <button data-right>Код и тесты важнее заметок памяти</button>
+            <button>Заметка памяти важнее кода: её писали специально для агента</button>
+            <button data-right>Спецификация важнее обычной документации</button>
+          </div>
+          <p class="why">Порядок такой: человек, код и тесты, спецификации, документация, память. Память — подсказка, где смотреть. Если она спорит с кодом, устарела заметка, а не код.</p>
+        </div>
+        <div class="q" data-q="l3-synonyms" data-multi>
+          <p>Запрос «как выкатить» не нашёл заметку со словом «выкатка». Что поможет?</p>
+          <div class="options">
+            <button data-right>Поиск по смыслу через эмбеддинги</button>
+            <button data-right>Обрезка окончаний слов (стемминг)</button>
+            <button>Увеличить бюджет токенов вдвое</button>
+            <button>Повторить тот же поиск ещё раз</button>
+          </div>
+          <p class="why">Поиск по словам сравнивает буквы: «выкатить» и «выкатка» для него разные. Стемминг сводит их к общему началу, эмбеддинги ставят рядом по смыслу. Бюджет и повтор не помогут: заметка просто не попала в найденное.</p>
+        </div>
+        <div class="q" data-q="l3-bm25">
+          <p>Почему простой подсчёт совпавших слов ищет плохо, а BM25 — лучше?</p>
+          <div class="options">
+            <button data-right>Частые слова вроде «код» есть почти везде, а BM25 даёт больший вес редким словам</button>
+            <button>BM25 понимает смысл и находит синонимы</button>
+            <button>BM25 читает только заголовки заметок и поэтому быстрее</button>
+          </div>
+          <p class="why">Слово «Doctrine» говорит о заметке больше, чем слово «проект». BM25 это учитывает и не даёт длинным заметкам выигрывать числом слов. Но он всё ещё сравнивает слова — синонимы находит поиск по смыслу.</p>
+        </div>
+        <div class="q" data-q="l3-adr-check" data-multi>
+          <p>Агент пишет новый ADR. Что harness стоит проверить перед сохранением?</p>
+          <div class="options">
+            <button data-right>Есть строка «Статус:»</button>
+            <button data-right>Есть разделы «Контекст», «Решение» и «Последствия»</button>
+            <button data-right>Под каждым разделом есть текст, а не пустой заголовок</button>
+            <button>Есть пример кода на четырёх языках</button>
+          </div>
+          <p class="why">Формат ADR простой, и его легко проверить кодом до записи. Пустое «Решение» хуже, чем никакого: агент потом примет его за принятое решение. Примеры кода в ADR не обязательны — важно, почему так решили.</p>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>Задание на своём проекте <span class="hint">— 30 минут</span></summary>
+        <div class="more-body">
+          <ol>
+            <li>Создайте в репозитории папку <code>memory/</code> (или <code>docs/agent/</code>).</li>
+            <li>Напишите пять заметок с frontmatter: как запустить проект, как запустить тесты, одно правило, одно архитектурное решение в формате ADR, одни грабли из вашей практики.</li>
+            <li>Соберите <code>INDEX.md</code>: по строке на заметку, с хорошим описанием. Проверьте: по одной строке понятно, когда открывать заметку?</li>
+            <li>Добавьте в файл правил агента три строки: «прочитай INDEX.md», «сверяй заметку с кодом», «нашёл расхождение — исправь заметку».</li>
+            <li>Дайте агенту задачу, где пригодится одна из заметок. Посмотрите, открыл ли он её.</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <!-- ============ 5. ЧЕК-ЛИСТ ============ -->
+    <section class="step" id="checklist">
+      <div class="step-head">
+        <span class="step-tag"><b>5</b> Чек-лист</span>
+        <h2>Отметьте, что усвоили</h2>
+      </div>
+      <ul class="checklist" data-id="main">
+        <li>Понимаю, зачем агенту внешняя память и почему окна контекста недостаточно.</li>
+        <li>Знаю пять видов знаний: правила, решения (ADR), справка, продуктовый контекст, грабли.</li>
+        <li>Умею писать заметку: одна мысль, frontmatter, ссылки на соседей.</li>
+        <li>Могу сравнить три способа выдачи: всё сразу, оглавление, поиск.</li>
+        <li>Понимаю разницу между поиском по словам и по смыслу (эмбеддинги).</li>
+        <li>Знаю иерархию правды: человек, код и тесты, спецификации, документация, память.</li>
+        <li>Ответил на вопросы урока: заметки, ADR и поиск с бюджетом.</li>
+        <li>Знаю, что делать с устаревшей заметкой: исправить сразу и обновить дату.</li>
+      </ul>
+      <div class="tip done-banner"><b>Урок пройден</b>Теперь у агента есть память, которая не врёт. Дальше подключим агента к вашим системам через MCP и поставим хуки.</div>
+    </section>
+
+    <!-- ============ 6. ССЫЛКИ ============ -->
+    <section class="step" id="links">
+      <div class="step-head">
+        <span class="step-tag"><b>6</b> Ссылки</span>
+        <h2>Что почитать и где попробовать</h2>
+      </div>
+      <p class="task">Материалы на русском отмечены зелёной меткой. Все ссылки проверены 18 октября 2026 года.</p>
+      <div class="links">
+        <div><h3>Почитать</h3><ul><li><a href="https://code.claude.com/docs/ru/memory" target="_blank" rel="noopener">Как Claude запоминает ваш проект</a><span>официально: CLAUDE.md, правила и автопамять, что и когда грузится. <span class="pill ok">рус., офиц.</span></span></li><li><a href="https://habr.com/ru/companies/otus/articles/840412/" target="_blank" rel="noopener">Немного о подходе Architecture Decision Records</a><span>зачем ADR (записи архитектурных решений) и из чего состоит запись. <span class="pill ok">рус.</span></span></li><li><a href="https://adr.github.io/" target="_blank" rel="noopener">Architectural Decision Records (ADRs)</a><span>шаблоны ADR и инструменты для ведения журнала решений. <span class="pill">англ.</span></span></li><li><a href="https://habr.com/ru/articles/1029740/" target="_blank" rel="noopener">Что такое RAG-система? Полный разбор от теории до продакшена</a><span>RAG по частям: чанкинг, эмбеддинги, векторный поиск, генерация. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/articles/1072876/" target="_blank" rel="noopener">У Claude Code уже есть такая память. Тогда зачем я держу свою?</a><span>память агента на markdown-файлах вместо RAG: что стоит помнить и почему. <span class="pill ok">рус.</span></span></li></ul></div>
+        <div><h3>Песочницы по теме</h3><ul><li><a href="https://chunkviz.up.railway.app/" target="_blank" rel="noopener">ChunkViz</a><span>вставить текст и посмотреть, как разные способы нарезки делят его на чанки для RAG.</span></li><li><a href="https://projector.tensorflow.org/" target="_blank" rel="noopener">Embedding Projector</a><span>увидеть, как слова с похожим смыслом оказываются рядом в векторном пространстве.</span></li><li><a href="https://mermaid.live/" target="_blank" rel="noopener">Mermaid Live Editor</a><span>нарисовать схему для документации текстом, который агент тоже может читать и править.</span></li></ul></div>
+        <div><h3>Запустить код из урока</h3><ul><li><a href="https://www.typescriptlang.org/play" target="_blank" rel="noopener">TypeScript Playground</a><span>JS и TS из примеров урока: вставить и запустить кнопкой Run.</span></li><li><a href="https://3v4l.org/" target="_blank" rel="noopener">3v4l.org</a><span>PHP-примеры урока на любой версии PHP.</span></li><li><a href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">JupyterLite</a><span>Python-примеры урока прямо в браузере, без установки.</span></li></ul></div>
+      </div>
+    </section>
+  </main>
+</div>
+<style>
+.hc .lib { display: grid; gap: 0.6rem; }
+.hc .lib .flow .node { min-height: 4.2rem; }
+.hc .lib-desk { display: flex; flex-wrap: wrap; gap: 0.4rem; min-height: 2rem; align-items: center; font-size: var(--hc-fs-sm); }
+.hc .book { background: var(--hc-warm-soft); color: var(--hc-warm); border-radius: 4px; padding: 0.15rem 0.5rem; font: 600 var(--hc-fs-xs) var(--hc-f-mono); }
+.hc .kmap { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 0.5rem; }
+.hc .kcard { text-align: left; font: 500 var(--hc-fs-sm)/1.35 var(--hc-f-body); color: var(--hc-ink); background: var(--hc-bg); border: 1.5px solid var(--hc-line); border-radius: var(--hc-r-sm); padding: 0.5rem 0.6rem; cursor: pointer; display: grid; gap: 0.3rem; transition: border-color 0.2s, background 0.2s, opacity 0.2s; }
+.hc .kcard:hover { border-color: var(--hc-accent); }
+.hc .kcard.is-sel { border-color: var(--hc-warm); background: var(--hc-warm-soft); }
+.hc .kcard.is-link { border-color: var(--hc-accent); background: var(--hc-accent-soft); }
+.hc .kcard.is-back { border-color: var(--hc-ok); background: var(--hc-ok-soft); }
+.hc .kmap.has-sel .kcard:not(.is-sel):not(.is-link):not(.is-back) { opacity: 0.45; }
+.hc .kdetail { background: var(--hc-bg); border-radius: var(--hc-r-sm); padding: 0.75rem 0.9rem; display: grid; gap: 0.5rem; font-size: var(--hc-fs-sm); }
+.hc .kdetail pre { font-size: 0.8rem; }
+.hc .legend { display: flex; flex-wrap: wrap; gap: 0.8rem; font-size: var(--hc-fs-xs); color: var(--hc-muted); }
+.hc .legend i { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 3px; vertical-align: -0.1rem; margin-right: 0.3rem; border: 1.5px solid; }
+.hc .hits { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
+.hc .hits li { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.2rem 0.75rem; background: var(--hc-bg); border: 1.5px solid var(--hc-line); border-radius: var(--hc-r-sm); padding: 0.5rem 0.7rem; font-size: var(--hc-fs-sm); }
+.hc .hits li.in { border-color: var(--hc-ok); }
+.hc .hits li.out { opacity: 0.6; border-style: dashed; }
+.hc .hits .nm { font: 600 var(--hc-fs-sm) var(--hc-f-mono); }
+.hc .hits .sn { grid-column: 1 / -1; color: var(--hc-muted); }
+.hc .hits mark { background: color-mix(in srgb, var(--hc-warm) 30%, transparent); color: inherit; border-radius: 2px; padding: 0 1px; }
+.hc .score { display: flex; gap: 0.4rem; align-items: center; justify-content: flex-end; }
+.hc .score .bar { width: 4.5rem; height: 0.55rem; border-radius: 3px; background: var(--hc-surface-2); overflow: hidden; }
+.hc .score .bar i { display: block; height: 100%; background: var(--hc-accent); }
+.hc .two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+@media (max-width: 760px) {
+.hc .two-col { grid-template-columns: minmax(0, 1fr); }
+}
+.hc .pane { background: var(--hc-bg); border: 1.5px solid var(--hc-line); border-radius: var(--hc-r-sm); padding: 0.6rem 0.75rem; display: grid; gap: 0.4rem; min-width: 0; transition: border-color 0.3s; }
+.hc .pane h4 { font: 600 var(--hc-fs-xs) var(--hc-f-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--hc-muted); }
+.hc .pane pre { font-size: 0.78rem; }
+.hc .pane.hot { border-color: var(--hc-accent); }
+.hc .pane.bad { border-color: var(--hc-bad); }
+.hc .pane.ok { border-color: var(--hc-ok); }
+.hc .story { list-style: none; padding: 0; display: grid; gap: 0.3rem; font-size: var(--hc-fs-sm); }
+.hc .story li { margin: 0; padding: 0.35rem 0.6rem; border-radius: 6px; background: var(--hc-bg); }
+.hc .story li.cur { background: var(--hc-accent-soft); font-weight: 600; }
+.hc .story li.badline { background: var(--hc-bad-soft); }
+.hc .story li.okline { background: var(--hc-ok-soft); }
+.hc .strat-bars { display: grid; gap: 0.45rem; }
+.hc .sbar { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 6.5rem; gap: 0.6rem; align-items: center; font-size: var(--hc-fs-sm); }
+.hc .sbar .track { height: 1rem; background: var(--hc-surface-2); border-radius: 4px; overflow: hidden; }
+.hc .sbar .track i { display: block; height: 100%; transition: width 0.4s; }
+.hc .sbar .val { text-align: right; font: 500 var(--hc-fs-xs) var(--hc-f-mono); font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) {
+.hc .sbar { grid-template-columns: minmax(0, 1fr) 5.5rem; }
+.hc .sbar .track { grid-column: 1 / -1; grid-row: 2; }
+}
+</style>
+</div><nav class="hc-pager" aria-label="Переход между уроками"><a href="/harness-workshop/agent-eto-cikl/" class=""><small>← Назад</small>Урок 2. Агент — это цикл</a><a href="/harness-workshop/mcp-i-huki/" class="next"><small>Дальше →</small>Урок 4. Свои системы для агента</a></nav><aside class="hc-try"><div><b>Попробуйте на своём проекте</b><p>Задания из урока можно сделать в Klepa AI: агент работает прямо в VS Code, без VPN, есть бесплатные модели.</p></div><div class="hc-try-actions"><a class="hc-try-install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить Klepa</a><a href="/quickstart/" class="">Быстрый старт</a></div></aside></div><!--]--></main><footer class="foot"><div class="foot-inner"><div><p class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt="" width="32" height="32"> Klepa AI </p><p class="foot-note"> AI-агент для VS Code. Работает без VPN, оплата МИР и БЕЛКАРТ. </p></div><!--[--><div class="foot-col"><span class="nav-label">Продукт</span><!--[--><a href="/installing/" class="">Установка</a><a href="/quickstart/" class="">Быстрый старт</a><a href="/features/" class="">Возможности</a><a href="/best-practices/" class="">Практики</a><a href="/vibe-coding/" class="">Вайбкодинг</a><a href="/harness-workshop/" class="">Курс</a><a href="/image-generation/" class="">Картинки</a><a href="/marketplace/" class="">Marketplace</a><a href="/support/" class="">Поддержка</a><!--]--></div><div class="foot-col"><span class="nav-label">Сравнения</span><!--[--><a href="/analogi/" class="">Все агенты</a><a href="/vs-claude-code/" class="">vs Claude Code</a><a href="/vs-cursor/" class="">vs Cursor</a><a href="/vs-copilot/" class="">vs Copilot</a><a href="/claude-code-besplatno/" class="">Claude Code бесплатно</a><a href="/claude-code-oplata/" class="">Оплата Claude Code</a><a href="/claude-code-ustanovka/" class="">Установка Claude Code</a><!--]--></div><!--]--><div class="foot-col"><span class="nav-label">Сервис</span><a href="/pricing/" class="">Цены и модели</a><a href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">VS Code Marketplace</a><a href="https://gpt-chat.by/" target="_blank" rel="noopener">Чат</a><!--[--><a href="/about/" class="">О нас</a><a href="/offer/" class="">Публичная оферта</a><a href="/privacy-policy/" class="">Политика конфиденциальности</a><a href="/about/#requisites" class="">Реквизиты и контакты</a><!--]--><button type="button" class="foot-button"> Настройки cookie </button></div></div></footer><span data-v-904500e8></span></div></div><div id="teleports"></div><script>window.__NUXT__={};window.__NUXT__.config={public:{siteUrl:"https://klepa.gpt-chat.by",apiBase:"https://api.gpt-chat.by/api",telegramBotId:"7714752762"},app:{baseURL:"/",buildId:"bf5202ef-ce93-452f-a446-f914d6982c20",buildAssetsDir:"/_nuxt/",cdnURL:""}}</script>
+<script type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" id="__NUXT_DATA__" data-src="/harness-workshop/pamyat-proekta/_payload.json?_b=bf5202ef-ce93-452f-a446-f914d6982c20">[{"state":1,"once":7,"_errors":8,"serverRendered":10,"path":11,"prerenderedAt":12},["Reactive",2],{"$sklepa-login-open":3,"$sklepa-login-consent":3,"$sklepa-login-token":4,"$sklepa-login-refresh":4,"$sklepa-login-session":5,"$sklepa-login-key":4,"$sklepa-login-error":4,"$sklepa-account-label":4,"$sklepa-balance-byn":6,"$sklepa-cookie-consent":6,"$sklepa-cookie-restored":3,"$sklepa-cookie-reopened":3},false,"","idle",null,["Set"],["ShallowReactive",9],{"kurs-pamyat-proekta":6},true,"\u002Fharness-workshop\u002Fpamyat-proekta\u002F",1792650132202]</script></body></html>

@@ -1,0 +1,8 @@
+# Переадресации витрины. Статика лежит на Apache хостинга, этот файл копируется в сборку из public/.
+# Страница Codanna снята с витрины (OpenSpec klepa-remove-codanna, 18.10.2026): адрес из поиска ведёт на MCP-серверы в Marketplace.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^codanna(/.*)?$ /marketplace/ [R=301,L]
+# Курс переехал с /kurs/ на /harness-workshop/ (18.10.2026): старые адреса уроков ведут на те же уроки.
+RewriteRule ^kurs(?:/(.*))?$ /harness-workshop/$1 [R=301,L]
+</IfModule>
