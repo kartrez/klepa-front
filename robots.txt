@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /*_payload.json
+
+Sitemap: https://klepa.gpt-chat.by/sitemap.xml

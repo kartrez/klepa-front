@@ -1,0 +1,657 @@
+<!DOCTYPE html><html  lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Урок 8. Измеряем качество: eval-наборы, сравнение версий и регрессии — курс «Агент под контролем»</title>
+<style>:root{color-scheme:dark;--bg:#10140f;--bg-raised:#171d15;--ink:#e7f0df;--muted:#a3b09c;--line:#2a3526;--accent:#d6f25c;--accent-ink:#17200c;--mono:"IBM Plex Mono","Cascadia Mono","Segoe UI Mono",ui-monospace,monospace;--sans:"Segoe UI","PT Root UI",system-ui,sans-serif;--topbar:64px}*{box-sizing:border-box}html{scroll-padding-top:calc(var(--topbar) + 1rem)}#__nuxt,body,html{background:var(--bg);color:var(--ink);margin:0;min-height:100%}body{font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}a{color:inherit}::-moz-selection{background:var(--accent);color:var(--accent-ink)}::selection{background:var(--accent);color:var(--accent-ink)}.shell{display:flex;flex-direction:column;min-height:100vh}.topbar{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:#10140fe0;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.topbar-row{align-items:center;display:flex;gap:1.5rem;height:var(--topbar);margin:0 auto;width:min(1280px,calc(100% - 2rem))}.wordmark{align-items:center;display:inline-flex;font-family:var(--mono);font-weight:700;gap:.5rem;letter-spacing:.02em;margin:0;text-decoration:none;white-space:nowrap}.mark{height:2rem;-o-object-fit:contain;object-fit:contain;width:2rem}.nav{align-items:center;display:flex;gap:.25rem}.nav-link{background:none;border:0;border-radius:8px;color:var(--muted);cursor:pointer;font:inherit;font-size:.93rem;padding:.45rem .65rem;text-decoration:none;white-space:nowrap}.drop.open .drop-toggle,.nav-link.router-link-active,.nav-link:hover{background:var(--bg-raised);color:var(--ink)}.nav-link.chat-link,.nav-link.studio-link{align-items:center;background:var(--accent);color:var(--accent-ink);display:inline-flex;font-weight:700;gap:.35rem}.nav-link.chat-link:hover,.nav-link.studio-link:hover{background:var(--accent);color:var(--accent-ink);filter:brightness(1.08)}.chat-icon,.studio-icon{fill:currentColor;height:1rem;width:1rem}.studio-icon path:last-child{fill:var(--accent)}.caret{font-size:.7rem;opacity:.7}.drop{position:relative}.drop-panel{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px #00000073;display:none;left:0;padding:.5rem;position:absolute;top:100%;width:22rem}.drop.open .drop-panel{display:grid;gap:.15rem}.drop-item{border-radius:8px;display:flex;flex-direction:column;padding:.55rem .7rem;text-decoration:none}.drop-item span{color:var(--muted);font-size:.82rem}.drop-item.router-link-active,.drop-item:hover{background:#d6f25c14}.drop-item:hover b{color:var(--accent)}.actions{align-items:center;display:flex;gap:.6rem;margin-left:auto}.install{color:var(--muted);font-size:.93rem;padding:.45rem .8rem;text-decoration:none}.install:hover{color:var(--ink)}.enter{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font:inherit;font-weight:700;padding:.5rem 1rem}.enter:hover{filter:brightness(1.08)}.menu-toggle{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;display:none;font-size:1rem;height:2.4rem;width:2.4rem}.cabinet,.signed-in{color:var(--ink);font-size:.93rem;font-weight:700;text-decoration:none}.cabinet:hover{color:var(--accent)}.account{align-items:center;display:flex;gap:.6rem}.balance{font-family:var(--mono);font-size:.85rem}.topup{position:relative}.topup summary{background:var(--accent);border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;list-style:none;padding:.45rem .7rem}.topup summary::-webkit-details-marker{display:none}.topup-menu{background:var(--bg-raised);border:1px solid var(--line);border-radius:8px;min-width:7rem;padding:.3rem;position:absolute;right:0;top:calc(100% + .3rem);z-index:5}.topup button{background:none;border:0;color:var(--ink);cursor:pointer;display:block;font:inherit;padding:.4rem .7rem;text-align:left;width:100%}.topup button:hover{color:var(--accent)}.logout{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit}.logout:hover{color:var(--ink)}.nav-label{color:var(--muted);font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.mobile-nav{display:grid;gap:1rem;margin:0 auto;padding:.5rem 0 1.25rem;width:min(1280px,calc(100% - 2rem))}.mobile-nav a{text-decoration:none}.mobile-group{display:grid;gap:.5rem}.session-banner{background:var(--bg-raised);color:var(--accent);margin:0;padding:.7rem 1.5rem;text-align:center}.page{flex:1;margin:0 auto;padding:2rem 0 5rem;width:min(1280px,calc(100% - 2rem))}.foot{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding:3rem 0}.foot-inner{display:grid;gap:2rem;grid-template-columns:1.4fr repeat(2,1fr) 1.2fr;margin:0 auto;width:min(1280px,calc(100% - 2rem))}.foot .wordmark{color:var(--ink)}.foot-note{margin:.8rem 0 0;max-width:18rem}.foot-col{align-content:start;display:grid;gap:.45rem}.foot-col a{text-decoration:none}.foot-col a:hover{color:var(--accent)}.foot-button{background:none;border:0;color:inherit;cursor:pointer;font:inherit;justify-self:start;padding:0}.foot-button:hover{color:var(--accent)}@media(max-width:960px){.install,.nav{display:none}.menu-toggle{display:inline-grid;place-items:center}.foot-inner{grid-template-columns:1fr 1fr}}@media(max-width:520px){.foot-inner{grid-template-columns:1fr}}</style>
+<style>.dialog[data-v-7579e13d]{background:#080a07b8;display:grid;inset:0;padding:1rem;place-items:center;position:fixed;z-index:20}.dialog-card[data-v-7579e13d]{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;padding:1.25rem;width:min(28rem,100%)}label a[data-v-7579e13d]{color:var(--accent)}.error[data-v-7579e13d]{color:#ffb4a8;margin:0 0 .6rem}.choices[data-v-7579e13d]{display:flex;gap:.6rem;margin-top:.8rem}.choices button[data-v-7579e13d],.dialog-card>button[data-v-7579e13d]{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;padding:.7rem 1.1rem}button[data-v-7579e13d]:disabled{cursor:not-allowed;opacity:.45}.dismiss[data-v-7579e13d]{background:transparent;border:1px solid var(--line);color:var(--muted);margin-top:1rem}</style>
+<style>.cookie-notice[data-v-904500e8]{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;bottom:calc(1rem + env(safe-area-inset-bottom,0px));box-shadow:0 12px 32px #00000073;display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;left:50%;padding:.9rem 1.1rem;position:fixed;transform:translate(-50%);width:min(960px,calc(100% - 2rem));z-index:20}.cookie-notice p[data-v-904500e8]{color:var(--muted);flex:1 1 22rem;font-size:.9rem;margin:0}.cookie-notice a[data-v-904500e8]{color:var(--accent)}.cookie-actions[data-v-904500e8]{display:flex;gap:.6rem;margin-left:auto}.cookie-deny[data-v-904500e8]{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font:inherit;padding:.5rem .9rem}.cookie-deny[data-v-904500e8]:hover{border-color:var(--muted)}</style>
+<style>.lesson-page{display:grid;gap:2.5rem;width:100%}.hc-crumbs{color:var(--muted);display:flex;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;gap:.35rem .75rem}.hc-crumbs a{color:var(--accent);text-decoration:none}.hc-crumbs span:before{color:var(--line);content:"/";margin-right:.75rem}.hc-try{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;padding:1.1rem 1.25rem}.hc-try p{color:var(--muted);margin:.3rem 0 0;max-width:40rem}.hc-try-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.75rem}.hc-try-actions a{color:var(--accent)}.hc-try-actions .hc-try-install{background:var(--accent);border-radius:6px;color:var(--accent-ink);font-weight:700;padding:.55rem 1rem;text-decoration:none}.hc-pager{display:grid;gap:.75rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc-pager a{background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;color:var(--ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc-pager a:hover{border-color:var(--accent)}.hc-pager small{color:var(--muted)}.hc-pager .next{grid-column:2;text-align:right}@media(max-width:560px){.hc-pager{grid-template-columns:minmax(0,1fr)}.hc-pager .next{grid-column:1}}</style>
+<style>.hc{--hc-bg:var(--bg);--hc-surface:var(--bg-raised);--hc-surface-2:#1f281c;--hc-ink:var(--ink);--hc-muted:var(--muted);--hc-line:var(--line);--hc-accent:var(--accent);--hc-accent-soft:rgba(214,242,92,.12);--hc-accent-ink:var(--accent-ink);--hc-warm:#f0a35e;--hc-warm-soft:#33261a;--hc-ok:#62d38f;--hc-ok-soft:#15301f;--hc-bad:#ff8a7e;--hc-bad-soft:#3a1c19;--hc-warn:#e6c14d;--hc-warn-soft:#352d12;--hc-code-bg:#0b0f0a;--hc-code-ink:#dfe8d6;--hc-shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);--hc-f-display:var(--sans);--hc-f-body:var(--sans);--hc-f-mono:var(--mono);--hc-fs-xs:.78rem;--hc-fs-sm:.9rem;--hc-fs-md:1.02rem;--hc-fs-lg:1.22rem;--hc-fs-xl:1.45rem;--hc-fs-2xl:clamp(1.6rem,3vw,2.2rem);--hc-r-sm:6px;--hc-r-md:10px;--hc-col:46rem;--hc-wide:80rem;color-scheme:dark}.hc *{box-sizing:border-box}@media(prefers-reduced-motion:reduce){.hc *,.hc :after,.hc :before{animation-duration:.01ms!important;transition-duration:.01ms!important}}.hc{background:var(--hc-bg);color:var(--hc-ink);font:400 var(--hc-fs-md)/1.62 var(--hc-f-body);margin:0;-webkit-font-smoothing:antialiased}.hc a{color:var(--hc-accent);text-underline-offset:3px}.hc a:hover{text-decoration-thickness:2px}.hc :focus-visible{border-radius:4px;outline:3px solid var(--hc-accent);outline-offset:2px}.hc h1,.hc h2,.hc h3,.hc h4{line-height:1.2;margin:0;text-wrap:balance}.hc h1,.hc h2{font-family:var(--hc-f-display);font-weight:600;letter-spacing:-.01em}.hc h1{font-size:var(--hc-fs-2xl)}.hc h2{font-size:var(--hc-fs-xl)}.hc h3{font-size:var(--hc-fs-lg)}.hc h3,.hc h4{font-weight:650}.hc h4{font-size:var(--hc-fs-md)}.hc ol,.hc p,.hc ul{margin:0}.hc ol,.hc ul{padding-left:1.3em}.hc li+li{margin-top:.3em}.hc code,.hc kbd,.hc pre{font-family:var(--hc-f-mono);font-size:.88em}.hc :not(pre)>code{background:var(--hc-code-bg);border-radius:4px;color:var(--hc-code-ink);overflow-wrap:anywhere;padding:.08em .36em}.hc kbd{background:var(--hc-surface);border:solid var(--hc-line);border-radius:4px;border-width:1px 1px 2px;padding:0 .35em}.hc strong{font-weight:650}.hc [hidden]{display:none!important}.hc .visually-hidden{clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}.hc .hc-page{display:grid;gap:2.5rem;grid-template-columns:12rem minmax(0,1fr);margin:0 auto;max-width:var(--hc-wide);padding-block:2rem 4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.hc .rail{align-self:start;position:sticky;top:calc(var(--topbar) + 1.5rem)}.hc .rail ol{counter-reset:step;display:grid;gap:.15rem;list-style:none;margin:0;padding:0}.hc .rail li{margin:0}.hc .rail a{align-items:center;border-radius:var(--hc-r-sm);color:var(--hc-muted);display:flex;font-size:var(--hc-fs-sm);gap:.6rem;padding:.35rem .5rem;text-decoration:none}.hc .rail a:before{border:1.5px solid var(--hc-line);border-radius:50%;content:counter(step);counter-increment:step;display:grid;flex:none;font:600 .72rem var(--hc-f-mono);height:1.5rem;place-items:center;width:1.5rem}.hc .rail a:hover{background:var(--hc-surface-2);color:var(--hc-ink)}.hc .rail a.is-current{color:var(--hc-ink);font-weight:600}.hc .rail a.is-current:before{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .rail .rail-progress{color:var(--hc-muted);font-size:var(--hc-fs-xs);margin-top:1rem}.hc .meter{background:var(--hc-surface-2);border-radius:99px;height:6px;margin-top:.35rem;overflow:hidden}.hc .meter>i{background:var(--hc-ok);display:block;height:100%;transition:width .4s;width:0}.hc .content{display:grid;gap:3.5rem;min-width:0}.hc .content>*{min-width:0}.hc .analogy,.hc .content,.hc .lesson-hero,.hc .level,.hc .outcomes,.hc .prose,.hc .q,.hc .quiz,.hc .stand,.hc .step{grid-template-columns:minmax(0,1fr)}.hc .lesson-hero{display:grid;gap:1rem;max-width:var(--hc-col)}.hc .eyebrow{color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .lead{color:var(--hc-muted);font-size:var(--hc-fs-lg);line-height:1.5}.hc .facts{display:flex;flex-wrap:wrap;gap:.5rem}.hc .fact{border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-muted);font-size:var(--hc-fs-xs);padding:.2rem .65rem}.hc .fact,.hc .outcomes{background:var(--hc-surface)}.hc .outcomes{border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.5rem;padding:1rem 1.2rem}.hc .outcomes h2{color:var(--hc-muted);font:650 var(--hc-fs-sm) var(--hc-f-body);letter-spacing:.06em;text-transform:uppercase}.hc .step{display:grid;gap:1.1rem;scroll-margin-top:5rem}.hc .step>:not(.stand):not(.wide){max-width:var(--hc-col)}.hc .step-head{display:grid;gap:.35rem}.hc .step-tag{align-items:center;color:var(--hc-muted);display:inline-flex;font:600 var(--hc-fs-xs) var(--hc-f-mono);gap:.5rem;letter-spacing:.08em;text-transform:uppercase}.hc .step-tag b{background:var(--hc-ink);border-radius:4px;color:var(--hc-bg);font-weight:600;padding:.05rem .4rem}.hc .step ol+p,.hc .step p+ol,.hc .step p+p,.hc .step p+ul,.hc .step ul+p{margin-top:0}.hc .prose{display:grid;gap:.85rem}.hc .level{border-left:3px solid var(--hc-line);display:grid;gap:.75rem;padding-left:1rem}.hc .level[data-level="1"]{border-color:var(--hc-ok)}.hc .level[data-level="2"]{border-color:var(--hc-accent)}.hc .level[data-level="3"]{border-color:var(--hc-warm)}.hc .level-tag{color:var(--hc-muted);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.06em;text-transform:uppercase}.hc .analogy{background:var(--hc-warm-soft);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:1.1rem 1.25rem}.hc .analogy .label{color:var(--hc-warm);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .analogy p{font-size:var(--hc-fs-lg);line-height:1.45}.hc .map-pairs{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))}.hc .map-pairs>div{background:var(--hc-surface);border-radius:var(--hc-r-sm);display:grid;font-size:var(--hc-fs-sm);gap:.1rem;padding:.55rem .75rem}.hc .map-pairs b{font-weight:600}.hc .map-pairs span{color:var(--hc-muted)}.hc .note,.hc .tip,.hc .warn{border-radius:var(--hc-r-md);display:block;font-size:var(--hc-fs-sm);padding:.85rem 1rem}.hc .note{background:var(--hc-accent-soft)}.hc .tip{background:var(--hc-ok-soft)}.hc .warn{background:var(--hc-bad-soft)}.hc .note>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .tip>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .warn>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div){margin-top:.45rem}.hc .note>b:first-child,.hc .tip>b:first-child,.hc .warn>b:first-child{display:block;font-size:var(--hc-fs-xs);letter-spacing:.06em;margin-bottom:.35rem;text-transform:uppercase}.hc .term{border-bottom:1.5px dotted var(--hc-accent);cursor:help;position:relative}.hc .term:focus:after,.hc .term:hover:after{background:var(--hc-ink);border-radius:var(--hc-r-sm);box-shadow:var(--hc-shadow);color:var(--hc-bg);content:attr(data-tip);font:400 var(--hc-fs-xs)/1.45 var(--hc-f-body);left:0;max-width:min(20rem,80vw);padding:.5rem .65rem;position:absolute;top:calc(100% + 6px);white-space:normal;width:-moz-max-content;width:max-content;z-index:30}.hc details.more{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md)}.hc details.more>summary{align-items:baseline;cursor:pointer;display:flex;font-size:var(--hc-fs-sm);font-weight:600;gap:.6rem;list-style:none;padding:.7rem 1rem}.hc details.more>summary::-webkit-details-marker{display:none}.hc details.more>summary:before{color:var(--hc-accent);content:"+";flex:none;font:600 1rem var(--hc-f-mono);width:1rem}.hc details.more[open]>summary:before{content:"−"}.hc details.more>summary .hint{color:var(--hc-muted);font-weight:400}.hc details.more>.more-body{display:grid;gap:.75rem;min-width:0;padding:0 1rem 1rem}.hc pre{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font-size:.84rem;line-height:1.55;margin:0;overflow-x:auto;padding:.85rem 1rem;position:relative;-moz-tab-size:2;-o-tab-size:2;tab-size:2}.hc pre .c{color:var(--hc-muted);font-style:italic}.hc pre .k{color:var(--hc-accent);font-weight:600}.hc pre .s{color:var(--hc-ok)}.hc pre .w{color:var(--hc-warm)}.hc .code-wrap{min-width:0;position:relative}.hc .copy-btn{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-body);opacity:.85;padding:.15rem .5rem;position:absolute;right:.4rem;top:.4rem}.hc .copy-btn:hover{color:var(--hc-ink);opacity:1}.hc .code-tabs{display:grid;gap:0;min-width:0}.hc .code-tabs .tab-bar{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:-1px}.hc .code-tabs .tab-bar button{background:transparent;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-mono);padding:.35rem .7rem}.hc .code-tabs .tab-bar button[aria-selected=true]{background:var(--hc-code-bg);border-color:var(--hc-line);color:var(--hc-ink)}.hc .code-tabs pre{border-top-left-radius:0}.hc .stand{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);box-shadow:var(--hc-shadow);display:grid;gap:1rem;min-width:0;padding:1.1rem}.hc .stand-head{align-items:baseline;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between}.hc .stand-head h3{font-size:var(--hc-fs-md)}.hc .stand-head .badge{background:var(--hc-accent-soft);border-radius:4px;color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.15rem .5rem}.hc .stand .task{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .row{align-items:center;display:flex;flex-wrap:wrap;gap:.6rem}.hc .grid-2{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc .grid-3{display:grid;gap:.75rem;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.hc .grid-2,.hc .grid-3{grid-template-columns:minmax(0,1fr)}}.hc .btn{align-items:center;background:var(--hc-accent);border:1px solid var(--hc-accent);border-radius:var(--hc-r-sm);color:var(--hc-accent-ink);cursor:pointer;display:inline-flex;font:600 var(--hc-fs-sm) var(--hc-f-body);gap:.4rem;padding:.5rem .95rem}.hc .btn:hover{filter:brightness(1.08)}.hc .btn:disabled{cursor:not-allowed;filter:none;opacity:.45}.hc .btn.secondary{background:transparent;color:var(--hc-accent)}.hc .btn.quiet{background:transparent;border-color:var(--hc-line);color:var(--hc-muted)}.hc .btn.small{font-size:var(--hc-fs-xs);padding:.25rem .6rem}.hc .chip-btn{background:var(--hc-surface-2);border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-ink);cursor:pointer;font:500 var(--hc-fs-sm) var(--hc-f-body);padding:.3rem .8rem}.hc .chip-btn[aria-pressed=true]{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc label{font-size:var(--hc-fs-sm);font-weight:600}.hc .field{display:grid;gap:.3rem;min-width:0}.hc .field small{color:var(--hc-muted);font-weight:400}.hc input[type=number],.hc input[type=text],.hc select,.hc textarea{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);font:400 var(--hc-fs-sm) var(--hc-f-body);min-width:0;padding:.5rem .65rem;width:100%}.hc textarea{line-height:1.5;resize:vertical}.hc .mono,.hc textarea.code{font-family:var(--hc-f-mono);font-size:.84rem}.hc textarea.code{background:var(--hc-code-bg);color:var(--hc-code-ink);min-height:14rem;overflow:auto;-moz-tab-size:2;-o-tab-size:2;tab-size:2;white-space:pre}.hc input[type=range]{accent-color:var(--hc-accent);width:100%}.hc input[type=checkbox],.hc input[type=radio]{accent-color:var(--hc-accent);height:1.05rem;width:1.05rem}.hc .output{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font:400 .82rem/1.55 var(--hc-f-mono);max-height:22rem;min-height:3rem;overflow:auto;overflow-wrap:anywhere;padding:.75rem .9rem;white-space:pre-wrap}.hc .output:empty:before{color:var(--hc-muted);content:attr(data-empty)}.hc .output .ok{color:var(--hc-ok)}.hc .output .bad{color:var(--hc-bad)}.hc .output .dim{color:var(--hc-muted)}.hc .result-line{font-size:var(--hc-fs-sm);font-weight:600}.hc .result-line.ok{color:var(--hc-ok)}.hc .result-line.bad{color:var(--hc-bad)}.hc .pill{background:var(--hc-surface-2);border-radius:4px;color:var(--hc-muted);display:inline-block;font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.1rem .45rem}.hc .pill.ok{background:var(--hc-ok-soft);color:var(--hc-ok)}.hc .pill.bad{background:var(--hc-bad-soft);color:var(--hc-bad)}.hc .pill.warn{background:var(--hc-warn-soft);color:var(--hc-warn)}.hc .pill.accent{background:var(--hc-accent-soft);color:var(--hc-accent)}.hc .flow{align-items:stretch;display:flex;flex-wrap:wrap;gap:.4rem}.hc .flow .node{background:var(--hc-surface-2);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);display:grid;flex:1 1 8rem;font-size:var(--hc-fs-sm);gap:.15rem;min-width:0;padding:.55rem .7rem;transition:border-color .25s,background .25s,transform .25s}.hc .flow .node small{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .flow .node.is-active{background:var(--hc-accent-soft);border-color:var(--hc-accent);transform:translateY(-2px)}.hc .flow .node.is-done{border-color:var(--hc-ok)}.hc .flow .node.is-bad{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .flow .arrow{align-self:center;color:var(--hc-muted);font-family:var(--hc-f-mono)}@media(max-width:560px){.hc .flow{flex-direction:column}.hc .flow .arrow{align-self:center;transform:rotate(90deg)}}.hc .table-wrap{min-width:0;overflow-x:auto}.hc table{border-collapse:collapse;font-size:var(--hc-fs-sm);width:100%}.hc td,.hc th{border-bottom:1px solid var(--hc-line);padding:.45rem .6rem;text-align:left;vertical-align:top}.hc th{color:var(--hc-muted);font-size:var(--hc-fs-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase}.hc td.num,.hc th.num{font-variant-numeric:tabular-nums;text-align:right}.hc .quiz{display:grid;gap:1rem}.hc .q{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:.9rem 1rem}.hc .q>p{font-weight:600}.hc .q .options{display:grid;gap:.4rem}.hc .q .options button{background:var(--hc-bg);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);cursor:pointer;font:400 var(--hc-fs-sm)/1.45 var(--hc-f-body);padding:.5rem .75rem;text-align:left}.hc .q .options button:hover{border-color:var(--hc-accent)}.hc .q .options button.is-right{background:var(--hc-ok-soft);border-color:var(--hc-ok)}.hc .q .options button.is-wrong{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .q .why{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .quiz-score{color:var(--hc-muted)}.hc .q .q-kind,.hc .quiz-score{font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs)}.hc .q .q-kind{background:var(--hc-warn-soft);border-radius:999px;color:var(--hc-warn);justify-self:start;padding:.1rem .6rem}.hc .q[data-multi] .options button{padding-left:2.1rem;position:relative}.hc .q[data-multi] .options button:before{border:1.5px solid var(--hc-muted);border-radius:3px;content:"";height:.85rem;left:.7rem;position:absolute;top:.68rem;width:.85rem}.hc .q[data-multi] .options button[aria-pressed=true]{border-color:var(--hc-accent)}.hc .q[data-multi] .options button[aria-pressed=true]:before{background:var(--hc-accent);border-color:var(--hc-accent);box-shadow:inset 0 0 0 2px var(--hc-bg)}.hc .q[data-multi] .options button.is-right{border-color:var(--hc-ok)}.hc .q[data-multi] .options button.is-wrong{border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-wrong:before{background:var(--hc-bad);border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-right:before{background:var(--hc-ok);border-color:var(--hc-ok)}.hc .q>p.why{font-weight:400}.hc .q .options button.is-missed{border-color:var(--hc-ok);border-style:dashed}.hc .q .options button.is-missed:after{color:var(--hc-ok);content:" — тоже верный";font-size:var(--hc-fs-xs)}.hc .q .q-actions{display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;margin:0;min-width:0;padding:.75rem}.hc .stage3d-view{aspect-ratio:16/9;background:radial-gradient(120% 90% at 50% 30%,#1d2619 0,var(--hc-bg) 75%);border-radius:var(--hc-r-sm);min-height:16rem;overflow:hidden;position:relative}.hc .stage3d-view canvas{cursor:grab;display:block;height:100%;width:100%}.hc .stage3d-view canvas:active{cursor:grabbing}.hc .stage3d-labels{inset:0;overflow:hidden;pointer-events:none;position:absolute}.hc .stage3d-label{background:#10140fc7;border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-ink);font:600 var(--hc-fs-xs)/1.2 var(--hc-f-mono);left:0;margin-top:-6px;padding:.12rem .4rem;position:absolute;top:0;transition:opacity .2s;white-space:nowrap}.hc .stage3d-label.accent{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-label.warm{background:var(--hc-warm);border-color:var(--hc-warm);color:#2a1a0c}.hc .stage3d-label.bad{background:var(--hc-bad);border-color:var(--hc-bad);color:#2a0f0c}.hc .stage3d-label.ok{background:var(--hc-ok);border-color:var(--hc-ok);color:#0c2416}.hc .stage3d-label.dim{color:var(--hc-muted);font-weight:400}.hc .stage3d-gate{background:var(--hc-accent);border:0;border-radius:999px;bottom:.5rem;color:var(--hc-accent-ink);font:600 var(--hc-fs-xs)/1 var(--hc-f-body);padding:.55rem .9rem;position:absolute;right:.5rem}.hc .stage3d.is-active .stage3d-view{outline:2px solid var(--hc-accent)}.hc .stage3d-bar{align-items:center;display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d-range{accent-color:var(--hc-accent);flex:1 1 8rem;min-width:6rem}.hc .stage3d-clock{color:var(--hc-muted);font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs);min-width:6.5rem}.hc .stage3d-zoom{min-width:2.2rem}.hc .stage3d-chapters{display:flex;flex-wrap:wrap;gap:.35rem}.hc .stage3d-chip{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:999px;color:var(--hc-muted);cursor:pointer;font:400 var(--hc-fs-xs)/1.2 var(--hc-f-body);padding:.3rem .65rem}.hc .stage3d-chip:hover{border-color:var(--hc-accent);color:var(--hc-ink)}.hc .stage3d-chip.is-current{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-caption{font-size:var(--hc-fs-sm);min-height:3.2em}.hc .stage3d-caption b{color:var(--hc-accent)}.hc .stage3d-hint{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .stage3d-alt{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .stage3d.is-ready .stage3d-alt{height:1px;overflow:hidden;position:absolute;width:1px;clip:rect(0 0 0 0);white-space:nowrap}.hc .stage3d.is-fallback .stage3d-bar,.hc .stage3d.is-fallback .stage3d-caption,.hc .stage3d.is-fallback .stage3d-chapters,.hc .stage3d.is-fallback .stage3d-hint,.hc .stage3d.is-fallback .stage3d-view{display:none}.hc .stage3d.is-fallback .stage3d-alt{height:auto;overflow:visible;position:static;width:auto;clip:auto;white-space:normal}@media(max-width:640px){.hc .stage3d-view{aspect-ratio:1/1}.hc .stage3d-chapters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.1rem;scrollbar-width:none}.hc .stage3d-chip{flex:none}.hc .stage3d-label{font-size:.66rem;padding:.08rem .3rem}}.hc .checklist{display:grid;gap:.35rem;list-style:none;padding:0}.hc .checklist li{margin:0}.hc .checklist label{align-items:flex-start;border-radius:var(--hc-r-sm);cursor:pointer;display:flex;font-size:var(--hc-fs-md);font-weight:400;gap:.65rem;padding:.45rem .6rem}.hc .checklist label:hover{background:var(--hc-surface)}.hc .checklist input{flex:none;margin-top:.3rem}.hc .checklist input:checked+span{color:var(--hc-muted);text-decoration:line-through;text-decoration-color:var(--hc-ok)}.hc .done-banner{display:none}.hc .done-banner.is-shown{display:block}.hc .links{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr))}.hc .links h3{color:var(--hc-muted);font-size:var(--hc-fs-sm);letter-spacing:.06em;margin-bottom:.5rem;text-transform:uppercase}.hc .links ul{display:grid;gap:.6rem;list-style:none;padding:0}.hc .links li{display:grid;font-size:var(--hc-fs-sm);gap:.1rem;margin:0}.hc .links li a{font-weight:600}.hc .links li span{color:var(--hc-muted)}.hc .pager{display:grid;gap:.75rem;grid-template-columns:1fr 1fr}.hc .pager a{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);color:var(--hc-ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc .pager a:hover{border-color:var(--hc-accent)}.hc .pager small{color:var(--hc-muted)}.hc .pager .next{grid-column:2;text-align:right}.hc .footer-note{color:var(--hc-muted);font-size:var(--hc-fs-xs)}@media(max-width:900px){.hc .hc-page{gap:1.5rem;grid-template-columns:minmax(0,1fr);padding-block:1.25rem 3rem}.hc .rail{background:var(--hc-bg);margin-inline:-4px;padding-block:.4rem;position:sticky;top:var(--topbar);z-index:15}.hc .rail ol{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none}.hc .rail a{padding:.25rem .5rem;white-space:nowrap}.hc .rail .rail-progress{display:none}.hc .content{gap:2.75rem}}@keyframes hc-pop{0%{opacity:.4;transform:scale(.92)}to{opacity:1;transform:scale(1)}}.hc .pop{animation:hc-pop .25s ease-out}@keyframes hc-pulse-border{0%,to{box-shadow:0 0 color-mix(in srgb,var(--hc-accent) 45%,transparent)}50%{box-shadow:0 0 0 6px transparent}}.hc .pulse{animation:hc-pulse-border 1.2s ease-out 2}.hc .hc-page{margin:0;max-width:none;padding:0}</style>
+<link rel="stylesheet" href="/_nuxt/kurs.DD10fpVf.css" crossorigin>
+<link rel="preload" as="fetch" crossorigin="anonymous" href="/harness-workshop/izmeryaem-kachestvo/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BFZxJiOk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Md4VEwow.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Cx38cRZh.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BayULBOU.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B4Ey_btE.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DXJlw0Jk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/umt8mYvj.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B_31BsbJ.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/ylmHlZv_.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DqDzQPTU.js">
+<script type="module" src="/_nuxt/BFZxJiOk.js" crossorigin></script>
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CTsZqIVY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/R4uVcw0-.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DSW_zuzx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DT9HhtpA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DsIVt1uA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Csp-tBFP.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DVk6OOaH.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CHzdfqXZ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DIqqaU9V.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Caps8ti_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BzyUlbQC.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BXZQtsXx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Ba686JSa.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/D4aieIjQ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Dm8p2LOi.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DMHLwBTJ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C8s7KUif.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CfRiDiXh.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/B7QZ0aMn.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/jI-YWrlY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BbeGPlLB.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DJOctqjL.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/9d2q4aVm.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/2Z7xxhpV.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C3VDPMZ_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DYQ6arQ6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Cy5W8Jx6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DOkdDJzx.js">
+<meta name="description" content="Как доказать, что новый скил или модель стали лучше, и не пропустить регрессию. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="theme-color" content="#10140f">
+<link rel="icon" type="image/png" href="/images/klepa-mark.png">
+<link rel="apple-touch-icon" href="/images/klepa-mark.png">
+<meta name="keywords" content="evals, A/B, регрессии, курс ИИ-агенты, ИИ для программистов, нейросеть пишет код">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Klepa AI">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Урок 8. Измеряем качество: eval-наборы, сравнение версий и регрессии — курс «Агент под контролем»">
+<meta property="og:description" content="Как доказать, что новый скил или модель стали лучше, и не пропустить регрессию. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta property="og:url" content="https://klepa.gpt-chat.by/harness-workshop/izmeryaem-kachestvo/">
+<meta property="og:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Klepa AI — AI-агент для VS Code">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Урок 8. Измеряем качество: eval-наборы, сравнение версий и регрессии — курс «Агент под контролем»">
+<meta name="twitter:description" content="Как доказать, что новый скил или модель стали лучше, и не пропустить регрессию. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="twitter:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<link rel="canonical" href="https://klepa.gpt-chat.by/harness-workshop/izmeryaem-kachestvo/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Klepa AI","item":"https://klepa.gpt-chat.by/"},{"@type":"ListItem","position":2,"name":"Урок 8. Измеряем качество","item":"https://klepa.gpt-chat.by/harness-workshop/izmeryaem-kachestvo/"}]}</script></head><body><div id="__nuxt"><div class="shell"><header class="topbar"><div class="topbar-row"><a href="/" class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt width="32" height="32"> Klepa AI </a><nav class="nav" aria-label="Разделы сайта"><!--[--><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Продукт <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/installing/" class="drop-item"><b>Установка</b><span>Как поставить расширение Klepa в VS Code.</span></a><a href="/quickstart/" class="drop-item"><b>Быстрый старт</b><span>Первый запрос, ключ и бесплатные модели.</span></a><a href="/features/" class="drop-item"><b>Возможности</b><span>Режимы Ask, Plan, Code и Debug и остальные функции плагина.</span></a><a href="/best-practices/" class="drop-item"><b>Практики</b><span>Как ставить задачи, чтобы агент правил нужные файлы.</span></a><a href="/vibe-coding/" class="drop-item"><b>Вайбкодинг</b><span>Что это и как начать писать код с ИИ-агентом.</span></a><a href="/harness-workshop/" class="drop-item"><b>Курс</b><span>Бесплатный курс: как работать с ИИ-агентом в своём проекте.</span></a><a href="/image-generation/" class="drop-item"><b>Картинки</b><span>Генерация изображений прямо из редактора.</span></a><a href="/marketplace/" class="drop-item"><b>Marketplace</b><span>Готовые режимы, навыки и MCP-серверы.</span></a><a href="/support/" class="drop-item"><b>Поддержка</b><span>Вопросы по установке, оплате и работе агента.</span></a><!--]--></div></div><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Сравнения <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/analogi/" class="drop-item"><b>Все агенты</b><span>Klepa рядом с другими агентами для кода.</span></a><a href="/vs-claude-code/" class="drop-item"><b>vs Claude Code</b><span>Чем плагин в редакторе отличается от Claude Code.</span></a><a href="/vs-cursor/" class="drop-item"><b>vs Cursor</b><span>Klepa и Cursor: VPN, оплата и работа в VS Code.</span></a><a href="/vs-copilot/" class="drop-item"><b>vs Copilot</b><span>Автодополнение Copilot и агент, который ведёт задачу.</span></a><a href="/claude-code-besplatno/" class="drop-item"><b>Claude Code бесплатно</b><span>Как попробовать Claude без подписки Cursor.</span></a><a href="/claude-code-oplata/" class="drop-item"><b>Оплата Claude Code</b><span>Оплата картами МИР и БЕЛКАРТ без иностранной карты.</span></a><a href="/claude-code-ustanovka/" class="drop-item"><b>Установка Claude Code</b><span>Команды для Windows, macOS и Linux и что будет при входе.</span></a><!--]--></div></div><!--]--><a href="/pricing/" class="nav-link"> Цены </a><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false"> О сервисе <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/about/" class="drop-item"><b>О нас</b><span>Кто делает Klepa и реквизиты поставщика.</span></a><a href="/offer/" class="drop-item"><b>Публичная оферта</b><span>Договор возмездного оказания услуг.</span></a><a href="/privacy-policy/" class="drop-item"><b>Политика конфиденциальности</b><span>Как обрабатываются персональные данные.</span></a><a href="/about/#requisites" class="drop-item"><b>Реквизиты и контакты</b><span>УНП, адрес и способы связи.</span></a><!--]--></div></div><a class="nav-link" href="https://agent.gpt-chat.by/" target="_blank" rel="noopener"> Агент </a><a class="nav-link studio-link" href="https://video-studio.gpt-chat.by/" target="_blank" rel="noopener"><svg class="studio-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="7" width="22" height="18" rx="4"></rect><path d="M24 13 L30 9 V23 L24 19 Z"></path><path d="M10 12 L17 16 L10 20 Z"></path></svg> Студия </a><a class="nav-link chat-link" href="https://gpt-chat.by/" target="_blank" rel="noopener"><svg class="chat-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7A2.5 2.5 0 0 1 16.5 16H9l-3.6 2.7A.8.8 0 0 1 4 18V6.5Z"></path></svg> Чат </a></nav><div class="actions"><a class="install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить</a><button type="button" class="enter"> Войти </button><button type="button" class="menu-toggle" aria-expanded="false" aria-label="Меню">☰</button></div></div><!----></header><!----><!----><main class="page"><!--[--><div></div><div class="hc lesson-page"><nav class="hc-crumbs" aria-label="Курс"><a href="/harness-workshop/" class="">Агент под контролем</a><span>Часть 4 · Доверяй, но проверяй</span></nav><div class="hc-lesson"><div class="hc-page">
+  <nav class="rail" aria-label="Шаги урока">
+    <ol>
+      <li><a href="#analogy">Аналогия</a></li>
+      <li><a href="#explain">Объяснение</a></li>
+      <li><a href="#interactive">Интерактив</a></li>
+      <li><a href="#practice">Тесты</a></li>
+      <li><a href="#checklist">Чек-лист</a></li>
+      <li><a href="#links">Ссылки</a></li>
+    </ol>
+    <div class="rail-progress"><span data-meter-label>Пройдено: 0%</span><div class="meter"><i data-meter></i></div></div>
+  </nav>
+
+  <main class="content">
+    <header class="lesson-hero">
+      <span class="eyebrow">Часть 4 · Доверяй, но проверяй · Урок 8</span>
+      <h1>Измеряем качество: eval-наборы, сравнение версий и регрессии</h1>
+      <p class="lead">Вы поменяли скил, промпт или модель. Стало лучше или просто повезло? Разберём, как проверять агента не на глаз, а цифрами — и не обмануться шумом.</p>
+      <div class="facts">
+        <span class="fact">~50 минут</span>
+        <span class="fact">4 интерактива</span>
+        <span class="fact">12 вопросов</span>
+        <span class="fact">Примеры: JS · TS · PHP · Python</span>
+      </div>
+      <div class="outcomes">
+        <h2>После урока вы сможете</h2>
+        <ul>
+          <li>собрать простой eval: набор задач, грейдер, прогон, отчёт;</li>
+          <li>выбрать грейдер под задачу: точное совпадение, структура, тесты или LLM-судья;</li>
+          <li>понять, когда разница между версиями — настоящая, а когда шум;</li>
+          <li>находить регрессии: где новая версия стала хуже старой.</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ============ 1. АНАЛОГИЯ ============ -->
+    <section class="step" id="analogy">
+      <div class="step-head">
+        <span class="step-tag"><b>1</b> Аналогия</span>
+        <h2>Дегустация, а не один глоток</h2>
+      </div>
+      <div class="analogy">
+        <span class="label">Представьте</span>
+        <p>Повар поменял рецепт супа. Один глоток ничего не скажет: могла попасться удачная ложка. Нужна серия проб и понятная шкала оценки. Eval — это такая дегустация для агента.</p>
+      </div>
+      <div class="stand" id="sip">
+        <div class="stand-head"><h3>Рецепт удаётся в 70% случаев. Что покажут пробы?</h3></div>
+        <div class="sip-row">
+          <div class="row"><button class="btn small" type="button" id="sip-1">1 проба</button><button class="btn small secondary" type="button" id="sip-5">5 проб</button><button class="btn small secondary" type="button" id="sip-50">50 проб</button></div>
+          <div class="dots" id="sip-dots" aria-hidden="true"></div>
+          <p class="task" id="sip-text" aria-live="polite">Нажмите кнопку. Зелёная точка — суп удался, красная — нет.</p>
+        </div>
+      </div>
+      <div class="map-pairs" aria-label="Соответствия аналогии">
+        <div><b>Рецепт</b><span>= промпт, скил, модель, настройки агента</span></div>
+        <div><b>Одна проба</b><span>= один прогон агента на одной задаче</span></div>
+        <div><b>Шкала дегустатора</b><span>= грейдер: правило «прошло / не прошло»</span></div>
+        <div><b>Серия проб</b><span>= eval-набор: десятки и сотни задач</span></div>
+      </div>
+      <p>Главная мысль: агент отвечает каждый раз по-разному. Поэтому один удачный запуск ничего не доказывает. Доказывает доля успехов на большом наборе задач.</p>
+    </section>
+
+    <!-- ============ 2. ОБЪЯСНЕНИЕ ============ -->
+    <section class="step" id="explain">
+      <div class="step-head">
+        <span class="step-tag"><b>2</b> Объяснение</span>
+        <h2>От простого к сложному</h2>
+      </div>
+
+      <div class="level" data-level="1">
+        <span class="level-tag">Уровень 1 · Суть</span>
+        <h3>Eval — это юнит-тесты для недетерминированного кода</h3>
+        <p>Eval (<span class="term" data-tip="Evaluation — оценка. Набор задач и правил, по которым автоматически меряют качество модели или агента.">оценка</span>) состоит из четырёх частей:</p>
+        <ol>
+          <li><strong>Набор задач</strong> — вход для агента. Например, 50 реальных багов.</li>
+          <li><strong>Грейдер</strong> — функция, которая решает: задача решена или нет.</li>
+          <li><strong>Прогон</strong> — запускаем агента на каждой задаче, иногда по несколько раз.</li>
+          <li><strong>Сравнение</strong> — считаем долю успехов и сравниваем со старой версией.</li>
+        </ol>
+        <div class="code-tabs">
+<pre data-lang="js">const results = [];
+for (const task of tasks) {
+  const output = await runAgent(task.input);   // агент отвечает по-разному
+  results.push({ id: task.id, pass: grade(output, task) });
+}
+const passRate = results.filter(r => r.pass).length / results.length;
+console.log(`Решено: ${Math.round(passRate * 100)}%`);</pre>
+<pre data-lang="php">&lt;?php
+$results = [];
+foreach ($tasks as $task) {
+    $output = runAgent($task['input']);            // агент отвечает по-разному
+    $results[] = ['id' => $task['id'], 'pass' => grade($output, $task)];
+}
+$passRate = count(array_filter($results, fn ($r) => $r['pass'])) / count($results);
+echo 'Решено: ', round($passRate * 100), "%\n";</pre>
+<pre data-lang="py">results = []
+for task in tasks:
+    output = run_agent(task["input"])   # агент отвечает по-разному
+    results.append({"id": task["id"], "pass": grade(output, task)})
+pass_rate = sum(r["pass"] for r in results) / len(results)
+print(f"Решено: {round(pass_rate * 100)}%")</pre>
+        </div>
+        <div class="tip"><b>Отличие от юнит-тестов</b>Юнит-тест либо зелёный, либо красный. Eval даёт долю: «решено 72%». И эта доля немного гуляет от запуска к запуску.</div>
+      </div>
+
+      <div class="level" data-level="2">
+        <span class="level-tag">Уровень 2 · Детали</span>
+        <h3>Грейдеры, метрики и откуда брать задачи</h3>
+        <p><strong>Виды грейдеров</strong> — от самых надёжных к самым гибким:</p>
+        <ul>
+          <li><strong>Точное совпадение.</strong> Ответ равен эталону. Подходит для классификации: «billing», «bug», «question».</li>
+          <li><strong>Структура или шаблон.</strong> Ответ — валидный JSON с нужными полями, номер заказа подходит под регулярное выражение.</li>
+          <li><strong>Запуск кода и тестов.</strong> Агент исправил баг — запускаем тесты. Для кода это лучший грейдер: проверяет результат, а не слова.</li>
+          <li><strong>LLM-судья</strong> (<span class="term" data-tip="LLM-as-judge: другая модель оценивает ответ по заранее заданной рубрике.">LLM-as-judge</span>). Другая модель оценивает ответ по рубрике — списку критериев. Нужен там, где нет одного правильного ответа: письмо клиенту, объяснение, ревью.</li>
+        </ul>
+        <p><strong>Метрики.</strong> Главная — <em>доля успехов</em> (pass rate). Ещё две полезны для агентов:</p>
+        <ul>
+          <li><strong>pass@k</strong> — хотя бы одна из k попыток успешна. Важно, если можно сделать несколько попыток и выбрать лучшую.</li>
+          <li><strong>pass^k</strong> — все k попыток успешны. Важно для надёжности: агент в проде должен справляться каждый раз, а не иногда.</li>
+        </ul>
+        <p>И не забывайте про <strong>цену и время на задачу</strong>. Версия на 2% лучше, но вдвое дороже — не всегда победа.</p>
+        <p><strong>Откуда брать задачи.</strong> Лучшие задачи — настоящие: закрытые баги с тестом, частые тикеты, сессии, где агент ошибся. Каждая ошибка агента в работе — кандидат в eval-набор, чтобы она не повторилась.</p>
+        <details class="more">
+          <summary>Простой eval-раннер в коде <span class="hint">— Python и TypeScript</span></summary>
+          <div class="more-body">
+            <p>Раннер читает задачи из файла, гоняет агента по несколько раз и пишет отчёт. Функция <code>run_agent</code> — ваш агент: вызов API, CLI или скрипт.</p>
+            <div class="code-tabs">
+<pre data-lang="py">import json
+import statistics
+
+def grade_exact(output: str, case: dict) -> bool:
+    return output.strip().lower() == case["expected"].lower()
+
+def run_eval(cases: list[dict], run_agent, grader, repeats: int = 3) -> dict:
+    per_case = {}
+    for case in cases:
+        passes = [grader(run_agent(case["input"]), case) for _ in range(repeats)]
+        per_case[case["id"]] = sum(passes) / repeats   # доля успехов на одной задаче
+    return {
+        "pass_rate": statistics.mean(per_case.values()),
+        "per_case": per_case,                         # пригодится для поиска регрессий
+    }
+
+with open("evals/tickets.jsonl", encoding="utf-8") as f:
+    cases = [json.loads(line) for line in f]
+
+report = run_eval(cases, run_agent=my_agent, grader=grade_exact)
+print(f"Решено: {report['pass_rate']:.0%}")</pre>
+<pre data-lang="ts">interface EvalCase { id: string; input: string; expected: string }
+type Grader = (output: string, c: EvalCase) => boolean;
+
+async function runEval(
+  cases: EvalCase[],
+  runAgent: (input: string) => Promise&lt;string>,
+  grader: Grader,
+  repeats = 3,
+) {
+  const perCase: Record&lt;string, number> = {};
+  for (const c of cases) {
+    let ok = 0;
+    for (let i = 0; i < repeats; i++) {
+      if (grader(await runAgent(c.input), c)) ok++;
+    }
+    perCase[c.id] = ok / repeats;
+  }
+  const values = Object.values(perCase);
+  return { passRate: values.reduce((s, x) => s + x, 0) / values.length, perCase };
+}
+
+const exact: Grader = (out, c) => out.trim().toLowerCase() === c.expected.toLowerCase();</pre>
+<pre data-lang="php">&lt;?php
+function gradeExact(string $output, array $case): bool
+{
+    return mb_strtolower(trim($output)) === mb_strtolower($case['expected']);
+}
+
+function runEval(array $cases, callable $runAgent, callable $grader, int $repeats = 3): array
+{
+    $perCase = [];
+    foreach ($cases as $case) {
+        $ok = 0;
+        for ($i = 0; $i < $repeats; $i++) {
+            if ($grader($runAgent($case['input']), $case)) { $ok++; }
+        }
+        $perCase[$case['id']] = $ok / $repeats;   // доля успехов на одной задаче
+    }
+    return ['passRate' => array_sum($perCase) / count($perCase), 'perCase' => $perCase];
+}
+
+$lines = file('evals/tickets.jsonl', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+$cases = array_map(fn ($line) => json_decode($line, true), $lines);
+$report = runEval($cases, 'myAgent', 'gradeExact');
+echo 'Решено: ', round($report['passRate'] * 100), "%\n";</pre>
+            </div>
+          </div>
+        </details>
+        <details class="more">
+          <summary>Грейдер «запусти тесты» <span class="hint">— PHP и JS</span></summary>
+          <div class="more-body">
+            <p>Агент поправил код во временной копии репозитория. Грейдер запускает тесты именно этой задачи и смотрит код выхода: 0 — успех.</p>
+            <div class="code-tabs">
+<pre data-lang="php">&lt;?php
+// Грейдер: прошли ли тесты после правки агента
+function gradeByTests(string $workdir, string $testFilter): bool
+{
+    $cmd = sprintf(
+        'cd %s && vendor/bin/phpunit --filter %s 2>&1',
+        escapeshellarg($workdir),
+        escapeshellarg($testFilter),
+    );
+    exec($cmd, $output, $exitCode);
+    file_put_contents($workdir . '/eval-log.txt', implode("\n", $output));
+    return $exitCode === 0;
+}
+
+$pass = gradeByTests('/tmp/eval/case-42', 'VatCalculatorTest');
+echo $pass ? "PASS\n" : "FAIL\n";</pre>
+<pre data-lang="js">import { spawnSync } from "node:child_process";
+
+// Грейдер: запускаем тесты в копии репозитория, где работал агент
+export function gradeByTests(workdir, testPattern) {
+  const r = spawnSync("npx", ["vitest", "run", testPattern], {
+    cwd: workdir,
+    encoding: "utf8",
+    timeout: 120_000,       // зависший тест — тоже провал
+  });
+  return { pass: r.status === 0, log: (r.stdout || "") + (r.stderr || "") };
+}</pre>
+<pre data-lang="py">import subprocess
+from pathlib import Path
+
+# Грейдер: прошли ли тесты после правки агента
+def grade_by_tests(workdir: str, test_filter: str) -> bool:
+    try:
+        r = subprocess.run(
+            ["python", "-m", "pytest", "-k", test_filter],
+            cwd=workdir, capture_output=True, text=True, timeout=120,
+        )
+    except subprocess.TimeoutExpired:
+        return False                 # зависший тест — тоже провал
+    Path(workdir, "eval-log.txt").write_text(r.stdout + r.stderr)
+    return r.returncode == 0
+
+passed = grade_by_tests("/tmp/eval/case-42", "test_vat_calculator")
+print("PASS" if passed else "FAIL")</pre>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="level" data-level="3">
+        <span class="level-tag">Уровень 3 · Усложнение</span>
+        <h3>Шум, регрессии и честное сравнение</h3>
+        <p><strong>Шум.</strong> Допустим, старая версия решила 14 задач из 20 (70%), новая — 16 из 20 (80%). Кажется, стало лучше. Но при 20 задачах разброс огромный: у той же самой версии в другой день вполне может выйти и 60%, и 85%. Простое правило: погрешность доли примерно равна <code>2 · √(p·(1−p)/n)</code>. Для p = 0,7 и n = 20 это ±20%. Для n = 200 — уже ±6,5%. Чем больше задач, тем меньше шум.</p>
+        <p><strong>Регрессии.</strong> Новая версия может поднять общий процент и при этом сломать важный сценарий. Например, стала лучше писать отчёты, но перестала отказываться от опасной операции. Поэтому смотрят не только на общий процент, но и на каждую задачу отдельно.</p>
+        <p><strong>A/B-сравнение.</strong> Меняйте одну вещь за раз: скил, промпт или модель. Прогоняйте обе версии на одном и том же наборе. Иначе непонятно, что дало эффект.</p>
+        <p><strong>Риски LLM-судьи.</strong> Судья — тоже модель, и у него есть перекосы. Он любит длинные ответы, предпочитает первый вариант при сравнении двух и бывает мягок к текстам своей же модели. Что помогает: конкретная рубрика вместо «оцени качество», перестановка вариантов местами, сверка судьи с оценками людей на 20–30 примерах.</p>
+        <div class="note"><b>Eval в CI</b>Небольшой быстрый набор (10–30 задач) запускают на каждое изменение скилов и промптов, как обычные тесты. Большой набор — по расписанию или перед сменой модели. Так регрессию видно до того, как её заметят пользователи.</div>
+        <details class="more">
+          <summary>Пример промпта LLM-судьи с рубрикой <span class="hint">— шаблон</span></summary>
+          <div class="more-body">
+            <p>Судья отвечает строгим JSON. Рубрика — конкретные проверяемые пункты, а не «оцени по шкале от 1 до 10».</p>
+<pre data-lang="text">Ты проверяешь ответ службы поддержки. Оцени ответ по рубрике.
+Для каждого пункта ответь true или false и коротко объясни.
+
+Рубрика:
+1. tone: тон вежливый, без упрёков клиенту.
+2. answer: в ответе есть прямой ответ на вопрос клиента.
+3. no_promises: нет обещаний, которых нет в правилах (возврат, скидка, сроки).
+4. next_step: клиенту понятно, что делать дальше.
+
+Вопрос клиента:
+&lt;question&gt;{{question}}&lt;/question&gt;
+
+Ответ, который проверяем:
+&lt;answer&gt;{{answer}}&lt;/answer&gt;
+
+Верни только JSON:
+{"tone": {"pass": true, "why": "..."}, "answer": {...}, "no_promises": {...}, "next_step": {...}}</pre>
+            <p>Ответ засчитывается, если все пункты <code>pass: true</code>. Так оценка прозрачна: видно, какой именно пункт провален.</p>
+          </div>
+        </details>
+        <details class="more">
+          <summary>Формула pass@k <span class="hint">— для любопытных</span></summary>
+          <div class="more-body">
+            <p>Пусть агент сделал n попыток на задаче, из них c успешных. Какова вероятность, что среди k случайно выбранных попыток будет хотя бы одна успешная?</p>
+<pre data-lang="text">pass@k = 1 − C(n − c, k) / C(n, k)
+
+C(a, b) — число сочетаний «из a по b».
+C(n − c, k) / C(n, k) — шанс вытащить k попыток, и все неудачные.</pre>
+            <p>Например, n = 10, c = 3, k = 1: pass@1 = 0,3 — обычная доля успехов. При k = 3 шанс найти хоть одну удачную попытку уже ≈ 0,71.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ 3. ИНТЕРАКТИВ ============ -->
+    <section class="step" id="interactive">
+      <div class="step-head">
+        <span class="step-tag"><b>3</b> Интерактив</span>
+        <h2>Почувствуйте шум и регрессии</h2>
+        <p>Агентов здесь нет: успехи выпадают случайно с заданной вероятностью. Так и ведёт себя настоящий агент, если смотреть на долю успехов.</p>
+      </div>
+
+      <!-- 3.1 Симулятор шума -->
+      <div class="stand" id="ns">
+        <div class="stand-head"><h3>Две версии скила: кто лучше?</h3><span class="badge">интерактив 1 из 4</span></div>
+        <p class="task">По-настоящему версия Б лучше: 75% против 70%. Прогоните eval на разном числе задач и посмотрите, как часто наблюдаемый результат врёт.</p>
+        <div class="grid-3">
+          <div class="field">
+            <label for="ns-pa">Истинная успешность А: <span class="mono" id="ns-pa-val">70%</span></label>
+            <input type="range" id="ns-pa" min="0.4" max="0.95" step="0.01" value="0.7">
+          </div>
+          <div class="field">
+            <label for="ns-pb">Истинная успешность Б: <span class="mono" id="ns-pb-val">75%</span></label>
+            <input type="range" id="ns-pb" min="0.4" max="0.95" step="0.01" value="0.75">
+          </div>
+          <div class="field">
+            <label for="ns-n">Задач в наборе</label>
+            <select id="ns-n">
+              <option value="5">5</option>
+              <option value="20" selected>20</option>
+              <option value="50">50</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn" type="button" id="ns-run">▶ Прогнать eval</button>
+          <button class="btn secondary" type="button" id="ns-many">Повторить 1000 раз</button>
+        </div>
+        <div class="ns-line"><b>Версия А</b><div class="dots" id="ns-dots-a" aria-hidden="true"></div><span class="rate" id="ns-rate-a">—</span></div>
+        <div class="ns-line"><b>Версия Б</b><div class="dots" id="ns-dots-b" aria-hidden="true"></div><span class="rate" id="ns-rate-b">—</span></div>
+        <div class="note" id="ns-result" aria-live="polite"><b>Итог</b>Нажмите «Прогнать eval».</div>
+      </div>
+
+      <!-- 3.2 Выбор грейдера -->
+      <div class="stand" id="gc">
+        <div class="stand-head"><h3>Подберите грейдер под задачу</h3><span class="badge">интерактив 2 из 4</span></div>
+        <p class="task">Для каждой задачи выберите способ проверки. Потом нажмите «Проверить выбор».</p>
+        <div class="table-wrap">
+          <table class="gc-table">
+            <thead><tr><th>Задача агента</th><th>Грейдер</th></tr></thead>
+            <tbody id="gc-body"></tbody>
+          </table>
+        </div>
+        <div class="row"><button class="btn" type="button" id="gc-check">Проверить выбор</button><span class="result-line" id="gc-score" aria-live="polite"></span></div>
+      </div>
+
+      <!-- 3.3 Матрица регрессий -->
+      <div class="stand" id="rm">
+        <div class="stand-head"><h3>Где новая версия стала хуже</h3><span class="badge">интерактив 3 из 4</span></div>
+        <p class="task">Доля успехов по сценариям для трёх версий агента поддержки. Выберите версию: она сравнится с предыдущей. Разница меньше 5 пунктов — считаем шумом.</p>
+        <div class="row" role="group" aria-label="Версия для сравнения">
+          <button class="chip-btn" type="button" data-ver="1" aria-pressed="false">v2 против v1</button>
+          <button class="chip-btn" type="button" data-ver="2" aria-pressed="false">v3 против v2</button>
+        </div>
+        <div class="table-wrap">
+          <table class="matrix">
+            <thead><tr><th>Сценарий</th><th class="num" data-col="0">v1</th><th class="num" data-col="1">v2</th><th class="num" data-col="2">v3</th></tr></thead>
+            <tbody id="rm-body"></tbody>
+            <tfoot><tr id="rm-avg"></tr></tfoot>
+          </table>
+        </div>
+        <div class="note" id="rm-result" aria-live="polite"><b>Вывод</b>Выберите версию.</div>
+      </div>
+
+      <!-- 3.4 Конвейер -->
+      <div class="stand" id="ep">
+        <div class="stand-head"><h3>Как eval проходит от набора задач до решения</h3><span class="badge">интерактив 4 из 4</span></div>
+        <div class="flow">
+          <div class="node" id="ep-n0"><b>Набор задач</b><small>40 тикетов</small></div><span class="arrow">→</span>
+          <div class="node" id="ep-n1"><b>Прогон агента</b><small>× 3 повтора</small></div><span class="arrow">→</span>
+          <div class="node" id="ep-n2"><b>Грейдер</b><small>тесты + судья</small></div><span class="arrow">→</span>
+          <div class="node" id="ep-n3"><b>Отчёт</b><small>доля, регрессии</small></div><span class="arrow">→</span>
+          <div class="node" id="ep-n4"><b>Решение</b><small>принять / откатить</small></div>
+        </div>
+        <div class="ep-log" id="ep-log" aria-live="polite">Нажмите «Дальше» или «Авто».</div>
+        <div class="row">
+          <button class="btn quiet" type="button" id="ep-prev">← Назад</button>
+          <button class="btn" type="button" id="ep-next">Дальше →</button>
+          <button class="btn secondary" type="button" id="ep-play">▶ Авто</button>
+          <button class="btn quiet" type="button" id="ep-reset">Сначала</button>
+          <span class="task" id="ep-label"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. ПРАКТИКА ============ -->
+    <section class="step" id="practice">
+      <div class="step-head">
+        <span class="step-tag"><b>4</b> Тесты</span>
+        <h2>Проверьте себя</h2>
+        <p>Код писать не нужно. Где верный ответ один, он засчитывается по клику. Где написано «Отметьте все верные ответы», выберите все подходящие и нажмите «Проверить»: зачёт только при точном совпадении. Ответы сохраняются в браузере.</p>
+      </div>
+
+      <div class="quiz">
+        <h3>Вопросы по уроку</h3>
+        <div class="q" data-q="l8-one-run">
+          <p>Вы поменяли скил и один раз запустили агента. Задача решена. Что это доказывает?</p>
+          <div class="options">
+            <button>Что новый скил лучше старого</button>
+            <button data-right>Почти ничего: агент недетерминирован, нужна доля успехов на наборе задач</button>
+            <button>Что скил работает во всех случаях</button>
+          </div>
+          <p class="why">Один прогон — один глоток супа. Старый скил тоже мог решить эту задачу. Выводы делают по серии задач и повторов.</p>
+        </div>
+        <div class="q" data-q="l8-grader">
+          <p>Какой грейдер лучше всего подходит для задачи «исправь баг в расчёте НДС»?</p>
+          <div class="options">
+            <button>LLM-судья, который прочитает diff</button>
+            <button>Точное совпадение diff с эталонным</button>
+            <button data-right>Запуск тестов на расчёт НДС после правки</button>
+          </div>
+          <p class="why">Тесты проверяют результат, а не слова. Правильный фикс можно написать многими способами, поэтому сравнение с эталонным diff не годится.</p>
+        </div>
+        <div class="q" data-q="l8-noise">
+          <p>Старая версия решила 74% задач, новая — 78%. В наборе 20 задач. Какой вывод честный?</p>
+          <div class="options">
+            <button>Новая версия лучше на 4%, можно выкатывать</button>
+            <button data-right>Разница в пределах шума. Нужно больше задач или повторов, плюс проверить регрессии</button>
+            <button>Новая версия хуже, раз рост такой маленький</button>
+          </div>
+          <p class="why">На 20 задачах погрешность около ±20%. Разница в 4 пункта ничего не доказывает ни в одну сторону.</p>
+        </div>
+        <div class="q" data-q="l8-judge">
+          <p>LLM-судья стабильно ставит высокие оценки длинным ответам. Что делать?</p>
+          <div class="options">
+            <button data-right>Дать конкретную рубрику и сверить судью с оценками людей на примерах</button>
+            <button>Попросить судью «быть объективным»</button>
+            <button>Обрезать все ответы до одинаковой длины</button>
+          </div>
+          <p class="why">Конкретные пункты рубрики не зависят от длины. Сверка с людьми показывает, где судья ошибается, — а значит, можно ли ему верить.</p>
+        </div>
+        <div class="q" data-q="l8-eval-parts" data-multi>
+          <p>Из чего состоит eval?</p>
+          <div class="options">
+            <button data-right>Набор задач — вход для агента</button>
+            <button data-right>Грейдер — правило «решено или не решено»</button>
+            <button>Ревью каждого ответа агента человеком</button>
+            <button data-right>Сравнение доли успехов со старой версией</button>
+          </div>
+          <p class="why">Четыре части: набор задач, грейдер, прогон и сравнение. Люди в eval нужны точечно — например, чтобы сверить LLM-судью на 20–30 примерах. Проверять руками каждый ответ — это уже не eval, а ручное тестирование.</p>
+        </div>
+        <div class="q" data-q="l8-grader-fit" data-multi>
+          <p>Для каких задач хватит простого грейдера — точного совпадения или проверки структуры?</p>
+          <div class="options">
+            <button data-right>Отнести обращение к классу billing, bug или question</button>
+            <button data-right>Вернуть JSON с полями <code>order_id</code> и <code>status</code></button>
+            <button>Написать вежливое письмо клиенту про задержку заказа</button>
+            <button data-right>Найти в тексте номер заказа по шаблону</button>
+          </div>
+          <p class="why">У этих задач один верный ответ или чёткая форма, поэтому проверка простая и надёжная. Хорошее письмо можно написать сотней способов: тут нужен LLM-судья с конкретной рубрикой.</p>
+        </div>
+        <div class="q" data-q="l8-before-release" data-multi>
+          <p>Новая версия решила 80% задач, старая — 75%. Что ещё проверить перед выкаткой?</p>
+          <div class="options">
+            <button data-right>Какие задачи старая версия решала, а новая — нет</button>
+            <button data-right>Цену и время на одну задачу</button>
+            <button data-right>Не укладывается ли разница в шум при вашем размере набора</button>
+            <button>Ничего: общий процент вырос, значит, версия лучше</button>
+          </div>
+          <p class="why">Например, версия Б лучше в среднем, но сломала задачу 7. Версия на пару процентов лучше, но вдвое дороже, — не всегда победа. А 5 пунктов на небольшом наборе легко оказываются шумом.</p>
+        </div>
+        <div class="q" data-q="l8-passk" data-multi>
+          <p>Агент решил задачу 3 раза из 10 попыток. Что верно?</p>
+          <div class="options">
+            <button data-right>pass@1 — 30%, обычная доля успехов</button>
+            <button data-right>pass@3 выше: среди трёх попыток хоть одна удачная примерно в 71% случаев</button>
+            <button>pass^3 тоже около 71%</button>
+            <button data-right>Для агента в проде важнее pass^k: он должен справляться каждый раз</button>
+          </div>
+          <p class="why">pass@k — хотя бы одна удача из k попыток, с ростом k он растёт. pass^k — удачны все k, при 3 из 10 это меньше 1%. В работе у агента обычно нет второй попытки, поэтому надёжность меряют по pass^k.</p>
+        </div>
+        <div class="q" data-q="l8-shrink-noise">
+          <p>Как уменьшить шум, чтобы честно сравнить две версии?</p>
+          <div class="options">
+            <button>Сравнивать лучший прогон каждой версии</button>
+            <button data-right>Взять больше задач и повторов: погрешность падает с ростом их числа</button>
+            <button>Запускать eval ночью, когда API меньше загружен</button>
+          </div>
+          <p class="why">Погрешность — примерно 2 · √(p·(1−p)/n). При p = 0,7 и 20 задачах это ±20%, при 200 — ±6,5%. Лучший прогон — та же удачная ложка супа. Загрузка API на разброс ответов почти не влияет.</p>
+        </div>
+        <div class="q" data-q="l8-one-change">
+          <p>Вы поменяли и промпт, и модель. Eval показал +8 пунктов. Что не так?</p>
+          <div class="options">
+            <button>Ничего: рост большой, можно выкатывать</button>
+            <button data-right>Непонятно, что дало эффект. Меняйте одну вещь за раз и гоняйте обе версии на одном наборе</button>
+            <button>Надо было заодно поменять и скилы, чтобы рост был ещё больше</button>
+          </div>
+          <p class="why">Может, новая модель дала +12, а новый промпт отнял 4. Это A/B-сравнение: одно изменение, один и тот же набор задач. Тогда понятно, что оставить, а что откатить.</p>
+        </div>
+        <div class="q" data-q="l8-task-source" data-multi>
+          <p>Откуда брать задачи для eval-набора?</p>
+          <div class="options">
+            <button data-right>Из закрытых багов, к которым есть тест</button>
+            <button data-right>Из сессий, где агент ошибся в работе</button>
+            <button>Попросить модель придумать 500 задач и взять их без проверки</button>
+            <button data-right>Из частых тикетов пользователей</button>
+          </div>
+          <p class="why">Лучшие задачи — настоящие. Каждая ошибка агента в работе — кандидат в набор, чтобы она не повторилась. Задачи, выдуманные моделью без проверки, часто проще реальных, а их эталоны бывают неверными.</p>
+        </div>
+        <div class="q" data-q="l8-judge-bias" data-multi>
+          <p>Какие перекосы бывают у LLM-судьи?</p>
+          <div class="options">
+            <button data-right>Ставит выше длинные ответы</button>
+            <button data-right>При сравнении двух ответов чаще выбирает первый</button>
+            <button>Всегда занижает оценки, поэтому ему нельзя давать рубрику</button>
+            <button data-right>Мягче оценивает тексты своей же модели</button>
+          </div>
+          <p class="why">Судья — тоже модель со своими перекосами. Помогают конкретная рубрика, перестановка вариантов местами и сверка с людьми. Рубрика, наоборот, делает оценку прозрачной: видно, какой пункт провален.</p>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>Задание на своём проекте <span class="hint">— 30 минут</span></summary>
+        <div class="more-body">
+          <ol>
+            <li>Выберите одну повторяющуюся задачу, которую вы даёте агенту. Например, «напиши тест к сервису» или «объясни ошибку из лога».</li>
+            <li>Соберите 10 настоящих примеров в файл <code>evals/&lt;задача&gt;.jsonl</code>: вход и что считается успехом.</li>
+            <li>Выберите грейдер: тесты, структура, точное совпадение или рубрика для судьи.</li>
+            <li>Прогоните агента по 3 раза на каждом примере. Запишите долю успехов. Это ваша точка отсчёта.</li>
+            <li>Поменяйте одну вещь в инструкциях и прогоните снова. Сравните долю успехов и отдельно найдите задачи, которые стали хуже.</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <!-- ============ 5. ЧЕК-ЛИСТ ============ -->
+    <section class="step" id="checklist">
+      <div class="step-head">
+        <span class="step-tag"><b>5</b> Чек-лист</span>
+        <h2>Отметьте, что усвоили</h2>
+      </div>
+      <ul class="checklist" data-id="main">
+        <li>Могу назвать четыре части eval: набор задач, грейдер, прогон, сравнение.</li>
+        <li>Знаю четыре вида грейдеров и когда какой брать.</li>
+        <li>Понимаю разницу между pass@k и pass^k.</li>
+        <li>Понимаю, почему 20 задач мало для вывода о разнице в несколько процентов.</li>
+        <li>Смотрю не только на общий процент, но и на регрессии по задачам.</li>
+        <li>Знаю риски LLM-судьи и как их снижать.</li>
+        <li>Ответил на вопросы урока про грейдеры, шум и сравнение версий.</li>
+      </ul>
+      <div class="tip done-banner"><b>Урок пройден</b>Теперь изменения в агенте можно доказывать цифрами. Дальше — как перевести на такой подход целый проект.</div>
+    </section>
+
+    <!-- ============ 6. ССЫЛКИ ============ -->
+    <section class="step" id="links">
+      <div class="step-head">
+        <span class="step-tag"><b>6</b> Ссылки</span>
+        <h2>Что почитать и где попробовать</h2>
+      </div>
+      <p class="task">Материалы на русском отмечены зелёной меткой. Все ссылки проверены 18 октября 2026 года.</p>
+      <div class="links">
+        <div><h3>Почитать</h3><ul><li><a href="https://habr.com/ru/articles/905728/" target="_blank" rel="noopener">LLM-судья: как LLM отсекает правду от лжи?</a><span>LLM-as-judge: типы судей, промпты для оценки, плюсы и минусы. <span class="pill ok">рус., перевод</span></span></li><li><a href="https://habr.com/ru/articles/1050736/" target="_blank" rel="noopener">Evals: что должен знать каждый AI-инженер в 2026</a><span>зачем evals, оценка по результату, а не по словам агента, типичные ошибки. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/articles/1042924/" target="_blank" rel="noopener">Evals для чайников</a><span>минимальный набор evals, чтобы понять, где именно ломается агент. <span class="pill ok">рус.</span></span></li><li><a href="https://platform.claude.com/docs/ru/test-and-evaluate/develop-tests" target="_blank" rel="noopener">Определение критериев успеха и создание оценок</a><span>официально: как задать критерии и собрать тестовый набор, включая оценку моделью. <span class="pill ok">рус., офиц.</span></span></li><li><a href="https://www.promptfoo.dev/docs/getting-started/" target="_blank" rel="noopener">Getting started — Promptfoo</a><span>первый конфиг: промпты, тест-кейсы, проверки, сравнение вариантов. <span class="pill">англ.</span></span></li></ul></div>
+        <div><h3>Песочницы по теме</h3><ul><li><a href="https://www.promptfoo.dev/docs/usage/web-ui/" target="_blank" rel="noopener">Promptfoo</a><span>локально через `npx promptfoo@latest init`, затем `promptfoo view`: таблица сравнения двух промптов. <span class="pill warn">локально, npx</span></span></li><li><a href="https://abtestguide.com/calc/" target="_blank" rel="noopener">A/B-Test Calculator</a><span>проверить, значима ли разница между двумя версиями промпта или скилла.</span></li><li><a href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">JupyterLite</a><span>посчитать долю прошедших кейсов и сравнить прогоны в Python без установки.</span></li></ul></div>
+        <div><h3>Запустить код из урока</h3><ul><li><a href="https://www.typescriptlang.org/play" target="_blank" rel="noopener">TypeScript Playground</a><span>JS и TS из примеров урока: вставить и запустить кнопкой Run.</span></li><li><a href="https://3v4l.org/" target="_blank" rel="noopener">3v4l.org</a><span>PHP-примеры урока на любой версии PHP.</span></li><li><a href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">JupyterLite</a><span>Python-примеры урока прямо в браузере, без установки.</span></li></ul></div>
+      </div>
+    </section>
+  </main>
+</div>
+<style>
+.hc .dots { display: flex; flex-wrap: wrap; gap: 4px; min-height: 1.2rem; }
+.hc .dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--hc-surface-2); border: 1px solid var(--hc-line); }
+.hc .dots i.y { background: var(--hc-ok); border-color: var(--hc-ok); animation: hc-pop 0.2s ease-out; }
+.hc .dots i.n { background: var(--hc-bad); border-color: var(--hc-bad); animation: hc-pop 0.2s ease-out; }
+.hc .dots.small i { width: 8px; height: 8px; }
+.hc .sip-row { display: grid; gap: 0.4rem; }
+.hc .sip-row .row b { font-family: var(--hc-f-mono); }
+.hc .ns-line { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 9rem; gap: 0.75rem; align-items: center; }
+.hc .ns-line .rate { font: 600 var(--hc-fs-sm) var(--hc-f-mono); text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) {
+.hc .ns-line { grid-template-columns: minmax(0, 1fr); }
+.hc .ns-line .rate { text-align: left; }
+}
+.hc .gc-table select { min-width: 11rem; }
+.hc .gc-fb { font-size: var(--hc-fs-xs); color: var(--hc-muted); }
+.hc .gc-fb.ok { color: var(--hc-ok); }
+.hc .gc-fb.bad { color: var(--hc-bad); }
+.hc .matrix td.num { font-family: var(--hc-f-mono); }
+.hc .matrix td.up { background: var(--hc-ok-soft); color: var(--hc-ok); font-weight: 600; }
+.hc .matrix td.down { background: var(--hc-bad-soft); color: var(--hc-bad); font-weight: 600; }
+.hc .matrix th.cur, .hc .matrix td.cur { outline: 2px solid var(--hc-accent); outline-offset: -2px; }
+.hc .ep-log { font-size: var(--hc-fs-sm); background: var(--hc-bg); border-radius: var(--hc-r-sm); padding: 0.7rem 0.9rem; min-height: 4.5rem; }
+</style>
+</div><nav class="hc-pager" aria-label="Переход между уроками"><a href="/harness-workshop/oshibki-agenta/" class=""><small>← Назад</small>Урок 7. Ловим ошибки агента автоматически</a><a href="/harness-workshop/agent-v-starom-proekte/" class="next"><small>Дальше →</small>Урок 9. Агент в старом проекте</a></nav><aside class="hc-try"><div><b>Попробуйте на своём проекте</b><p>Задания из урока можно сделать в Klepa AI: агент работает прямо в VS Code, без VPN, есть бесплатные модели.</p></div><div class="hc-try-actions"><a class="hc-try-install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить Klepa</a><a href="/quickstart/" class="">Быстрый старт</a></div></aside></div><!--]--></main><footer class="foot"><div class="foot-inner"><div><p class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt="" width="32" height="32"> Klepa AI </p><p class="foot-note"> AI-агент для VS Code. Работает без VPN, оплата МИР и БЕЛКАРТ. </p></div><!--[--><div class="foot-col"><span class="nav-label">Продукт</span><!--[--><a href="/installing/" class="">Установка</a><a href="/quickstart/" class="">Быстрый старт</a><a href="/features/" class="">Возможности</a><a href="/best-practices/" class="">Практики</a><a href="/vibe-coding/" class="">Вайбкодинг</a><a href="/harness-workshop/" class="">Курс</a><a href="/image-generation/" class="">Картинки</a><a href="/marketplace/" class="">Marketplace</a><a href="/support/" class="">Поддержка</a><!--]--></div><div class="foot-col"><span class="nav-label">Сравнения</span><!--[--><a href="/analogi/" class="">Все агенты</a><a href="/vs-claude-code/" class="">vs Claude Code</a><a href="/vs-cursor/" class="">vs Cursor</a><a href="/vs-copilot/" class="">vs Copilot</a><a href="/claude-code-besplatno/" class="">Claude Code бесплатно</a><a href="/claude-code-oplata/" class="">Оплата Claude Code</a><a href="/claude-code-ustanovka/" class="">Установка Claude Code</a><!--]--></div><!--]--><div class="foot-col"><span class="nav-label">Сервис</span><a href="/pricing/" class="">Цены и модели</a><a href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">VS Code Marketplace</a><a href="https://gpt-chat.by/" target="_blank" rel="noopener">Чат</a><!--[--><a href="/about/" class="">О нас</a><a href="/offer/" class="">Публичная оферта</a><a href="/privacy-policy/" class="">Политика конфиденциальности</a><a href="/about/#requisites" class="">Реквизиты и контакты</a><!--]--><button type="button" class="foot-button"> Настройки cookie </button></div></div></footer><span data-v-904500e8></span></div></div><div id="teleports"></div><script>window.__NUXT__={};window.__NUXT__.config={public:{siteUrl:"https://klepa.gpt-chat.by",apiBase:"https://api.gpt-chat.by/api",telegramBotId:"7714752762"},app:{baseURL:"/",buildId:"07b41eb6-5854-4672-a7f8-223f73195f9b",buildAssetsDir:"/_nuxt/",cdnURL:""}}</script>
+<script type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" id="__NUXT_DATA__" data-src="/harness-workshop/izmeryaem-kachestvo/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">[{"state":1,"once":7,"_errors":8,"serverRendered":10,"path":11,"prerenderedAt":12},["Reactive",2],{"$sklepa-login-open":3,"$sklepa-login-consent":3,"$sklepa-login-token":4,"$sklepa-login-refresh":4,"$sklepa-login-session":5,"$sklepa-login-key":4,"$sklepa-login-error":4,"$sklepa-account-label":4,"$sklepa-balance-byn":6,"$sklepa-cookie-consent":6,"$sklepa-cookie-restored":3,"$sklepa-cookie-reopened":3},false,"","idle",null,["Set"],["ShallowReactive",9],{"kurs-izmeryaem-kachestvo":6},true,"\u002Fharness-workshop\u002Fizmeryaem-kachestvo\u002F",1793027418612]</script></body></html>

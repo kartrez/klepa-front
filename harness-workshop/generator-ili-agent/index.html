@@ -1,0 +1,620 @@
+<!DOCTYPE html><html  lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Урок 6. Генератор или агент: что выгоднее генерировать по правилам — курс «Агент под контролем»</title>
+<style>:root{color-scheme:dark;--bg:#10140f;--bg-raised:#171d15;--ink:#e7f0df;--muted:#a3b09c;--line:#2a3526;--accent:#d6f25c;--accent-ink:#17200c;--mono:"IBM Plex Mono","Cascadia Mono","Segoe UI Mono",ui-monospace,monospace;--sans:"Segoe UI","PT Root UI",system-ui,sans-serif;--topbar:64px}*{box-sizing:border-box}html{scroll-padding-top:calc(var(--topbar) + 1rem)}#__nuxt,body,html{background:var(--bg);color:var(--ink);margin:0;min-height:100%}body{font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}a{color:inherit}::-moz-selection{background:var(--accent);color:var(--accent-ink)}::selection{background:var(--accent);color:var(--accent-ink)}.shell{display:flex;flex-direction:column;min-height:100vh}.topbar{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:#10140fe0;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.topbar-row{align-items:center;display:flex;gap:1.5rem;height:var(--topbar);margin:0 auto;width:min(1280px,calc(100% - 2rem))}.wordmark{align-items:center;display:inline-flex;font-family:var(--mono);font-weight:700;gap:.5rem;letter-spacing:.02em;margin:0;text-decoration:none;white-space:nowrap}.mark{height:2rem;-o-object-fit:contain;object-fit:contain;width:2rem}.nav{align-items:center;display:flex;gap:.25rem}.nav-link{background:none;border:0;border-radius:8px;color:var(--muted);cursor:pointer;font:inherit;font-size:.93rem;padding:.45rem .65rem;text-decoration:none;white-space:nowrap}.drop.open .drop-toggle,.nav-link.router-link-active,.nav-link:hover{background:var(--bg-raised);color:var(--ink)}.nav-link.chat-link,.nav-link.studio-link{align-items:center;background:var(--accent);color:var(--accent-ink);display:inline-flex;font-weight:700;gap:.35rem}.nav-link.chat-link:hover,.nav-link.studio-link:hover{background:var(--accent);color:var(--accent-ink);filter:brightness(1.08)}.chat-icon,.studio-icon{fill:currentColor;height:1rem;width:1rem}.studio-icon path:last-child{fill:var(--accent)}.caret{font-size:.7rem;opacity:.7}.drop{position:relative}.drop-panel{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px #00000073;display:none;left:0;padding:.5rem;position:absolute;top:100%;width:22rem}.drop.open .drop-panel{display:grid;gap:.15rem}.drop-item{border-radius:8px;display:flex;flex-direction:column;padding:.55rem .7rem;text-decoration:none}.drop-item span{color:var(--muted);font-size:.82rem}.drop-item.router-link-active,.drop-item:hover{background:#d6f25c14}.drop-item:hover b{color:var(--accent)}.actions{align-items:center;display:flex;gap:.6rem;margin-left:auto}.install{color:var(--muted);font-size:.93rem;padding:.45rem .8rem;text-decoration:none}.install:hover{color:var(--ink)}.enter{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font:inherit;font-weight:700;padding:.5rem 1rem}.enter:hover{filter:brightness(1.08)}.menu-toggle{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;display:none;font-size:1rem;height:2.4rem;width:2.4rem}.cabinet,.signed-in{color:var(--ink);font-size:.93rem;font-weight:700;text-decoration:none}.cabinet:hover{color:var(--accent)}.account{align-items:center;display:flex;gap:.6rem}.balance{font-family:var(--mono);font-size:.85rem}.topup{position:relative}.topup summary{background:var(--accent);border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;list-style:none;padding:.45rem .7rem}.topup summary::-webkit-details-marker{display:none}.topup-menu{background:var(--bg-raised);border:1px solid var(--line);border-radius:8px;min-width:7rem;padding:.3rem;position:absolute;right:0;top:calc(100% + .3rem);z-index:5}.topup button{background:none;border:0;color:var(--ink);cursor:pointer;display:block;font:inherit;padding:.4rem .7rem;text-align:left;width:100%}.topup button:hover{color:var(--accent)}.logout{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit}.logout:hover{color:var(--ink)}.nav-label{color:var(--muted);font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.mobile-nav{display:grid;gap:1rem;margin:0 auto;padding:.5rem 0 1.25rem;width:min(1280px,calc(100% - 2rem))}.mobile-nav a{text-decoration:none}.mobile-group{display:grid;gap:.5rem}.session-banner{background:var(--bg-raised);color:var(--accent);margin:0;padding:.7rem 1.5rem;text-align:center}.page{flex:1;margin:0 auto;padding:2rem 0 5rem;width:min(1280px,calc(100% - 2rem))}.foot{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding:3rem 0}.foot-inner{display:grid;gap:2rem;grid-template-columns:1.4fr repeat(2,1fr) 1.2fr;margin:0 auto;width:min(1280px,calc(100% - 2rem))}.foot .wordmark{color:var(--ink)}.foot-note{margin:.8rem 0 0;max-width:18rem}.foot-col{align-content:start;display:grid;gap:.45rem}.foot-col a{text-decoration:none}.foot-col a:hover{color:var(--accent)}.foot-button{background:none;border:0;color:inherit;cursor:pointer;font:inherit;justify-self:start;padding:0}.foot-button:hover{color:var(--accent)}@media(max-width:960px){.install,.nav{display:none}.menu-toggle{display:inline-grid;place-items:center}.foot-inner{grid-template-columns:1fr 1fr}}@media(max-width:520px){.foot-inner{grid-template-columns:1fr}}</style>
+<style>.dialog[data-v-7579e13d]{background:#080a07b8;display:grid;inset:0;padding:1rem;place-items:center;position:fixed;z-index:20}.dialog-card[data-v-7579e13d]{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;padding:1.25rem;width:min(28rem,100%)}label a[data-v-7579e13d]{color:var(--accent)}.error[data-v-7579e13d]{color:#ffb4a8;margin:0 0 .6rem}.choices[data-v-7579e13d]{display:flex;gap:.6rem;margin-top:.8rem}.choices button[data-v-7579e13d],.dialog-card>button[data-v-7579e13d]{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;padding:.7rem 1.1rem}button[data-v-7579e13d]:disabled{cursor:not-allowed;opacity:.45}.dismiss[data-v-7579e13d]{background:transparent;border:1px solid var(--line);color:var(--muted);margin-top:1rem}</style>
+<style>.cookie-notice[data-v-904500e8]{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;bottom:calc(1rem + env(safe-area-inset-bottom,0px));box-shadow:0 12px 32px #00000073;display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;left:50%;padding:.9rem 1.1rem;position:fixed;transform:translate(-50%);width:min(960px,calc(100% - 2rem));z-index:20}.cookie-notice p[data-v-904500e8]{color:var(--muted);flex:1 1 22rem;font-size:.9rem;margin:0}.cookie-notice a[data-v-904500e8]{color:var(--accent)}.cookie-actions[data-v-904500e8]{display:flex;gap:.6rem;margin-left:auto}.cookie-deny[data-v-904500e8]{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font:inherit;padding:.5rem .9rem}.cookie-deny[data-v-904500e8]:hover{border-color:var(--muted)}</style>
+<style>.lesson-page{display:grid;gap:2.5rem;width:100%}.hc-crumbs{color:var(--muted);display:flex;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;gap:.35rem .75rem}.hc-crumbs a{color:var(--accent);text-decoration:none}.hc-crumbs span:before{color:var(--line);content:"/";margin-right:.75rem}.hc-try{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;padding:1.1rem 1.25rem}.hc-try p{color:var(--muted);margin:.3rem 0 0;max-width:40rem}.hc-try-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.75rem}.hc-try-actions a{color:var(--accent)}.hc-try-actions .hc-try-install{background:var(--accent);border-radius:6px;color:var(--accent-ink);font-weight:700;padding:.55rem 1rem;text-decoration:none}.hc-pager{display:grid;gap:.75rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc-pager a{background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;color:var(--ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc-pager a:hover{border-color:var(--accent)}.hc-pager small{color:var(--muted)}.hc-pager .next{grid-column:2;text-align:right}@media(max-width:560px){.hc-pager{grid-template-columns:minmax(0,1fr)}.hc-pager .next{grid-column:1}}</style>
+<style>.hc{--hc-bg:var(--bg);--hc-surface:var(--bg-raised);--hc-surface-2:#1f281c;--hc-ink:var(--ink);--hc-muted:var(--muted);--hc-line:var(--line);--hc-accent:var(--accent);--hc-accent-soft:rgba(214,242,92,.12);--hc-accent-ink:var(--accent-ink);--hc-warm:#f0a35e;--hc-warm-soft:#33261a;--hc-ok:#62d38f;--hc-ok-soft:#15301f;--hc-bad:#ff8a7e;--hc-bad-soft:#3a1c19;--hc-warn:#e6c14d;--hc-warn-soft:#352d12;--hc-code-bg:#0b0f0a;--hc-code-ink:#dfe8d6;--hc-shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);--hc-f-display:var(--sans);--hc-f-body:var(--sans);--hc-f-mono:var(--mono);--hc-fs-xs:.78rem;--hc-fs-sm:.9rem;--hc-fs-md:1.02rem;--hc-fs-lg:1.22rem;--hc-fs-xl:1.45rem;--hc-fs-2xl:clamp(1.6rem,3vw,2.2rem);--hc-r-sm:6px;--hc-r-md:10px;--hc-col:46rem;--hc-wide:80rem;color-scheme:dark}.hc *{box-sizing:border-box}@media(prefers-reduced-motion:reduce){.hc *,.hc :after,.hc :before{animation-duration:.01ms!important;transition-duration:.01ms!important}}.hc{background:var(--hc-bg);color:var(--hc-ink);font:400 var(--hc-fs-md)/1.62 var(--hc-f-body);margin:0;-webkit-font-smoothing:antialiased}.hc a{color:var(--hc-accent);text-underline-offset:3px}.hc a:hover{text-decoration-thickness:2px}.hc :focus-visible{border-radius:4px;outline:3px solid var(--hc-accent);outline-offset:2px}.hc h1,.hc h2,.hc h3,.hc h4{line-height:1.2;margin:0;text-wrap:balance}.hc h1,.hc h2{font-family:var(--hc-f-display);font-weight:600;letter-spacing:-.01em}.hc h1{font-size:var(--hc-fs-2xl)}.hc h2{font-size:var(--hc-fs-xl)}.hc h3{font-size:var(--hc-fs-lg)}.hc h3,.hc h4{font-weight:650}.hc h4{font-size:var(--hc-fs-md)}.hc ol,.hc p,.hc ul{margin:0}.hc ol,.hc ul{padding-left:1.3em}.hc li+li{margin-top:.3em}.hc code,.hc kbd,.hc pre{font-family:var(--hc-f-mono);font-size:.88em}.hc :not(pre)>code{background:var(--hc-code-bg);border-radius:4px;color:var(--hc-code-ink);overflow-wrap:anywhere;padding:.08em .36em}.hc kbd{background:var(--hc-surface);border:solid var(--hc-line);border-radius:4px;border-width:1px 1px 2px;padding:0 .35em}.hc strong{font-weight:650}.hc [hidden]{display:none!important}.hc .visually-hidden{clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}.hc .hc-page{display:grid;gap:2.5rem;grid-template-columns:12rem minmax(0,1fr);margin:0 auto;max-width:var(--hc-wide);padding-block:2rem 4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.hc .rail{align-self:start;position:sticky;top:calc(var(--topbar) + 1.5rem)}.hc .rail ol{counter-reset:step;display:grid;gap:.15rem;list-style:none;margin:0;padding:0}.hc .rail li{margin:0}.hc .rail a{align-items:center;border-radius:var(--hc-r-sm);color:var(--hc-muted);display:flex;font-size:var(--hc-fs-sm);gap:.6rem;padding:.35rem .5rem;text-decoration:none}.hc .rail a:before{border:1.5px solid var(--hc-line);border-radius:50%;content:counter(step);counter-increment:step;display:grid;flex:none;font:600 .72rem var(--hc-f-mono);height:1.5rem;place-items:center;width:1.5rem}.hc .rail a:hover{background:var(--hc-surface-2);color:var(--hc-ink)}.hc .rail a.is-current{color:var(--hc-ink);font-weight:600}.hc .rail a.is-current:before{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .rail .rail-progress{color:var(--hc-muted);font-size:var(--hc-fs-xs);margin-top:1rem}.hc .meter{background:var(--hc-surface-2);border-radius:99px;height:6px;margin-top:.35rem;overflow:hidden}.hc .meter>i{background:var(--hc-ok);display:block;height:100%;transition:width .4s;width:0}.hc .content{display:grid;gap:3.5rem;min-width:0}.hc .content>*{min-width:0}.hc .analogy,.hc .content,.hc .lesson-hero,.hc .level,.hc .outcomes,.hc .prose,.hc .q,.hc .quiz,.hc .stand,.hc .step{grid-template-columns:minmax(0,1fr)}.hc .lesson-hero{display:grid;gap:1rem;max-width:var(--hc-col)}.hc .eyebrow{color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .lead{color:var(--hc-muted);font-size:var(--hc-fs-lg);line-height:1.5}.hc .facts{display:flex;flex-wrap:wrap;gap:.5rem}.hc .fact{border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-muted);font-size:var(--hc-fs-xs);padding:.2rem .65rem}.hc .fact,.hc .outcomes{background:var(--hc-surface)}.hc .outcomes{border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.5rem;padding:1rem 1.2rem}.hc .outcomes h2{color:var(--hc-muted);font:650 var(--hc-fs-sm) var(--hc-f-body);letter-spacing:.06em;text-transform:uppercase}.hc .step{display:grid;gap:1.1rem;scroll-margin-top:5rem}.hc .step>:not(.stand):not(.wide){max-width:var(--hc-col)}.hc .step-head{display:grid;gap:.35rem}.hc .step-tag{align-items:center;color:var(--hc-muted);display:inline-flex;font:600 var(--hc-fs-xs) var(--hc-f-mono);gap:.5rem;letter-spacing:.08em;text-transform:uppercase}.hc .step-tag b{background:var(--hc-ink);border-radius:4px;color:var(--hc-bg);font-weight:600;padding:.05rem .4rem}.hc .step ol+p,.hc .step p+ol,.hc .step p+p,.hc .step p+ul,.hc .step ul+p{margin-top:0}.hc .prose{display:grid;gap:.85rem}.hc .level{border-left:3px solid var(--hc-line);display:grid;gap:.75rem;padding-left:1rem}.hc .level[data-level="1"]{border-color:var(--hc-ok)}.hc .level[data-level="2"]{border-color:var(--hc-accent)}.hc .level[data-level="3"]{border-color:var(--hc-warm)}.hc .level-tag{color:var(--hc-muted);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.06em;text-transform:uppercase}.hc .analogy{background:var(--hc-warm-soft);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:1.1rem 1.25rem}.hc .analogy .label{color:var(--hc-warm);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .analogy p{font-size:var(--hc-fs-lg);line-height:1.45}.hc .map-pairs{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))}.hc .map-pairs>div{background:var(--hc-surface);border-radius:var(--hc-r-sm);display:grid;font-size:var(--hc-fs-sm);gap:.1rem;padding:.55rem .75rem}.hc .map-pairs b{font-weight:600}.hc .map-pairs span{color:var(--hc-muted)}.hc .note,.hc .tip,.hc .warn{border-radius:var(--hc-r-md);display:block;font-size:var(--hc-fs-sm);padding:.85rem 1rem}.hc .note{background:var(--hc-accent-soft)}.hc .tip{background:var(--hc-ok-soft)}.hc .warn{background:var(--hc-bad-soft)}.hc .note>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .tip>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .warn>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div){margin-top:.45rem}.hc .note>b:first-child,.hc .tip>b:first-child,.hc .warn>b:first-child{display:block;font-size:var(--hc-fs-xs);letter-spacing:.06em;margin-bottom:.35rem;text-transform:uppercase}.hc .term{border-bottom:1.5px dotted var(--hc-accent);cursor:help;position:relative}.hc .term:focus:after,.hc .term:hover:after{background:var(--hc-ink);border-radius:var(--hc-r-sm);box-shadow:var(--hc-shadow);color:var(--hc-bg);content:attr(data-tip);font:400 var(--hc-fs-xs)/1.45 var(--hc-f-body);left:0;max-width:min(20rem,80vw);padding:.5rem .65rem;position:absolute;top:calc(100% + 6px);white-space:normal;width:-moz-max-content;width:max-content;z-index:30}.hc details.more{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md)}.hc details.more>summary{align-items:baseline;cursor:pointer;display:flex;font-size:var(--hc-fs-sm);font-weight:600;gap:.6rem;list-style:none;padding:.7rem 1rem}.hc details.more>summary::-webkit-details-marker{display:none}.hc details.more>summary:before{color:var(--hc-accent);content:"+";flex:none;font:600 1rem var(--hc-f-mono);width:1rem}.hc details.more[open]>summary:before{content:"−"}.hc details.more>summary .hint{color:var(--hc-muted);font-weight:400}.hc details.more>.more-body{display:grid;gap:.75rem;min-width:0;padding:0 1rem 1rem}.hc pre{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font-size:.84rem;line-height:1.55;margin:0;overflow-x:auto;padding:.85rem 1rem;position:relative;-moz-tab-size:2;-o-tab-size:2;tab-size:2}.hc pre .c{color:var(--hc-muted);font-style:italic}.hc pre .k{color:var(--hc-accent);font-weight:600}.hc pre .s{color:var(--hc-ok)}.hc pre .w{color:var(--hc-warm)}.hc .code-wrap{min-width:0;position:relative}.hc .copy-btn{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-body);opacity:.85;padding:.15rem .5rem;position:absolute;right:.4rem;top:.4rem}.hc .copy-btn:hover{color:var(--hc-ink);opacity:1}.hc .code-tabs{display:grid;gap:0;min-width:0}.hc .code-tabs .tab-bar{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:-1px}.hc .code-tabs .tab-bar button{background:transparent;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-mono);padding:.35rem .7rem}.hc .code-tabs .tab-bar button[aria-selected=true]{background:var(--hc-code-bg);border-color:var(--hc-line);color:var(--hc-ink)}.hc .code-tabs pre{border-top-left-radius:0}.hc .stand{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);box-shadow:var(--hc-shadow);display:grid;gap:1rem;min-width:0;padding:1.1rem}.hc .stand-head{align-items:baseline;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between}.hc .stand-head h3{font-size:var(--hc-fs-md)}.hc .stand-head .badge{background:var(--hc-accent-soft);border-radius:4px;color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.15rem .5rem}.hc .stand .task{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .row{align-items:center;display:flex;flex-wrap:wrap;gap:.6rem}.hc .grid-2{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc .grid-3{display:grid;gap:.75rem;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.hc .grid-2,.hc .grid-3{grid-template-columns:minmax(0,1fr)}}.hc .btn{align-items:center;background:var(--hc-accent);border:1px solid var(--hc-accent);border-radius:var(--hc-r-sm);color:var(--hc-accent-ink);cursor:pointer;display:inline-flex;font:600 var(--hc-fs-sm) var(--hc-f-body);gap:.4rem;padding:.5rem .95rem}.hc .btn:hover{filter:brightness(1.08)}.hc .btn:disabled{cursor:not-allowed;filter:none;opacity:.45}.hc .btn.secondary{background:transparent;color:var(--hc-accent)}.hc .btn.quiet{background:transparent;border-color:var(--hc-line);color:var(--hc-muted)}.hc .btn.small{font-size:var(--hc-fs-xs);padding:.25rem .6rem}.hc .chip-btn{background:var(--hc-surface-2);border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-ink);cursor:pointer;font:500 var(--hc-fs-sm) var(--hc-f-body);padding:.3rem .8rem}.hc .chip-btn[aria-pressed=true]{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc label{font-size:var(--hc-fs-sm);font-weight:600}.hc .field{display:grid;gap:.3rem;min-width:0}.hc .field small{color:var(--hc-muted);font-weight:400}.hc input[type=number],.hc input[type=text],.hc select,.hc textarea{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);font:400 var(--hc-fs-sm) var(--hc-f-body);min-width:0;padding:.5rem .65rem;width:100%}.hc textarea{line-height:1.5;resize:vertical}.hc .mono,.hc textarea.code{font-family:var(--hc-f-mono);font-size:.84rem}.hc textarea.code{background:var(--hc-code-bg);color:var(--hc-code-ink);min-height:14rem;overflow:auto;-moz-tab-size:2;-o-tab-size:2;tab-size:2;white-space:pre}.hc input[type=range]{accent-color:var(--hc-accent);width:100%}.hc input[type=checkbox],.hc input[type=radio]{accent-color:var(--hc-accent);height:1.05rem;width:1.05rem}.hc .output{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font:400 .82rem/1.55 var(--hc-f-mono);max-height:22rem;min-height:3rem;overflow:auto;overflow-wrap:anywhere;padding:.75rem .9rem;white-space:pre-wrap}.hc .output:empty:before{color:var(--hc-muted);content:attr(data-empty)}.hc .output .ok{color:var(--hc-ok)}.hc .output .bad{color:var(--hc-bad)}.hc .output .dim{color:var(--hc-muted)}.hc .result-line{font-size:var(--hc-fs-sm);font-weight:600}.hc .result-line.ok{color:var(--hc-ok)}.hc .result-line.bad{color:var(--hc-bad)}.hc .pill{background:var(--hc-surface-2);border-radius:4px;color:var(--hc-muted);display:inline-block;font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.1rem .45rem}.hc .pill.ok{background:var(--hc-ok-soft);color:var(--hc-ok)}.hc .pill.bad{background:var(--hc-bad-soft);color:var(--hc-bad)}.hc .pill.warn{background:var(--hc-warn-soft);color:var(--hc-warn)}.hc .pill.accent{background:var(--hc-accent-soft);color:var(--hc-accent)}.hc .flow{align-items:stretch;display:flex;flex-wrap:wrap;gap:.4rem}.hc .flow .node{background:var(--hc-surface-2);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);display:grid;flex:1 1 8rem;font-size:var(--hc-fs-sm);gap:.15rem;min-width:0;padding:.55rem .7rem;transition:border-color .25s,background .25s,transform .25s}.hc .flow .node small{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .flow .node.is-active{background:var(--hc-accent-soft);border-color:var(--hc-accent);transform:translateY(-2px)}.hc .flow .node.is-done{border-color:var(--hc-ok)}.hc .flow .node.is-bad{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .flow .arrow{align-self:center;color:var(--hc-muted);font-family:var(--hc-f-mono)}@media(max-width:560px){.hc .flow{flex-direction:column}.hc .flow .arrow{align-self:center;transform:rotate(90deg)}}.hc .table-wrap{min-width:0;overflow-x:auto}.hc table{border-collapse:collapse;font-size:var(--hc-fs-sm);width:100%}.hc td,.hc th{border-bottom:1px solid var(--hc-line);padding:.45rem .6rem;text-align:left;vertical-align:top}.hc th{color:var(--hc-muted);font-size:var(--hc-fs-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase}.hc td.num,.hc th.num{font-variant-numeric:tabular-nums;text-align:right}.hc .quiz{display:grid;gap:1rem}.hc .q{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:.9rem 1rem}.hc .q>p{font-weight:600}.hc .q .options{display:grid;gap:.4rem}.hc .q .options button{background:var(--hc-bg);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);cursor:pointer;font:400 var(--hc-fs-sm)/1.45 var(--hc-f-body);padding:.5rem .75rem;text-align:left}.hc .q .options button:hover{border-color:var(--hc-accent)}.hc .q .options button.is-right{background:var(--hc-ok-soft);border-color:var(--hc-ok)}.hc .q .options button.is-wrong{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .q .why{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .quiz-score{color:var(--hc-muted)}.hc .q .q-kind,.hc .quiz-score{font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs)}.hc .q .q-kind{background:var(--hc-warn-soft);border-radius:999px;color:var(--hc-warn);justify-self:start;padding:.1rem .6rem}.hc .q[data-multi] .options button{padding-left:2.1rem;position:relative}.hc .q[data-multi] .options button:before{border:1.5px solid var(--hc-muted);border-radius:3px;content:"";height:.85rem;left:.7rem;position:absolute;top:.68rem;width:.85rem}.hc .q[data-multi] .options button[aria-pressed=true]{border-color:var(--hc-accent)}.hc .q[data-multi] .options button[aria-pressed=true]:before{background:var(--hc-accent);border-color:var(--hc-accent);box-shadow:inset 0 0 0 2px var(--hc-bg)}.hc .q[data-multi] .options button.is-right{border-color:var(--hc-ok)}.hc .q[data-multi] .options button.is-wrong{border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-wrong:before{background:var(--hc-bad);border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-right:before{background:var(--hc-ok);border-color:var(--hc-ok)}.hc .q>p.why{font-weight:400}.hc .q .options button.is-missed{border-color:var(--hc-ok);border-style:dashed}.hc .q .options button.is-missed:after{color:var(--hc-ok);content:" — тоже верный";font-size:var(--hc-fs-xs)}.hc .q .q-actions{display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;margin:0;min-width:0;padding:.75rem}.hc .stage3d-view{aspect-ratio:16/9;background:radial-gradient(120% 90% at 50% 30%,#1d2619 0,var(--hc-bg) 75%);border-radius:var(--hc-r-sm);min-height:16rem;overflow:hidden;position:relative}.hc .stage3d-view canvas{cursor:grab;display:block;height:100%;width:100%}.hc .stage3d-view canvas:active{cursor:grabbing}.hc .stage3d-labels{inset:0;overflow:hidden;pointer-events:none;position:absolute}.hc .stage3d-label{background:#10140fc7;border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-ink);font:600 var(--hc-fs-xs)/1.2 var(--hc-f-mono);left:0;margin-top:-6px;padding:.12rem .4rem;position:absolute;top:0;transition:opacity .2s;white-space:nowrap}.hc .stage3d-label.accent{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-label.warm{background:var(--hc-warm);border-color:var(--hc-warm);color:#2a1a0c}.hc .stage3d-label.bad{background:var(--hc-bad);border-color:var(--hc-bad);color:#2a0f0c}.hc .stage3d-label.ok{background:var(--hc-ok);border-color:var(--hc-ok);color:#0c2416}.hc .stage3d-label.dim{color:var(--hc-muted);font-weight:400}.hc .stage3d-gate{background:var(--hc-accent);border:0;border-radius:999px;bottom:.5rem;color:var(--hc-accent-ink);font:600 var(--hc-fs-xs)/1 var(--hc-f-body);padding:.55rem .9rem;position:absolute;right:.5rem}.hc .stage3d.is-active .stage3d-view{outline:2px solid var(--hc-accent)}.hc .stage3d-bar{align-items:center;display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d-range{accent-color:var(--hc-accent);flex:1 1 8rem;min-width:6rem}.hc .stage3d-clock{color:var(--hc-muted);font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs);min-width:6.5rem}.hc .stage3d-zoom{min-width:2.2rem}.hc .stage3d-chapters{display:flex;flex-wrap:wrap;gap:.35rem}.hc .stage3d-chip{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:999px;color:var(--hc-muted);cursor:pointer;font:400 var(--hc-fs-xs)/1.2 var(--hc-f-body);padding:.3rem .65rem}.hc .stage3d-chip:hover{border-color:var(--hc-accent);color:var(--hc-ink)}.hc .stage3d-chip.is-current{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-caption{font-size:var(--hc-fs-sm);min-height:3.2em}.hc .stage3d-caption b{color:var(--hc-accent)}.hc .stage3d-hint{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .stage3d-alt{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .stage3d.is-ready .stage3d-alt{height:1px;overflow:hidden;position:absolute;width:1px;clip:rect(0 0 0 0);white-space:nowrap}.hc .stage3d.is-fallback .stage3d-bar,.hc .stage3d.is-fallback .stage3d-caption,.hc .stage3d.is-fallback .stage3d-chapters,.hc .stage3d.is-fallback .stage3d-hint,.hc .stage3d.is-fallback .stage3d-view{display:none}.hc .stage3d.is-fallback .stage3d-alt{height:auto;overflow:visible;position:static;width:auto;clip:auto;white-space:normal}@media(max-width:640px){.hc .stage3d-view{aspect-ratio:1/1}.hc .stage3d-chapters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.1rem;scrollbar-width:none}.hc .stage3d-chip{flex:none}.hc .stage3d-label{font-size:.66rem;padding:.08rem .3rem}}.hc .checklist{display:grid;gap:.35rem;list-style:none;padding:0}.hc .checklist li{margin:0}.hc .checklist label{align-items:flex-start;border-radius:var(--hc-r-sm);cursor:pointer;display:flex;font-size:var(--hc-fs-md);font-weight:400;gap:.65rem;padding:.45rem .6rem}.hc .checklist label:hover{background:var(--hc-surface)}.hc .checklist input{flex:none;margin-top:.3rem}.hc .checklist input:checked+span{color:var(--hc-muted);text-decoration:line-through;text-decoration-color:var(--hc-ok)}.hc .done-banner{display:none}.hc .done-banner.is-shown{display:block}.hc .links{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr))}.hc .links h3{color:var(--hc-muted);font-size:var(--hc-fs-sm);letter-spacing:.06em;margin-bottom:.5rem;text-transform:uppercase}.hc .links ul{display:grid;gap:.6rem;list-style:none;padding:0}.hc .links li{display:grid;font-size:var(--hc-fs-sm);gap:.1rem;margin:0}.hc .links li a{font-weight:600}.hc .links li span{color:var(--hc-muted)}.hc .pager{display:grid;gap:.75rem;grid-template-columns:1fr 1fr}.hc .pager a{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);color:var(--hc-ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc .pager a:hover{border-color:var(--hc-accent)}.hc .pager small{color:var(--hc-muted)}.hc .pager .next{grid-column:2;text-align:right}.hc .footer-note{color:var(--hc-muted);font-size:var(--hc-fs-xs)}@media(max-width:900px){.hc .hc-page{gap:1.5rem;grid-template-columns:minmax(0,1fr);padding-block:1.25rem 3rem}.hc .rail{background:var(--hc-bg);margin-inline:-4px;padding-block:.4rem;position:sticky;top:var(--topbar);z-index:15}.hc .rail ol{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none}.hc .rail a{padding:.25rem .5rem;white-space:nowrap}.hc .rail .rail-progress{display:none}.hc .content{gap:2.75rem}}@keyframes hc-pop{0%{opacity:.4;transform:scale(.92)}to{opacity:1;transform:scale(1)}}.hc .pop{animation:hc-pop .25s ease-out}@keyframes hc-pulse-border{0%,to{box-shadow:0 0 color-mix(in srgb,var(--hc-accent) 45%,transparent)}50%{box-shadow:0 0 0 6px transparent}}.hc .pulse{animation:hc-pulse-border 1.2s ease-out 2}.hc .hc-page{margin:0;max-width:none;padding:0}</style>
+<link rel="stylesheet" href="/_nuxt/kurs.DD10fpVf.css" crossorigin>
+<link rel="preload" as="fetch" crossorigin="anonymous" href="/harness-workshop/generator-ili-agent/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BFZxJiOk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Md4VEwow.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Cx38cRZh.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BayULBOU.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B4Ey_btE.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DXJlw0Jk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/umt8mYvj.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B_31BsbJ.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/ylmHlZv_.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DqDzQPTU.js">
+<script type="module" src="/_nuxt/BFZxJiOk.js" crossorigin></script>
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CTsZqIVY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/R4uVcw0-.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DSW_zuzx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DT9HhtpA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DsIVt1uA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Csp-tBFP.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DVk6OOaH.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CHzdfqXZ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DIqqaU9V.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Caps8ti_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BzyUlbQC.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BXZQtsXx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Ba686JSa.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/D4aieIjQ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Dm8p2LOi.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DMHLwBTJ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C8s7KUif.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CfRiDiXh.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/B7QZ0aMn.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/jI-YWrlY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BbeGPlLB.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DJOctqjL.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/9d2q4aVm.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/2Z7xxhpV.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C3VDPMZ_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DYQ6arQ6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Cy5W8Jx6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DOkdDJzx.js">
+<meta name="description" content="Где выгоднее генератор по правилам, а где агент. Генератор своими руками. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="theme-color" content="#10140f">
+<link rel="icon" type="image/png" href="/images/klepa-mark.png">
+<link rel="apple-touch-icon" href="/images/klepa-mark.png">
+<meta name="keywords" content="кодоген, OpenAPI, шаблоны, курс ИИ-агенты, ИИ для программистов, нейросеть пишет код">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Klepa AI">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Урок 6. Генератор или агент: что выгоднее генерировать по правилам — курс «Агент под контролем»">
+<meta property="og:description" content="Где выгоднее генератор по правилам, а где агент. Генератор своими руками. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta property="og:url" content="https://klepa.gpt-chat.by/harness-workshop/generator-ili-agent/">
+<meta property="og:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Klepa AI — AI-агент для VS Code">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Урок 6. Генератор или агент: что выгоднее генерировать по правилам — курс «Агент под контролем»">
+<meta name="twitter:description" content="Где выгоднее генератор по правилам, а где агент. Генератор своими руками. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="twitter:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<link rel="canonical" href="https://klepa.gpt-chat.by/harness-workshop/generator-ili-agent/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Klepa AI","item":"https://klepa.gpt-chat.by/"},{"@type":"ListItem","position":2,"name":"Урок 6. Генератор или агент","item":"https://klepa.gpt-chat.by/harness-workshop/generator-ili-agent/"}]}</script></head><body><div id="__nuxt"><div class="shell"><header class="topbar"><div class="topbar-row"><a href="/" class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt width="32" height="32"> Klepa AI </a><nav class="nav" aria-label="Разделы сайта"><!--[--><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Продукт <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/installing/" class="drop-item"><b>Установка</b><span>Как поставить расширение Klepa в VS Code.</span></a><a href="/quickstart/" class="drop-item"><b>Быстрый старт</b><span>Первый запрос, ключ и бесплатные модели.</span></a><a href="/features/" class="drop-item"><b>Возможности</b><span>Режимы Ask, Plan, Code и Debug и остальные функции плагина.</span></a><a href="/best-practices/" class="drop-item"><b>Практики</b><span>Как ставить задачи, чтобы агент правил нужные файлы.</span></a><a href="/vibe-coding/" class="drop-item"><b>Вайбкодинг</b><span>Что это и как начать писать код с ИИ-агентом.</span></a><a href="/harness-workshop/" class="drop-item"><b>Курс</b><span>Бесплатный курс: как работать с ИИ-агентом в своём проекте.</span></a><a href="/image-generation/" class="drop-item"><b>Картинки</b><span>Генерация изображений прямо из редактора.</span></a><a href="/marketplace/" class="drop-item"><b>Marketplace</b><span>Готовые режимы, навыки и MCP-серверы.</span></a><a href="/support/" class="drop-item"><b>Поддержка</b><span>Вопросы по установке, оплате и работе агента.</span></a><!--]--></div></div><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Сравнения <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/analogi/" class="drop-item"><b>Все агенты</b><span>Klepa рядом с другими агентами для кода.</span></a><a href="/vs-claude-code/" class="drop-item"><b>vs Claude Code</b><span>Чем плагин в редакторе отличается от Claude Code.</span></a><a href="/vs-cursor/" class="drop-item"><b>vs Cursor</b><span>Klepa и Cursor: VPN, оплата и работа в VS Code.</span></a><a href="/vs-copilot/" class="drop-item"><b>vs Copilot</b><span>Автодополнение Copilot и агент, который ведёт задачу.</span></a><a href="/claude-code-besplatno/" class="drop-item"><b>Claude Code бесплатно</b><span>Как попробовать Claude без подписки Cursor.</span></a><a href="/claude-code-oplata/" class="drop-item"><b>Оплата Claude Code</b><span>Оплата картами МИР и БЕЛКАРТ без иностранной карты.</span></a><a href="/claude-code-ustanovka/" class="drop-item"><b>Установка Claude Code</b><span>Команды для Windows, macOS и Linux и что будет при входе.</span></a><!--]--></div></div><!--]--><a href="/pricing/" class="nav-link"> Цены </a><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false"> О сервисе <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/about/" class="drop-item"><b>О нас</b><span>Кто делает Klepa и реквизиты поставщика.</span></a><a href="/offer/" class="drop-item"><b>Публичная оферта</b><span>Договор возмездного оказания услуг.</span></a><a href="/privacy-policy/" class="drop-item"><b>Политика конфиденциальности</b><span>Как обрабатываются персональные данные.</span></a><a href="/about/#requisites" class="drop-item"><b>Реквизиты и контакты</b><span>УНП, адрес и способы связи.</span></a><!--]--></div></div><a class="nav-link" href="https://agent.gpt-chat.by/" target="_blank" rel="noopener"> Агент </a><a class="nav-link studio-link" href="https://video-studio.gpt-chat.by/" target="_blank" rel="noopener"><svg class="studio-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="7" width="22" height="18" rx="4"></rect><path d="M24 13 L30 9 V23 L24 19 Z"></path><path d="M10 12 L17 16 L10 20 Z"></path></svg> Студия </a><a class="nav-link chat-link" href="https://gpt-chat.by/" target="_blank" rel="noopener"><svg class="chat-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7A2.5 2.5 0 0 1 16.5 16H9l-3.6 2.7A.8.8 0 0 1 4 18V6.5Z"></path></svg> Чат </a></nav><div class="actions"><a class="install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить</a><button type="button" class="enter"> Войти </button><button type="button" class="menu-toggle" aria-expanded="false" aria-label="Меню">☰</button></div></div><!----></header><!----><!----><main class="page"><!--[--><div></div><div class="hc lesson-page"><nav class="hc-crumbs" aria-label="Курс"><a href="/harness-workshop/" class="">Агент под контролем</a><span>Часть 3 · Работа по плану</span></nav><div class="hc-lesson"><div class="hc-page">
+  <nav class="rail" aria-label="Шаги урока">
+    <ol>
+      <li><a href="#analogy">Аналогия</a></li>
+      <li><a href="#explain">Объяснение</a></li>
+      <li><a href="#interactive">Интерактив</a></li>
+      <li><a href="#practice">Тесты</a></li>
+      <li><a href="#checklist">Чек-лист</a></li>
+      <li><a href="#links">Ссылки</a></li>
+    </ol>
+    <div class="rail-progress"><span data-meter-label>Пройдено: 0%</span><div class="meter"><i data-meter></i></div></div>
+  </nav>
+
+  <main class="content">
+    <header class="lesson-hero">
+      <span class="eyebrow">Часть 3 · Работа по плану · Урок 6</span>
+      <h1>Генератор или агент: что выгоднее генерировать по правилам</h1>
+      <p class="lead">Часть кода пишется по правилам: DTO, миграции, клиенты API, типы. Агент сделает это каждый раз немного по-разному и за токены. Генератор сделает одинаково, бесплатно и мгновенно. Разберём, где граница.</p>
+      <div class="facts">
+        <span class="fact">~45 минут</span>
+        <span class="fact">3 интерактива</span>
+        <span class="fact">11 вопросов</span>
+        <span class="fact">Примеры: JS · TS · PHP · Python</span>
+      </div>
+      <div class="outcomes">
+        <h2>После урока вы сможете</h2>
+        <ul>
+          <li>объяснить, что такое детерминированный генератор и почему это важно;</li>
+          <li>объяснить формулу «спецификация плюс шаблон равно код» и собрать по ней простой генератор;</li>
+          <li>решать, что отдать генератору, что агенту, а что делать вместе;</li>
+          <li>защитить сгенерированный код от ручных правок и проверить генерацию в CI.</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ============ 1. АНАЛОГИЯ ============ -->
+    <section class="step" id="analogy">
+      <div class="step-head">
+        <span class="step-tag"><b>1</b> Аналогия</span>
+        <h2>Формочка для печенья и лепка руками</h2>
+      </div>
+      <div class="analogy">
+        <span class="label">Представьте</span>
+        <p>Сто одинаковых печений проще выдавить формочкой, чем лепить руками. Руками лепят торт на заказ: он один, и он особенный.</p>
+      </div>
+      <div class="cookies" aria-live="polite">
+        <div class="tray"><h4>Формочка (генератор)</h4><div class="row" id="tray-mold"></div></div>
+        <div class="tray"><h4>Руками (агент)</h4><div class="row" id="tray-hand"></div></div>
+      </div>
+      <div class="row"><button class="btn small" type="button" id="bake">Испечь ещё партию</button><span class="task" id="bake-note">Партия 1: слева все одинаковые, справа каждая своя.</span></div>
+      <div class="map-pairs" aria-label="Соответствия аналогии">
+        <div><b>Формочка</b><span>= шаблон генератора</span></div>
+        <div><b>Тесто</b><span>= спецификация: JSON, OpenAPI, схема</span></div>
+        <div><b>Печенье</b><span>= сгенерированный код</span></div>
+        <div><b>Кондитер с тортом на заказ</b><span>= агент на нестандартной логике</span></div>
+        <div><b>«Все печенья одинаковые?»</b><span>= проверка в CI: генерация не даёт диффа</span></div>
+      </div>
+      <p>Главная мысль: <strong>то, что делается по правилам, делайте правилами</strong>. Агента оставьте там, где нужны понимание и решения.</p>
+    </section>
+
+    <!-- ============ 2. ОБЪЯСНЕНИЕ ============ -->
+    <section class="step" id="explain">
+      <div class="step-head">
+        <span class="step-tag"><b>2</b> Объяснение</span>
+        <h2>От простого к сложному</h2>
+      </div>
+
+      <div class="level" data-level="1">
+        <span class="level-tag">Уровень 1 · Суть</span>
+        <h3>Шаблон плюс данные равно код</h3>
+        <p><strong>Детерминированный</strong> (<span class="term" data-tip="Детерминированность: одинаковый вход всегда даёт одинаковый выход, без случайности.">предсказуемый</span>) значит: тот же вход даёт тот же выход, байт в байт. Модель из урока 1 так не умеет: выбор токенов случайный. Обычная функция умеет.</p>
+        <p>Генератор кода — это функция. На вход — описание (спецификация). Внутри — шаблон. На выход — текст программы.</p>
+        <div class="code-tabs">
+<pre data-lang="js">const entity = { name: "Order", fields: [{ name: "id", type: "number" }, { name: "email", type: "string" }] };
+
+const ts = `export interface ${entity.name} {
+${entity.fields.map(f => `  ${f.name}: ${f.type};`).join("\n")}
+}`;
+// export interface Order {
+//   id: number;
+//   email: string;
+// }</pre>
+<pre data-lang="php">&lt;?php
+$entity = ['name' => 'Order', 'fields' => [['name' => 'id', 'type' => 'number'], ['name' => 'email', 'type' => 'string']]];
+
+$lines = array_map(fn ($f) => "  {$f['name']}: {$f['type']};", $entity['fields']);
+$ts = "export interface {$entity['name']} {\n" . implode("\n", $lines) . "\n}";
+// export interface Order {
+//   id: number;
+//   email: string;
+// }</pre>
+<pre data-lang="py">entity = {"name": "Order", "fields": [{"name": "id", "type": "number"}, {"name": "email", "type": "string"}]}
+
+lines = "\n".join(f"  {f['name']}: {f['type']};" for f in entity["fields"])
+ts = f"export interface {entity['name']} {{\n{lines}\n}}"
+# export interface Order {
+#   id: number;
+#   email: string;
+# }</pre>
+        </div>
+        <div class="tip"><b>Что важно</b>Запустите эту функцию сто раз — получите сто одинаковых файлов. Попросите агента сто раз — получите сто немного разных.</div>
+      </div>
+
+      <div class="level" data-level="2">
+        <span class="level-tag">Уровень 2 · Детали</span>
+        <h3>Где живут генераторы и где граница с агентом</h3>
+        <p>Вы почти наверняка уже пользовались генераторами:</p>
+        <ul>
+          <li><strong>OpenAPI</strong> (<span class="term" data-tip="OpenAPI — стандартный формат описания HTTP API в YAML или JSON: пути, параметры, схемы ответов.">описание API</span>) превращается в клиентов, DTO и заготовки контроллеров;</li>
+          <li><strong>JSON Schema</strong> превращается в типы TypeScript, Python, PHP;</li>
+          <li><strong>описание сущности</strong> превращается в Entity, миграцию, репозиторий (в Symfony это <code>make:entity</code> и <code>doctrine:migrations:diff</code>);</li>
+          <li><strong>protobuf</strong> превращается в клиентов и серверы gRPC.</li>
+        </ul>
+        <p><strong>Генератору отдавайте:</strong> CRUD, DTO, контракты API, маппинги, типы, миграции. Всё, что повторяется и следует правилу.</p>
+        <p><strong>Агенту оставляйте:</strong> нестандартную бизнес-логику, рефакторинг, разбор багов, склейку систем. Всё, где нужно понять смысл.</p>
+        <p><strong>Гибрид работает лучше всего.</strong> Агент пишет или правит спецификацию (это короткий понятный файл). Генератор делает из неё код. Агент дописывает бизнес-логику в оставленные для неё места.</p>
+        <details class="more">
+          <summary>Мини-генератор SQL на четырёх языках <span class="hint">— шаблонные строки</span></summary>
+          <div class="more-body">
+            <p>Один и тот же генератор: JSON с описанием сущности на входе, <code>CREATE TABLE</code> на выходе.</p>
+            <div class="code-tabs">
+<pre data-lang="js">import { readFileSync, writeFileSync } from "node:fs";
+
+const SQL = { int: "INTEGER", string: "VARCHAR", text: "TEXT", bool: "BOOLEAN", decimal: "NUMERIC(12, 2)", datetime: "TIMESTAMP" };
+const snake = s => s.replace(/[A-Z]/g, c => "_" + c.toLowerCase());
+
+function column(f) {
+  let type = SQL[f.type];
+  if (f.type === "string") type += `(${f.length ?? 255})`;
+  const parts = [snake(f.name), type];
+  if (f.primary) parts.push("PRIMARY KEY");
+  else if (!f.nullable) parts.push("NOT NULL");
+  if (f.unique) parts.push("UNIQUE");
+  return "  " + parts.join(" ");
+}
+
+const e = JSON.parse(readFileSync("entities/order.json", "utf8"));
+const sql = `-- GENERATED from entities/order.json. Do not edit.\nCREATE TABLE ${e.table} (\n${e.fields.map(column).join(",\n")}\n);\n`;
+writeFileSync(`migrations/${e.table}.sql`, sql);</pre>
+<pre data-lang="ts">import { readFileSync, writeFileSync } from "node:fs";
+
+type FieldType = "int" | "string" | "text" | "bool" | "decimal" | "datetime";
+interface Field { name: string; type: FieldType; length?: number; nullable?: boolean; unique?: boolean; primary?: boolean }
+interface Entity { name: string; table: string; fields: Field[] }
+
+const SQL: Record&lt;FieldType, string&gt; = { int: "INTEGER", string: "VARCHAR", text: "TEXT", bool: "BOOLEAN", decimal: "NUMERIC(12, 2)", datetime: "TIMESTAMP" };
+const snake = (s: string): string => s.replace(/[A-Z]/g, c => "_" + c.toLowerCase());
+
+function column(f: Field): string {
+  const type = f.type === "string" ? `VARCHAR(${f.length ?? 255})` : SQL[f.type];
+  const parts = [snake(f.name), type];
+  if (f.primary) parts.push("PRIMARY KEY");
+  else if (!f.nullable) parts.push("NOT NULL");
+  if (f.unique) parts.push("UNIQUE");
+  return "  " + parts.join(" ");
+}
+
+const e: Entity = JSON.parse(readFileSync("entities/order.json", "utf8"));
+writeFileSync(`migrations/${e.table}.sql`, `CREATE TABLE ${e.table} (\n${e.fields.map(column).join(",\n")}\n);\n`);</pre>
+<pre data-lang="php">&lt;?php
+// bin/generate-sql.php entities/order.json
+$sqlTypes = ['int' => 'INTEGER', 'text' => 'TEXT', 'bool' => 'BOOLEAN', 'decimal' => 'NUMERIC(12, 2)', 'datetime' => 'TIMESTAMP'];
+$snake = fn (string $s): string => strtolower(preg_replace('/[A-Z]/', '_$0', $s));
+
+$e = json_decode(file_get_contents($argv[1]), true, flags: JSON_THROW_ON_ERROR);
+$columns = [];
+foreach ($e['fields'] as $f) {
+    $type = $f['type'] === 'string' ? sprintf('VARCHAR(%d)', $f['length'] ?? 255) : $sqlTypes[$f['type']];
+    $parts = [$snake($f['name']), $type];
+    if ($f['primary'] ?? false) {
+        $parts[] = 'PRIMARY KEY';
+    } elseif (!($f['nullable'] ?? false)) {
+        $parts[] = 'NOT NULL';
+    }
+    if ($f['unique'] ?? false) {
+        $parts[] = 'UNIQUE';
+    }
+    $columns[] = '  ' . implode(' ', $parts);
+}
+file_put_contents("migrations/{$e['table']}.sql", "CREATE TABLE {$e['table']} (\n" . implode(",\n", $columns) . "\n);\n");</pre>
+<pre data-lang="py">import json
+import re
+import sys
+from pathlib import Path
+
+SQL = {"int": "INTEGER", "text": "TEXT", "bool": "BOOLEAN", "decimal": "NUMERIC(12, 2)", "datetime": "TIMESTAMP"}
+
+def snake(s: str) -> str:
+    return re.sub(r"[A-Z]", lambda m: "_" + m.group().lower(), s)
+
+def column(f: dict) -> str:
+    t = f"VARCHAR({f.get('length', 255)})" if f["type"] == "string" else SQL[f["type"]]
+    parts = [snake(f["name"]), t]
+    if f.get("primary"):
+        parts.append("PRIMARY KEY")
+    elif not f.get("nullable"):
+        parts.append("NOT NULL")
+    if f.get("unique"):
+        parts.append("UNIQUE")
+    return "  " + " ".join(parts)
+
+e = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+body = ",\n".join(column(f) for f in e["fields"])
+Path(f"migrations/{e['table']}.sql").write_text(f"CREATE TABLE {e['table']} (\n{body}\n);\n", encoding="utf-8")</pre>
+            </div>
+          </div>
+        </details>
+        <details class="more">
+          <summary>Готовый генератор по OpenAPI <span class="hint">— пример команды</span></summary>
+          <div class="more-body">
+            <p>Писать свой генератор нужно не всегда. Для OpenAPI есть готовый openapi-generator с шаблонами под десятки языков. Ниже пример: фрагмент спецификации и команда генерации клиента.</p>
+<pre data-lang="yaml">openapi: 3.0.3
+info: { title: Shopik API, version: 1.0.0 }
+paths:
+  /orders/{id}:
+    get:
+      operationId: getOrder
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: Заказ
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Order" }
+components:
+  schemas:
+    Order:
+      type: object
+      required: [id, email, totalKopecks]
+      properties:
+        id: { type: integer }
+        email: { type: string, format: email }
+        totalKopecks: { type: integer }
+        comment: { type: string, nullable: true }</pre>
+<pre data-lang="sh"># пример: TypeScript-клиент для фронтенда
+npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o src/api
+
+# пример: PHP-клиент для другого сервиса
+npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g php -o generated/shopik-client</pre>
+          </div>
+        </details>
+      </div>
+
+      <div class="level" data-level="3">
+        <span class="level-tag">Уровень 3 · Усложнение</span>
+        <h3>Защита сгенерированного кода и экономика</h3>
+        <p><strong>Сгенерированный код не правят руками.</strong> Следующая генерация перезапишет правку, и она тихо пропадёт. Правят спецификацию или шаблон. Как это закрепить:</p>
+        <ul>
+          <li>в начале файла метка <code>GENERATED</code> и откуда он получен;</li>
+          <li>сгенерированные файлы лежат в отдельной папке (например, <code>generated/</code>);</li>
+          <li>в правилах агента: «файлы с меткой GENERATED не правь, правь спецификацию и запусти генератор»;</li>
+          <li><span class="term" data-tip="Хук — скрипт, который harness запускает до или после действия агента. Может запретить действие.">хук</span> (урок 4) запрещает агенту запись в такие файлы;</li>
+          <li>CI запускает генерацию и проверяет, что дифф пустой: <code>make generate &amp;&amp; git diff --exit-code</code>.</li>
+        </ul>
+        <p><strong>Где детерминированность ломается.</strong> Дата генерации в шапке файла, случайные id, порядок ключей словаря, разные версии генератора у разных разработчиков. Каждое из этого даёт дифф без изменений спецификации, и CI-проверка становится бесполезной. Версию генератора фиксируйте, дату не пишите, поля сортируйте стабильно.</p>
+        <div class="note"><b>Экономика</b>40 DTO по спецификации партнёра. Агент: десятки тысяч токенов, полчаса ревью, и при обновлении спецификации всё заново, с новыми мелкими отличиями. Генератор: день на настройку один раз, потом секунды и ноль ревью шаблонного кода. Чем чаще повторяется задача, тем выгоднее генератор.</div>
+        <details class="more">
+          <summary>Проверка генерации в CI <span class="hint">— Makefile и GitHub Actions</span></summary>
+          <div class="more-body">
+<pre data-lang="sh"># Makefile
+generate:
+	node bin/generate-sql.mjs entities/*.json
+	npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o src/api
+
+check-generated: generate
+	git diff --exit-code -- migrations/ src/api/ || (echo "Сгенерированный код устарел: запустите make generate" &amp;&amp; exit 1)</pre>
+<pre data-lang="yaml"># .github/workflows/ci.yml (фрагмент)
+- name: Сгенерированный код совпадает со спецификацией
+  run: make check-generated</pre>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ 3. ИНТЕРАКТИВ ============ -->
+    <section class="step" id="interactive">
+      <div class="step-head">
+        <span class="step-tag"><b>3</b> Интерактив</span>
+        <h2>Генератор в деле</h2>
+      </div>
+
+      <!-- 3.1 Живой генератор -->
+      <div class="stand" id="gen">
+        <div class="stand-head"><h3>Живой генератор: одна спецификация, четыре языка</h3><span class="badge">интерактив 1 из 3</span></div>
+        <p class="task">Меняйте JSON слева. Код справа пересобирается сразу. Типы: <code>int</code>, <code>string</code>, <code>text</code>, <code>bool</code>, <code>decimal</code>, <code>datetime</code>. Флаги: <code>primary</code>, <code>nullable</code>, <code>unique</code>, <code>length</code>. Попробуйте добавить поле, сломать JSON или указать неизвестный тип.</p>
+        <div class="gen-io">
+          <div class="field">
+            <label for="gen-spec">entities/order.json</label>
+            <textarea class="code" id="gen-spec" spellcheck="false"></textarea>
+            <div class="row"><button class="btn small quiet" type="button" id="gen-sample">Вернуть пример</button><button class="btn small quiet" type="button" id="gen-add">+ поле deliveryDate</button></div>
+          </div>
+          <div class="gen-out">
+            <div class="row" role="group" aria-label="Язык результата" id="gen-langs"></div>
+            <ul class="gen-errs" id="gen-errs" aria-live="polite"></ul>
+            <pre id="gen-out"></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.2 Генератор или агент -->
+      <div class="stand" id="who">
+        <div class="stand-head"><h3>Генератор, агент или вместе?</h3><span class="badge">интерактив 2 из 3</span></div>
+        <p class="task">Для каждой задачи выберите исполнителя. После выбора появится объяснение.</p>
+        <div class="cards" id="who-cards"></div>
+        <p class="result-line" id="who-score" aria-live="polite"></p>
+        <details class="more">
+          <summary>Калькулятор: оцените свою задачу <span class="hint">— четыре ползунка</span></summary>
+          <div class="more-body">
+            <div class="sliders">
+              <div class="field"><label for="calc-repeat">Сколько раз задача повторится: <span class="mono" id="calc-repeat-v">10</span></label><input type="range" id="calc-repeat" min="1" max="50" value="10"></div>
+              <div class="field"><label for="calc-var">Насколько разная логика в каждом случае: <span class="mono" id="calc-var-v">2</span> из 10</label><input type="range" id="calc-var" min="0" max="10" value="2"></div>
+              <div class="field"><label for="calc-cost">Цена ошибки: <span class="mono" id="calc-cost-v">6</span> из 10</label><input type="range" id="calc-cost" min="0" max="10" value="6"></div>
+              <div class="field"><label for="calc-vol">Объём кода за раз: <span class="mono" id="calc-vol-v">200</span> строк</label><input type="range" id="calc-vol" min="10" max="2000" step="10" value="200"></div>
+            </div>
+            <div class="verdict" id="calc-verdict" aria-live="polite"></div>
+          </div>
+        </details>
+      </div>
+
+      <!-- 3.3 Два прогона -->
+      <div class="stand" id="twice">
+        <div class="stand-head"><h3>Два прогона: агент и генератор</h3><span class="badge">интерактив 3 из 3</span></div>
+        <p class="task">Одна и та же спецификация, два запуска подряд. Смотрим, совпадёт ли результат байт в байт.</p>
+        <div class="runs2">
+          <div class="run-pane"><h4 id="twice-h1">Прогон 1</h4><div class="code-lines" id="twice-a"></div></div>
+          <div class="run-pane"><h4 id="twice-h2">Прогон 2</h4><div class="code-lines" id="twice-b"></div></div>
+        </div>
+        <p class="task" id="twice-say" aria-live="polite"></p>
+        <div class="row">
+          <button class="btn quiet" type="button" id="twice-prev">← Назад</button>
+          <button class="btn" type="button" id="twice-next">Дальше →</button>
+          <button class="btn secondary" type="button" id="twice-play">▶ Авто</button>
+          <button class="btn quiet" type="button" id="twice-reset">Сначала</button>
+          <span class="task" id="twice-label">Шаг 0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. ПРАКТИКА ============ -->
+    <section class="step" id="practice">
+      <div class="step-head">
+        <span class="step-tag"><b>4</b> Тесты</span>
+        <h2>Проверьте себя</h2>
+        <p>Код писать не нужно. Где верный ответ один, он засчитывается по клику. Где написано «Отметьте все верные ответы», выберите все подходящие и нажмите «Проверить»: зачёт только при точном совпадении. Ответы сохраняются в браузере.</p>
+      </div>
+
+      <div class="quiz">
+        <h3>Вопросы по уроку</h3>
+        <div class="q" data-q="l7-det">
+          <p>Что значит «детерминированный генератор»?</p>
+          <div class="options">
+            <button>Генератор, который написал опытный разработчик</button>
+            <button data-right>Одинаковая спецификация на входе всегда даёт одинаковый код на выходе, байт в байт</button>
+            <button>Генератор, который проверяет код тестами</button>
+          </div>
+          <p class="why">Поэтому результат можно проверять в CI сравнением: если дифф не пустой, значит спецификация и код разошлись.</p>
+        </div>
+        <div class="q" data-q="l7-who">
+          <p>Какую задачу выгоднее отдать генератору, а не агенту?</p>
+          <div class="options">
+            <button>Разобраться, почему тест падает раз в неделю</button>
+            <button data-right>Сделать 40 DTO по OpenAPI-спецификации партнёра и обновлять их при каждой её смене</button>
+            <button>Переписать запутанный расчёт скидок</button>
+          </div>
+          <p class="why">Повторяемо, по правилу, обновляется регулярно. Остальные две задачи требуют понимания: это работа агента.</p>
+        </div>
+        <div class="q" data-q="l7-edit">
+          <p>Агент поправил руками файл с меткой GENERATED. Что произойдёт?</p>
+          <div class="options">
+            <button data-right>Следующая генерация затрёт правку, а CI-проверка покажет дифф. Править надо спецификацию или шаблон</button>
+            <button>Генератор сам перенесёт правку в шаблон</button>
+            <button>Ничего, ручные правки в сгенерированном коде — норма</button>
+          </div>
+          <p class="why">Поэтому в правилах агента пишут «не правь GENERATED», а хук может запретить такую запись.</p>
+        </div>
+        <div class="q" data-q="l7-date">
+          <p>Почему не стоит писать дату генерации в шапку файла?</p>
+          <div class="options">
+            <button>Дата занимает лишние байты</button>
+            <button>Генератор не умеет работать с датами</button>
+            <button data-right>Каждый запуск даёт новый текст: дифф без изменений спецификации, и проверка «генерация без диффа» ломается</button>
+          </div>
+          <p class="why">Это ловит проверка детерминированности: прогнать генератор несколько раз и сравнить результаты. То же со случайными id и нестабильным порядком полей.</p>
+        </div>
+        <div class="q" data-q="l6-gen-fit" data-multi>
+          <p>Что выгодно отдать генератору?</p>
+          <div class="options">
+            <button data-right>Типы TypeScript по JSON Schema</button>
+            <button data-right>Клиент API по OpenAPI-описанию</button>
+            <button>Разбор бага, который воспроизводится раз в неделю</button>
+            <button data-right>Миграцию по описанию сущности</button>
+          </div>
+          <p class="why">Генератору — всё, что повторяется и следует правилу: типы, клиенты, миграции, DTO. Разбор редкого бага требует понимания и гипотез — это работа агента.</p>
+        </div>
+        <div class="q" data-q="l6-gen-nondet" data-multi>
+          <p>Что ломает детерминированность генератора?</p>
+          <div class="options">
+            <button data-right>Дата генерации в шапке файла</button>
+            <button data-right>Случайные id в коде</button>
+            <button data-right>Разные версии генератора у разных разработчиков</button>
+            <button>Метка GENERATED в начале файла</button>
+          </div>
+          <p class="why">Каждое из первых трёх даёт дифф без изменений спецификации, и проверка в CI становится бесполезной. Метка GENERATED одинакова в каждом прогоне: она не мешает, а защищает файл от ручных правок.</p>
+        </div>
+        <div class="q" data-q="l6-gen-guard" data-multi>
+          <p>Как защитить сгенерированный код от ручных правок агента?</p>
+          <div class="options">
+            <button data-right>Метка GENERATED и правило агента «такие файлы не правь, правь спецификацию»</button>
+            <button data-right>Хук, который запрещает агенту запись в папку <code>generated/</code></button>
+            <button data-right>Шаг CI: генерация и <code>git diff --exit-code</code></button>
+            <button>Попросить агента в чате быть аккуратнее</button>
+          </div>
+          <p class="why">Метка и правило объясняют агенту, хук не даёт записать, CI ловит то, что всё же проскочило. Просьба в чате пропадёт вместе с сессией и ничего не гарантирует.</p>
+        </div>
+        <div class="q" data-q="l6-gen-types" data-multi>
+          <p>Генератор переводит типы спецификации в TypeScript. Какие правила разумны?</p>
+          <div class="options">
+            <button data-right><code>decimal</code> → <code>string</code>: деньги не хранят во float</button>
+            <button data-right>Поле с флагом nullable получает <code>| null</code></button>
+            <button><code>int</code> → <code>string</code>, чтобы не терять точность</button>
+            <button><code>datetime</code> → дата в часовом поясе машины, на которой запущен генератор</button>
+          </div>
+          <p class="why">Деньги во float теряют копейки, поэтому decimal передают строкой. Nullable должен быть виден в типе. Целые числа в JS точны до 2⁵³ — строка тут не нужна. Часовой пояс машины делает вывод разным у разных людей: это ломает детерминированность.</p>
+        </div>
+        <div class="q" data-q="l6-gen-sql" data-multi>
+          <p>Генератор делает CREATE TABLE по сущности Order. Что верно?</p>
+          <div class="options">
+            <button data-right>Имя колонки в snake_case: <code>totalKopecks</code> → <code>total_kopecks</code></button>
+            <button data-right>Поле с флагом primary получает <code>PRIMARY KEY</code></button>
+            <button>Колонки лучше выводить в случайном порядке, чтобы не было конфликтов</button>
+          </div>
+          <p class="why">Правила простые и всегда одинаковые — поэтому их и отдают генератору. Случайный порядок дал бы новый дифф на каждом прогоне.</p>
+        </div>
+        <div class="q" data-q="l6-gen-hybrid">
+          <p>Как лучше всего работать в паре генератор и агент?</p>
+          <div class="options">
+            <button>Агент пишет весь код, генератор не нужен</button>
+            <button data-right>Агент правит короткую спецификацию, генератор делает код, агент дописывает бизнес-логику в оставленные места</button>
+            <button>Генератор пишет бизнес-логику, агент — DTO</button>
+          </div>
+          <p class="why">Пара работает так: спецификацию агенту править легко, шаблонный код генератор делает без токенов, а нестандартную логику пишет агент — там нужно понимание.</p>
+        </div>
+        <div class="q" data-q="l6-gen-ci">
+          <p>CI выполнил <code>make generate &amp;&amp; git diff --exit-code</code> и упал. Что это значит?</p>
+          <div class="options">
+            <button>Генератор сломан, его пора удалить</button>
+            <button data-right>Код в репозитории не совпадает с тем, что даёт спецификация: его правили руками или забыли перегенерировать</button>
+            <button>Не прошли тесты бизнес-логики</button>
+          </div>
+          <p class="why">Проверка сравнивает свежую генерацию с тем, что лежит в репозитории. Дифф значит расхождение. Чинят так: правку переносят в спецификацию или шаблон и генерируют заново.</p>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>Задание на своём проекте <span class="hint">— 45 минут</span></summary>
+        <div class="more-body">
+          <ol>
+            <li>Найдите в проекте код, который повторяется по шаблону хотя бы 5 раз: DTO, маппинги, типы ответов API, однотипные контроллеры.</li>
+            <li>Опишите один такой случай как JSON или YAML: только данные, без логики.</li>
+            <li>Напишите генератор на своём языке по образцу из объяснения. Проверьте, что он воспроизводит существующий файл байт в байт или с понятными отличиями.</li>
+            <li>Добавьте в шапку метку GENERATED, а в правила агента строку «такие файлы не правь, правь спецификацию».</li>
+            <li>Добавьте в CI шаг «генерация и <code>git diff --exit-code</code>».</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <!-- ============ 5. ЧЕК-ЛИСТ ============ -->
+    <section class="step" id="checklist">
+      <div class="step-head">
+        <span class="step-tag"><b>5</b> Чек-лист</span>
+        <h2>Отметьте, что усвоили</h2>
+      </div>
+      <ul class="checklist" data-id="main">
+        <li>Могу объяснить, что такое детерминированность и почему модель ею не обладает.</li>
+        <li>Понимаю формулу «спецификация плюс шаблон равно код».</li>
+        <li>Знаю готовые генераторы: OpenAPI, JSON Schema, make:entity, миграции.</li>
+        <li>Различаю задачи для генератора, для агента и для гибрида.</li>
+        <li>Знаю, как защитить сгенерированный код: метка, папка, правило агента, хук, CI.</li>
+        <li>Знаю, что ломает детерминированность: даты, случайные id, порядок полей, версии.</li>
+        <li>Ответил на вопросы урока: что отдать генератору, что ломает детерминированность, как защитить сгенерированный код.</li>
+      </ul>
+      <div class="tip done-banner"><b>Урок пройден</b>Часть работы теперь делает генератор без единого токена. Дальше — как ловить ошибки агента автоматически, ещё до ревью.</div>
+    </section>
+
+    <!-- ============ 6. ССЫЛКИ ============ -->
+    <section class="step" id="links">
+      <div class="step-head">
+        <span class="step-tag"><b>6</b> Ссылки</span>
+        <h2>Что почитать и где попробовать</h2>
+      </div>
+      <p class="task">Материалы на русском отмечены зелёной меткой. Все ссылки проверены 18 октября 2026 года.</p>
+      <div class="links">
+        <div><h3>Почитать</h3><ul><li><a href="https://habr.com/ru/articles/541592/" target="_blank" rel="noopener">Swagger (OpenAPI 3.0)</a><span>подходы code-first и design-first, инструменты Swagger, включая Codegen. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/companies/otus/articles/851512/" target="_blank" rel="noopener">База, которую нужно знать про JSON Schema</a><span>от простой схемы до anyOf/allOf/oneOf и валидации. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/companies/yandex/articles/598125/" target="_blank" rel="noopener">Кодогенерация DTO: зачем она нужна и как её настроить</a><span>опыт Яндекс Go: DTO из схемы вместо ручного кода. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/articles/450100/" target="_blank" rel="noopener">Генерация кода для бекенда. Что генерировать, как и зачем?</a><span>что выгодно генерировать на бэкенде и как устроить проект с генерацией. <span class="pill ok">рус.</span></span></li><li><a href="https://openapi-generator.tech/" target="_blank" rel="noopener">OpenAPI Generator</a><span>официальный генератор клиентов и серверов по OpenAPI, список генераторов (в т.ч. PHP). <span class="pill">англ.</span></span></li></ul></div>
+        <div><h3>Песочницы по теме</h3><ul><li><a href="https://editor.swagger.io/" target="_blank" rel="noopener">Swagger Editor</a><span>написать OpenAPI-описание и сразу увидеть документацию; оттуда же можно сгенерировать код.</span></li><li><a href="https://app.quicktype.io/" target="_blank" rel="noopener">quicktype</a><span>вставить JSON или JSON Schema и получить классы на PHP, TypeScript и др. — один вход, всегда один выход.</span></li><li><a href="https://www.jsonschemavalidator.net/" target="_blank" rel="noopener">JSON Schema Validator</a><span>проверить схему и данные до запуска генератора.</span></li></ul></div>
+        <div><h3>Запустить код из урока</h3><ul><li><a href="https://www.typescriptlang.org/play" target="_blank" rel="noopener">TypeScript Playground</a><span>JS и TS из примеров урока: вставить и запустить кнопкой Run.</span></li><li><a href="https://3v4l.org/" target="_blank" rel="noopener">3v4l.org</a><span>PHP-примеры урока на любой версии PHP.</span></li><li><a href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">JupyterLite</a><span>Python-примеры урока прямо в браузере, без установки.</span></li></ul></div>
+      </div>
+    </section>
+  </main>
+</div>
+<style>
+.hc .cookies { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+@media (max-width: 560px) {
+.hc .cookies { grid-template-columns: minmax(0, 1fr); }
+}
+.hc .tray { background: var(--hc-surface); border-radius: var(--hc-r-md); padding: 0.75rem; display: grid; gap: 0.5rem; }
+.hc .tray h4 { font: 600 var(--hc-fs-xs) var(--hc-f-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--hc-muted); }
+.hc .tray .row { gap: 0.8rem; min-height: 4.2rem; }
+.hc .cookie { width: 3.2rem; height: 3.2rem; background: color-mix(in srgb, var(--hc-warm) 55%, var(--hc-surface)); border: 2px solid var(--hc-warm); transition: border-radius 0.4s, transform 0.4s; }
+.hc .cookie.mold { border-radius: 30% 30% 50% 50%; }
+.hc .gen-io { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 0.9rem; }
+@media (max-width: 860px) {
+.hc .gen-io { grid-template-columns: minmax(0, 1fr); }
+}
+.hc .gen-io textarea.code { min-height: 22rem; }
+.hc .gen-out { display: grid; gap: 0.5rem; min-width: 0; align-content: start; }
+.hc .gen-out pre { min-height: 18rem; max-height: 28rem; }
+.hc .gen-errs { list-style: none; padding: 0; display: grid; gap: 0.3rem; font-size: var(--hc-fs-sm); }
+.hc .gen-errs li { margin: 0; padding: 0.35rem 0.6rem; border-radius: 6px; }
+.hc .gen-errs li.err { background: var(--hc-bad-soft); }
+.hc .gen-errs li.wrn { background: var(--hc-warn-soft); }
+.hc .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 0.6rem; }
+.hc .card { background: var(--hc-bg); border: 1.5px solid var(--hc-line); border-radius: var(--hc-r-sm); padding: 0.65rem 0.75rem; display: grid; gap: 0.5rem; align-content: start; font-size: var(--hc-fs-sm); transition: border-color 0.25s; }
+.hc .card.right { border-color: var(--hc-ok); }
+.hc .card.wrong { border-color: var(--hc-bad); }
+.hc .card .choices { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.hc .card .choices button { font: 500 var(--hc-fs-xs) var(--hc-f-body); border: 1px solid var(--hc-line); background: var(--hc-surface); color: var(--hc-ink); border-radius: 99px; padding: 0.2rem 0.6rem; cursor: pointer; }
+.hc .card .choices button[aria-pressed="true"] { background: var(--hc-ink); color: var(--hc-bg); border-color: var(--hc-ink); }
+.hc .card .expl { color: var(--hc-muted); font-size: var(--hc-fs-xs); }
+.hc .sliders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem 1.2rem; }
+@media (max-width: 640px) {
+.hc .sliders { grid-template-columns: minmax(0, 1fr); }
+}
+.hc .verdict { border-radius: var(--hc-r-sm); padding: 0.7rem 0.9rem; display: grid; gap: 0.3rem; font-size: var(--hc-fs-sm); background: var(--hc-accent-soft); }
+.hc .verdict b { font-size: var(--hc-fs-md); }
+.hc .runs2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+@media (max-width: 760px) {
+.hc .runs2 { grid-template-columns: minmax(0, 1fr); }
+}
+.hc .run-pane { display: grid; gap: 0.3rem; min-width: 0; }
+.hc .run-pane h4 { font: 600 var(--hc-fs-xs) var(--hc-f-mono); color: var(--hc-muted); }
+.hc .code-lines { background: var(--hc-code-bg); color: var(--hc-code-ink); border-radius: var(--hc-r-sm); padding: 0.5rem 0; font: 400 0.76rem/1.6 var(--hc-f-mono); overflow-x: auto; min-height: 15rem; }
+.hc .code-lines div { padding: 0 0.75rem; white-space: pre; }
+.hc .code-lines div.del { background: var(--hc-bad-soft); }
+.hc .code-lines div.add { background: var(--hc-ok-soft); }
+.hc .code-lines .empty { color: var(--hc-muted); padding: 0.5rem 0.75rem; white-space: normal; font-family: var(--hc-f-body); }
+</style>
+</div><nav class="hc-pager" aria-label="Переход между уроками"><a href="/harness-workshop/snachala-specifikaciya/" class=""><small>← Назад</small>Урок 5. Сначала спецификация, потом код</a><a href="/harness-workshop/oshibki-agenta/" class="next"><small>Дальше →</small>Урок 7. Ловим ошибки агента автоматически</a></nav><aside class="hc-try"><div><b>Попробуйте на своём проекте</b><p>Задания из урока можно сделать в Klepa AI: агент работает прямо в VS Code, без VPN, есть бесплатные модели.</p></div><div class="hc-try-actions"><a class="hc-try-install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить Klepa</a><a href="/quickstart/" class="">Быстрый старт</a></div></aside></div><!--]--></main><footer class="foot"><div class="foot-inner"><div><p class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt="" width="32" height="32"> Klepa AI </p><p class="foot-note"> AI-агент для VS Code. Работает без VPN, оплата МИР и БЕЛКАРТ. </p></div><!--[--><div class="foot-col"><span class="nav-label">Продукт</span><!--[--><a href="/installing/" class="">Установка</a><a href="/quickstart/" class="">Быстрый старт</a><a href="/features/" class="">Возможности</a><a href="/best-practices/" class="">Практики</a><a href="/vibe-coding/" class="">Вайбкодинг</a><a href="/harness-workshop/" class="">Курс</a><a href="/image-generation/" class="">Картинки</a><a href="/marketplace/" class="">Marketplace</a><a href="/support/" class="">Поддержка</a><!--]--></div><div class="foot-col"><span class="nav-label">Сравнения</span><!--[--><a href="/analogi/" class="">Все агенты</a><a href="/vs-claude-code/" class="">vs Claude Code</a><a href="/vs-cursor/" class="">vs Cursor</a><a href="/vs-copilot/" class="">vs Copilot</a><a href="/claude-code-besplatno/" class="">Claude Code бесплатно</a><a href="/claude-code-oplata/" class="">Оплата Claude Code</a><a href="/claude-code-ustanovka/" class="">Установка Claude Code</a><!--]--></div><!--]--><div class="foot-col"><span class="nav-label">Сервис</span><a href="/pricing/" class="">Цены и модели</a><a href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">VS Code Marketplace</a><a href="https://gpt-chat.by/" target="_blank" rel="noopener">Чат</a><!--[--><a href="/about/" class="">О нас</a><a href="/offer/" class="">Публичная оферта</a><a href="/privacy-policy/" class="">Политика конфиденциальности</a><a href="/about/#requisites" class="">Реквизиты и контакты</a><!--]--><button type="button" class="foot-button"> Настройки cookie </button></div></div></footer><span data-v-904500e8></span></div></div><div id="teleports"></div><script>window.__NUXT__={};window.__NUXT__.config={public:{siteUrl:"https://klepa.gpt-chat.by",apiBase:"https://api.gpt-chat.by/api",telegramBotId:"7714752762"},app:{baseURL:"/",buildId:"07b41eb6-5854-4672-a7f8-223f73195f9b",buildAssetsDir:"/_nuxt/",cdnURL:""}}</script>
+<script type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" id="__NUXT_DATA__" data-src="/harness-workshop/generator-ili-agent/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">[{"state":1,"once":7,"_errors":8,"serverRendered":10,"path":11,"prerenderedAt":12},["Reactive",2],{"$sklepa-login-open":3,"$sklepa-login-consent":3,"$sklepa-login-token":4,"$sklepa-login-refresh":4,"$sklepa-login-session":5,"$sklepa-login-key":4,"$sklepa-login-error":4,"$sklepa-account-label":4,"$sklepa-balance-byn":6,"$sklepa-cookie-consent":6,"$sklepa-cookie-restored":3,"$sklepa-cookie-reopened":3},false,"","idle",null,["Set"],["ShallowReactive",9],{"kurs-generator-ili-agent":6},true,"\u002Fharness-workshop\u002Fgenerator-ili-agent\u002F",1793027418612]</script></body></html>

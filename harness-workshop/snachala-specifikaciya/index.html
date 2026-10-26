@@ -1,0 +1,594 @@
+<!DOCTYPE html><html  lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Урок 5. Сначала спецификация, потом код: требования, сценарии и жизненный цикл изменения — курс «Агент под контролем»</title>
+<style>:root{color-scheme:dark;--bg:#10140f;--bg-raised:#171d15;--ink:#e7f0df;--muted:#a3b09c;--line:#2a3526;--accent:#d6f25c;--accent-ink:#17200c;--mono:"IBM Plex Mono","Cascadia Mono","Segoe UI Mono",ui-monospace,monospace;--sans:"Segoe UI","PT Root UI",system-ui,sans-serif;--topbar:64px}*{box-sizing:border-box}html{scroll-padding-top:calc(var(--topbar) + 1rem)}#__nuxt,body,html{background:var(--bg);color:var(--ink);margin:0;min-height:100%}body{font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}a{color:inherit}::-moz-selection{background:var(--accent);color:var(--accent-ink)}::selection{background:var(--accent);color:var(--accent-ink)}.shell{display:flex;flex-direction:column;min-height:100vh}.topbar{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:#10140fe0;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.topbar-row{align-items:center;display:flex;gap:1.5rem;height:var(--topbar);margin:0 auto;width:min(1280px,calc(100% - 2rem))}.wordmark{align-items:center;display:inline-flex;font-family:var(--mono);font-weight:700;gap:.5rem;letter-spacing:.02em;margin:0;text-decoration:none;white-space:nowrap}.mark{height:2rem;-o-object-fit:contain;object-fit:contain;width:2rem}.nav{align-items:center;display:flex;gap:.25rem}.nav-link{background:none;border:0;border-radius:8px;color:var(--muted);cursor:pointer;font:inherit;font-size:.93rem;padding:.45rem .65rem;text-decoration:none;white-space:nowrap}.drop.open .drop-toggle,.nav-link.router-link-active,.nav-link:hover{background:var(--bg-raised);color:var(--ink)}.nav-link.chat-link,.nav-link.studio-link{align-items:center;background:var(--accent);color:var(--accent-ink);display:inline-flex;font-weight:700;gap:.35rem}.nav-link.chat-link:hover,.nav-link.studio-link:hover{background:var(--accent);color:var(--accent-ink);filter:brightness(1.08)}.chat-icon,.studio-icon{fill:currentColor;height:1rem;width:1rem}.studio-icon path:last-child{fill:var(--accent)}.caret{font-size:.7rem;opacity:.7}.drop{position:relative}.drop-panel{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px #00000073;display:none;left:0;padding:.5rem;position:absolute;top:100%;width:22rem}.drop.open .drop-panel{display:grid;gap:.15rem}.drop-item{border-radius:8px;display:flex;flex-direction:column;padding:.55rem .7rem;text-decoration:none}.drop-item span{color:var(--muted);font-size:.82rem}.drop-item.router-link-active,.drop-item:hover{background:#d6f25c14}.drop-item:hover b{color:var(--accent)}.actions{align-items:center;display:flex;gap:.6rem;margin-left:auto}.install{color:var(--muted);font-size:.93rem;padding:.45rem .8rem;text-decoration:none}.install:hover{color:var(--ink)}.enter{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font:inherit;font-weight:700;padding:.5rem 1rem}.enter:hover{filter:brightness(1.08)}.menu-toggle{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;display:none;font-size:1rem;height:2.4rem;width:2.4rem}.cabinet,.signed-in{color:var(--ink);font-size:.93rem;font-weight:700;text-decoration:none}.cabinet:hover{color:var(--accent)}.account{align-items:center;display:flex;gap:.6rem}.balance{font-family:var(--mono);font-size:.85rem}.topup{position:relative}.topup summary{background:var(--accent);border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;list-style:none;padding:.45rem .7rem}.topup summary::-webkit-details-marker{display:none}.topup-menu{background:var(--bg-raised);border:1px solid var(--line);border-radius:8px;min-width:7rem;padding:.3rem;position:absolute;right:0;top:calc(100% + .3rem);z-index:5}.topup button{background:none;border:0;color:var(--ink);cursor:pointer;display:block;font:inherit;padding:.4rem .7rem;text-align:left;width:100%}.topup button:hover{color:var(--accent)}.logout{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit}.logout:hover{color:var(--ink)}.nav-label{color:var(--muted);font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.mobile-nav{display:grid;gap:1rem;margin:0 auto;padding:.5rem 0 1.25rem;width:min(1280px,calc(100% - 2rem))}.mobile-nav a{text-decoration:none}.mobile-group{display:grid;gap:.5rem}.session-banner{background:var(--bg-raised);color:var(--accent);margin:0;padding:.7rem 1.5rem;text-align:center}.page{flex:1;margin:0 auto;padding:2rem 0 5rem;width:min(1280px,calc(100% - 2rem))}.foot{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding:3rem 0}.foot-inner{display:grid;gap:2rem;grid-template-columns:1.4fr repeat(2,1fr) 1.2fr;margin:0 auto;width:min(1280px,calc(100% - 2rem))}.foot .wordmark{color:var(--ink)}.foot-note{margin:.8rem 0 0;max-width:18rem}.foot-col{align-content:start;display:grid;gap:.45rem}.foot-col a{text-decoration:none}.foot-col a:hover{color:var(--accent)}.foot-button{background:none;border:0;color:inherit;cursor:pointer;font:inherit;justify-self:start;padding:0}.foot-button:hover{color:var(--accent)}@media(max-width:960px){.install,.nav{display:none}.menu-toggle{display:inline-grid;place-items:center}.foot-inner{grid-template-columns:1fr 1fr}}@media(max-width:520px){.foot-inner{grid-template-columns:1fr}}</style>
+<style>.dialog[data-v-7579e13d]{background:#080a07b8;display:grid;inset:0;padding:1rem;place-items:center;position:fixed;z-index:20}.dialog-card[data-v-7579e13d]{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;padding:1.25rem;width:min(28rem,100%)}label a[data-v-7579e13d]{color:var(--accent)}.error[data-v-7579e13d]{color:#ffb4a8;margin:0 0 .6rem}.choices[data-v-7579e13d]{display:flex;gap:.6rem;margin-top:.8rem}.choices button[data-v-7579e13d],.dialog-card>button[data-v-7579e13d]{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;padding:.7rem 1.1rem}button[data-v-7579e13d]:disabled{cursor:not-allowed;opacity:.45}.dismiss[data-v-7579e13d]{background:transparent;border:1px solid var(--line);color:var(--muted);margin-top:1rem}</style>
+<style>.cookie-notice[data-v-904500e8]{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;bottom:calc(1rem + env(safe-area-inset-bottom,0px));box-shadow:0 12px 32px #00000073;display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;left:50%;padding:.9rem 1.1rem;position:fixed;transform:translate(-50%);width:min(960px,calc(100% - 2rem));z-index:20}.cookie-notice p[data-v-904500e8]{color:var(--muted);flex:1 1 22rem;font-size:.9rem;margin:0}.cookie-notice a[data-v-904500e8]{color:var(--accent)}.cookie-actions[data-v-904500e8]{display:flex;gap:.6rem;margin-left:auto}.cookie-deny[data-v-904500e8]{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font:inherit;padding:.5rem .9rem}.cookie-deny[data-v-904500e8]:hover{border-color:var(--muted)}</style>
+<style>.lesson-page{display:grid;gap:2.5rem;width:100%}.hc-crumbs{color:var(--muted);display:flex;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;gap:.35rem .75rem}.hc-crumbs a{color:var(--accent);text-decoration:none}.hc-crumbs span:before{color:var(--line);content:"/";margin-right:.75rem}.hc-try{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;padding:1.1rem 1.25rem}.hc-try p{color:var(--muted);margin:.3rem 0 0;max-width:40rem}.hc-try-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.75rem}.hc-try-actions a{color:var(--accent)}.hc-try-actions .hc-try-install{background:var(--accent);border-radius:6px;color:var(--accent-ink);font-weight:700;padding:.55rem 1rem;text-decoration:none}.hc-pager{display:grid;gap:.75rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc-pager a{background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;color:var(--ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc-pager a:hover{border-color:var(--accent)}.hc-pager small{color:var(--muted)}.hc-pager .next{grid-column:2;text-align:right}@media(max-width:560px){.hc-pager{grid-template-columns:minmax(0,1fr)}.hc-pager .next{grid-column:1}}</style>
+<style>.hc{--hc-bg:var(--bg);--hc-surface:var(--bg-raised);--hc-surface-2:#1f281c;--hc-ink:var(--ink);--hc-muted:var(--muted);--hc-line:var(--line);--hc-accent:var(--accent);--hc-accent-soft:rgba(214,242,92,.12);--hc-accent-ink:var(--accent-ink);--hc-warm:#f0a35e;--hc-warm-soft:#33261a;--hc-ok:#62d38f;--hc-ok-soft:#15301f;--hc-bad:#ff8a7e;--hc-bad-soft:#3a1c19;--hc-warn:#e6c14d;--hc-warn-soft:#352d12;--hc-code-bg:#0b0f0a;--hc-code-ink:#dfe8d6;--hc-shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);--hc-f-display:var(--sans);--hc-f-body:var(--sans);--hc-f-mono:var(--mono);--hc-fs-xs:.78rem;--hc-fs-sm:.9rem;--hc-fs-md:1.02rem;--hc-fs-lg:1.22rem;--hc-fs-xl:1.45rem;--hc-fs-2xl:clamp(1.6rem,3vw,2.2rem);--hc-r-sm:6px;--hc-r-md:10px;--hc-col:46rem;--hc-wide:80rem;color-scheme:dark}.hc *{box-sizing:border-box}@media(prefers-reduced-motion:reduce){.hc *,.hc :after,.hc :before{animation-duration:.01ms!important;transition-duration:.01ms!important}}.hc{background:var(--hc-bg);color:var(--hc-ink);font:400 var(--hc-fs-md)/1.62 var(--hc-f-body);margin:0;-webkit-font-smoothing:antialiased}.hc a{color:var(--hc-accent);text-underline-offset:3px}.hc a:hover{text-decoration-thickness:2px}.hc :focus-visible{border-radius:4px;outline:3px solid var(--hc-accent);outline-offset:2px}.hc h1,.hc h2,.hc h3,.hc h4{line-height:1.2;margin:0;text-wrap:balance}.hc h1,.hc h2{font-family:var(--hc-f-display);font-weight:600;letter-spacing:-.01em}.hc h1{font-size:var(--hc-fs-2xl)}.hc h2{font-size:var(--hc-fs-xl)}.hc h3{font-size:var(--hc-fs-lg)}.hc h3,.hc h4{font-weight:650}.hc h4{font-size:var(--hc-fs-md)}.hc ol,.hc p,.hc ul{margin:0}.hc ol,.hc ul{padding-left:1.3em}.hc li+li{margin-top:.3em}.hc code,.hc kbd,.hc pre{font-family:var(--hc-f-mono);font-size:.88em}.hc :not(pre)>code{background:var(--hc-code-bg);border-radius:4px;color:var(--hc-code-ink);overflow-wrap:anywhere;padding:.08em .36em}.hc kbd{background:var(--hc-surface);border:solid var(--hc-line);border-radius:4px;border-width:1px 1px 2px;padding:0 .35em}.hc strong{font-weight:650}.hc [hidden]{display:none!important}.hc .visually-hidden{clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}.hc .hc-page{display:grid;gap:2.5rem;grid-template-columns:12rem minmax(0,1fr);margin:0 auto;max-width:var(--hc-wide);padding-block:2rem 4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.hc .rail{align-self:start;position:sticky;top:calc(var(--topbar) + 1.5rem)}.hc .rail ol{counter-reset:step;display:grid;gap:.15rem;list-style:none;margin:0;padding:0}.hc .rail li{margin:0}.hc .rail a{align-items:center;border-radius:var(--hc-r-sm);color:var(--hc-muted);display:flex;font-size:var(--hc-fs-sm);gap:.6rem;padding:.35rem .5rem;text-decoration:none}.hc .rail a:before{border:1.5px solid var(--hc-line);border-radius:50%;content:counter(step);counter-increment:step;display:grid;flex:none;font:600 .72rem var(--hc-f-mono);height:1.5rem;place-items:center;width:1.5rem}.hc .rail a:hover{background:var(--hc-surface-2);color:var(--hc-ink)}.hc .rail a.is-current{color:var(--hc-ink);font-weight:600}.hc .rail a.is-current:before{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .rail .rail-progress{color:var(--hc-muted);font-size:var(--hc-fs-xs);margin-top:1rem}.hc .meter{background:var(--hc-surface-2);border-radius:99px;height:6px;margin-top:.35rem;overflow:hidden}.hc .meter>i{background:var(--hc-ok);display:block;height:100%;transition:width .4s;width:0}.hc .content{display:grid;gap:3.5rem;min-width:0}.hc .content>*{min-width:0}.hc .analogy,.hc .content,.hc .lesson-hero,.hc .level,.hc .outcomes,.hc .prose,.hc .q,.hc .quiz,.hc .stand,.hc .step{grid-template-columns:minmax(0,1fr)}.hc .lesson-hero{display:grid;gap:1rem;max-width:var(--hc-col)}.hc .eyebrow{color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .lead{color:var(--hc-muted);font-size:var(--hc-fs-lg);line-height:1.5}.hc .facts{display:flex;flex-wrap:wrap;gap:.5rem}.hc .fact{border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-muted);font-size:var(--hc-fs-xs);padding:.2rem .65rem}.hc .fact,.hc .outcomes{background:var(--hc-surface)}.hc .outcomes{border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.5rem;padding:1rem 1.2rem}.hc .outcomes h2{color:var(--hc-muted);font:650 var(--hc-fs-sm) var(--hc-f-body);letter-spacing:.06em;text-transform:uppercase}.hc .step{display:grid;gap:1.1rem;scroll-margin-top:5rem}.hc .step>:not(.stand):not(.wide){max-width:var(--hc-col)}.hc .step-head{display:grid;gap:.35rem}.hc .step-tag{align-items:center;color:var(--hc-muted);display:inline-flex;font:600 var(--hc-fs-xs) var(--hc-f-mono);gap:.5rem;letter-spacing:.08em;text-transform:uppercase}.hc .step-tag b{background:var(--hc-ink);border-radius:4px;color:var(--hc-bg);font-weight:600;padding:.05rem .4rem}.hc .step ol+p,.hc .step p+ol,.hc .step p+p,.hc .step p+ul,.hc .step ul+p{margin-top:0}.hc .prose{display:grid;gap:.85rem}.hc .level{border-left:3px solid var(--hc-line);display:grid;gap:.75rem;padding-left:1rem}.hc .level[data-level="1"]{border-color:var(--hc-ok)}.hc .level[data-level="2"]{border-color:var(--hc-accent)}.hc .level[data-level="3"]{border-color:var(--hc-warm)}.hc .level-tag{color:var(--hc-muted);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.06em;text-transform:uppercase}.hc .analogy{background:var(--hc-warm-soft);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:1.1rem 1.25rem}.hc .analogy .label{color:var(--hc-warm);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .analogy p{font-size:var(--hc-fs-lg);line-height:1.45}.hc .map-pairs{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))}.hc .map-pairs>div{background:var(--hc-surface);border-radius:var(--hc-r-sm);display:grid;font-size:var(--hc-fs-sm);gap:.1rem;padding:.55rem .75rem}.hc .map-pairs b{font-weight:600}.hc .map-pairs span{color:var(--hc-muted)}.hc .note,.hc .tip,.hc .warn{border-radius:var(--hc-r-md);display:block;font-size:var(--hc-fs-sm);padding:.85rem 1rem}.hc .note{background:var(--hc-accent-soft)}.hc .tip{background:var(--hc-ok-soft)}.hc .warn{background:var(--hc-bad-soft)}.hc .note>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .tip>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .warn>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div){margin-top:.45rem}.hc .note>b:first-child,.hc .tip>b:first-child,.hc .warn>b:first-child{display:block;font-size:var(--hc-fs-xs);letter-spacing:.06em;margin-bottom:.35rem;text-transform:uppercase}.hc .term{border-bottom:1.5px dotted var(--hc-accent);cursor:help;position:relative}.hc .term:focus:after,.hc .term:hover:after{background:var(--hc-ink);border-radius:var(--hc-r-sm);box-shadow:var(--hc-shadow);color:var(--hc-bg);content:attr(data-tip);font:400 var(--hc-fs-xs)/1.45 var(--hc-f-body);left:0;max-width:min(20rem,80vw);padding:.5rem .65rem;position:absolute;top:calc(100% + 6px);white-space:normal;width:-moz-max-content;width:max-content;z-index:30}.hc details.more{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md)}.hc details.more>summary{align-items:baseline;cursor:pointer;display:flex;font-size:var(--hc-fs-sm);font-weight:600;gap:.6rem;list-style:none;padding:.7rem 1rem}.hc details.more>summary::-webkit-details-marker{display:none}.hc details.more>summary:before{color:var(--hc-accent);content:"+";flex:none;font:600 1rem var(--hc-f-mono);width:1rem}.hc details.more[open]>summary:before{content:"−"}.hc details.more>summary .hint{color:var(--hc-muted);font-weight:400}.hc details.more>.more-body{display:grid;gap:.75rem;min-width:0;padding:0 1rem 1rem}.hc pre{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font-size:.84rem;line-height:1.55;margin:0;overflow-x:auto;padding:.85rem 1rem;position:relative;-moz-tab-size:2;-o-tab-size:2;tab-size:2}.hc pre .c{color:var(--hc-muted);font-style:italic}.hc pre .k{color:var(--hc-accent);font-weight:600}.hc pre .s{color:var(--hc-ok)}.hc pre .w{color:var(--hc-warm)}.hc .code-wrap{min-width:0;position:relative}.hc .copy-btn{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-body);opacity:.85;padding:.15rem .5rem;position:absolute;right:.4rem;top:.4rem}.hc .copy-btn:hover{color:var(--hc-ink);opacity:1}.hc .code-tabs{display:grid;gap:0;min-width:0}.hc .code-tabs .tab-bar{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:-1px}.hc .code-tabs .tab-bar button{background:transparent;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-mono);padding:.35rem .7rem}.hc .code-tabs .tab-bar button[aria-selected=true]{background:var(--hc-code-bg);border-color:var(--hc-line);color:var(--hc-ink)}.hc .code-tabs pre{border-top-left-radius:0}.hc .stand{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);box-shadow:var(--hc-shadow);display:grid;gap:1rem;min-width:0;padding:1.1rem}.hc .stand-head{align-items:baseline;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between}.hc .stand-head h3{font-size:var(--hc-fs-md)}.hc .stand-head .badge{background:var(--hc-accent-soft);border-radius:4px;color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.15rem .5rem}.hc .stand .task{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .row{align-items:center;display:flex;flex-wrap:wrap;gap:.6rem}.hc .grid-2{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc .grid-3{display:grid;gap:.75rem;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.hc .grid-2,.hc .grid-3{grid-template-columns:minmax(0,1fr)}}.hc .btn{align-items:center;background:var(--hc-accent);border:1px solid var(--hc-accent);border-radius:var(--hc-r-sm);color:var(--hc-accent-ink);cursor:pointer;display:inline-flex;font:600 var(--hc-fs-sm) var(--hc-f-body);gap:.4rem;padding:.5rem .95rem}.hc .btn:hover{filter:brightness(1.08)}.hc .btn:disabled{cursor:not-allowed;filter:none;opacity:.45}.hc .btn.secondary{background:transparent;color:var(--hc-accent)}.hc .btn.quiet{background:transparent;border-color:var(--hc-line);color:var(--hc-muted)}.hc .btn.small{font-size:var(--hc-fs-xs);padding:.25rem .6rem}.hc .chip-btn{background:var(--hc-surface-2);border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-ink);cursor:pointer;font:500 var(--hc-fs-sm) var(--hc-f-body);padding:.3rem .8rem}.hc .chip-btn[aria-pressed=true]{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc label{font-size:var(--hc-fs-sm);font-weight:600}.hc .field{display:grid;gap:.3rem;min-width:0}.hc .field small{color:var(--hc-muted);font-weight:400}.hc input[type=number],.hc input[type=text],.hc select,.hc textarea{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);font:400 var(--hc-fs-sm) var(--hc-f-body);min-width:0;padding:.5rem .65rem;width:100%}.hc textarea{line-height:1.5;resize:vertical}.hc .mono,.hc textarea.code{font-family:var(--hc-f-mono);font-size:.84rem}.hc textarea.code{background:var(--hc-code-bg);color:var(--hc-code-ink);min-height:14rem;overflow:auto;-moz-tab-size:2;-o-tab-size:2;tab-size:2;white-space:pre}.hc input[type=range]{accent-color:var(--hc-accent);width:100%}.hc input[type=checkbox],.hc input[type=radio]{accent-color:var(--hc-accent);height:1.05rem;width:1.05rem}.hc .output{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font:400 .82rem/1.55 var(--hc-f-mono);max-height:22rem;min-height:3rem;overflow:auto;overflow-wrap:anywhere;padding:.75rem .9rem;white-space:pre-wrap}.hc .output:empty:before{color:var(--hc-muted);content:attr(data-empty)}.hc .output .ok{color:var(--hc-ok)}.hc .output .bad{color:var(--hc-bad)}.hc .output .dim{color:var(--hc-muted)}.hc .result-line{font-size:var(--hc-fs-sm);font-weight:600}.hc .result-line.ok{color:var(--hc-ok)}.hc .result-line.bad{color:var(--hc-bad)}.hc .pill{background:var(--hc-surface-2);border-radius:4px;color:var(--hc-muted);display:inline-block;font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.1rem .45rem}.hc .pill.ok{background:var(--hc-ok-soft);color:var(--hc-ok)}.hc .pill.bad{background:var(--hc-bad-soft);color:var(--hc-bad)}.hc .pill.warn{background:var(--hc-warn-soft);color:var(--hc-warn)}.hc .pill.accent{background:var(--hc-accent-soft);color:var(--hc-accent)}.hc .flow{align-items:stretch;display:flex;flex-wrap:wrap;gap:.4rem}.hc .flow .node{background:var(--hc-surface-2);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);display:grid;flex:1 1 8rem;font-size:var(--hc-fs-sm);gap:.15rem;min-width:0;padding:.55rem .7rem;transition:border-color .25s,background .25s,transform .25s}.hc .flow .node small{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .flow .node.is-active{background:var(--hc-accent-soft);border-color:var(--hc-accent);transform:translateY(-2px)}.hc .flow .node.is-done{border-color:var(--hc-ok)}.hc .flow .node.is-bad{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .flow .arrow{align-self:center;color:var(--hc-muted);font-family:var(--hc-f-mono)}@media(max-width:560px){.hc .flow{flex-direction:column}.hc .flow .arrow{align-self:center;transform:rotate(90deg)}}.hc .table-wrap{min-width:0;overflow-x:auto}.hc table{border-collapse:collapse;font-size:var(--hc-fs-sm);width:100%}.hc td,.hc th{border-bottom:1px solid var(--hc-line);padding:.45rem .6rem;text-align:left;vertical-align:top}.hc th{color:var(--hc-muted);font-size:var(--hc-fs-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase}.hc td.num,.hc th.num{font-variant-numeric:tabular-nums;text-align:right}.hc .quiz{display:grid;gap:1rem}.hc .q{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:.9rem 1rem}.hc .q>p{font-weight:600}.hc .q .options{display:grid;gap:.4rem}.hc .q .options button{background:var(--hc-bg);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);cursor:pointer;font:400 var(--hc-fs-sm)/1.45 var(--hc-f-body);padding:.5rem .75rem;text-align:left}.hc .q .options button:hover{border-color:var(--hc-accent)}.hc .q .options button.is-right{background:var(--hc-ok-soft);border-color:var(--hc-ok)}.hc .q .options button.is-wrong{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .q .why{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .quiz-score{color:var(--hc-muted)}.hc .q .q-kind,.hc .quiz-score{font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs)}.hc .q .q-kind{background:var(--hc-warn-soft);border-radius:999px;color:var(--hc-warn);justify-self:start;padding:.1rem .6rem}.hc .q[data-multi] .options button{padding-left:2.1rem;position:relative}.hc .q[data-multi] .options button:before{border:1.5px solid var(--hc-muted);border-radius:3px;content:"";height:.85rem;left:.7rem;position:absolute;top:.68rem;width:.85rem}.hc .q[data-multi] .options button[aria-pressed=true]{border-color:var(--hc-accent)}.hc .q[data-multi] .options button[aria-pressed=true]:before{background:var(--hc-accent);border-color:var(--hc-accent);box-shadow:inset 0 0 0 2px var(--hc-bg)}.hc .q[data-multi] .options button.is-right{border-color:var(--hc-ok)}.hc .q[data-multi] .options button.is-wrong{border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-wrong:before{background:var(--hc-bad);border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-right:before{background:var(--hc-ok);border-color:var(--hc-ok)}.hc .q>p.why{font-weight:400}.hc .q .options button.is-missed{border-color:var(--hc-ok);border-style:dashed}.hc .q .options button.is-missed:after{color:var(--hc-ok);content:" — тоже верный";font-size:var(--hc-fs-xs)}.hc .q .q-actions{display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;margin:0;min-width:0;padding:.75rem}.hc .stage3d-view{aspect-ratio:16/9;background:radial-gradient(120% 90% at 50% 30%,#1d2619 0,var(--hc-bg) 75%);border-radius:var(--hc-r-sm);min-height:16rem;overflow:hidden;position:relative}.hc .stage3d-view canvas{cursor:grab;display:block;height:100%;width:100%}.hc .stage3d-view canvas:active{cursor:grabbing}.hc .stage3d-labels{inset:0;overflow:hidden;pointer-events:none;position:absolute}.hc .stage3d-label{background:#10140fc7;border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-ink);font:600 var(--hc-fs-xs)/1.2 var(--hc-f-mono);left:0;margin-top:-6px;padding:.12rem .4rem;position:absolute;top:0;transition:opacity .2s;white-space:nowrap}.hc .stage3d-label.accent{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-label.warm{background:var(--hc-warm);border-color:var(--hc-warm);color:#2a1a0c}.hc .stage3d-label.bad{background:var(--hc-bad);border-color:var(--hc-bad);color:#2a0f0c}.hc .stage3d-label.ok{background:var(--hc-ok);border-color:var(--hc-ok);color:#0c2416}.hc .stage3d-label.dim{color:var(--hc-muted);font-weight:400}.hc .stage3d-gate{background:var(--hc-accent);border:0;border-radius:999px;bottom:.5rem;color:var(--hc-accent-ink);font:600 var(--hc-fs-xs)/1 var(--hc-f-body);padding:.55rem .9rem;position:absolute;right:.5rem}.hc .stage3d.is-active .stage3d-view{outline:2px solid var(--hc-accent)}.hc .stage3d-bar{align-items:center;display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d-range{accent-color:var(--hc-accent);flex:1 1 8rem;min-width:6rem}.hc .stage3d-clock{color:var(--hc-muted);font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs);min-width:6.5rem}.hc .stage3d-zoom{min-width:2.2rem}.hc .stage3d-chapters{display:flex;flex-wrap:wrap;gap:.35rem}.hc .stage3d-chip{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:999px;color:var(--hc-muted);cursor:pointer;font:400 var(--hc-fs-xs)/1.2 var(--hc-f-body);padding:.3rem .65rem}.hc .stage3d-chip:hover{border-color:var(--hc-accent);color:var(--hc-ink)}.hc .stage3d-chip.is-current{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-caption{font-size:var(--hc-fs-sm);min-height:3.2em}.hc .stage3d-caption b{color:var(--hc-accent)}.hc .stage3d-hint{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .stage3d-alt{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .stage3d.is-ready .stage3d-alt{height:1px;overflow:hidden;position:absolute;width:1px;clip:rect(0 0 0 0);white-space:nowrap}.hc .stage3d.is-fallback .stage3d-bar,.hc .stage3d.is-fallback .stage3d-caption,.hc .stage3d.is-fallback .stage3d-chapters,.hc .stage3d.is-fallback .stage3d-hint,.hc .stage3d.is-fallback .stage3d-view{display:none}.hc .stage3d.is-fallback .stage3d-alt{height:auto;overflow:visible;position:static;width:auto;clip:auto;white-space:normal}@media(max-width:640px){.hc .stage3d-view{aspect-ratio:1/1}.hc .stage3d-chapters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.1rem;scrollbar-width:none}.hc .stage3d-chip{flex:none}.hc .stage3d-label{font-size:.66rem;padding:.08rem .3rem}}.hc .checklist{display:grid;gap:.35rem;list-style:none;padding:0}.hc .checklist li{margin:0}.hc .checklist label{align-items:flex-start;border-radius:var(--hc-r-sm);cursor:pointer;display:flex;font-size:var(--hc-fs-md);font-weight:400;gap:.65rem;padding:.45rem .6rem}.hc .checklist label:hover{background:var(--hc-surface)}.hc .checklist input{flex:none;margin-top:.3rem}.hc .checklist input:checked+span{color:var(--hc-muted);text-decoration:line-through;text-decoration-color:var(--hc-ok)}.hc .done-banner{display:none}.hc .done-banner.is-shown{display:block}.hc .links{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr))}.hc .links h3{color:var(--hc-muted);font-size:var(--hc-fs-sm);letter-spacing:.06em;margin-bottom:.5rem;text-transform:uppercase}.hc .links ul{display:grid;gap:.6rem;list-style:none;padding:0}.hc .links li{display:grid;font-size:var(--hc-fs-sm);gap:.1rem;margin:0}.hc .links li a{font-weight:600}.hc .links li span{color:var(--hc-muted)}.hc .pager{display:grid;gap:.75rem;grid-template-columns:1fr 1fr}.hc .pager a{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);color:var(--hc-ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc .pager a:hover{border-color:var(--hc-accent)}.hc .pager small{color:var(--hc-muted)}.hc .pager .next{grid-column:2;text-align:right}.hc .footer-note{color:var(--hc-muted);font-size:var(--hc-fs-xs)}@media(max-width:900px){.hc .hc-page{gap:1.5rem;grid-template-columns:minmax(0,1fr);padding-block:1.25rem 3rem}.hc .rail{background:var(--hc-bg);margin-inline:-4px;padding-block:.4rem;position:sticky;top:var(--topbar);z-index:15}.hc .rail ol{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none}.hc .rail a{padding:.25rem .5rem;white-space:nowrap}.hc .rail .rail-progress{display:none}.hc .content{gap:2.75rem}}@keyframes hc-pop{0%{opacity:.4;transform:scale(.92)}to{opacity:1;transform:scale(1)}}.hc .pop{animation:hc-pop .25s ease-out}@keyframes hc-pulse-border{0%,to{box-shadow:0 0 color-mix(in srgb,var(--hc-accent) 45%,transparent)}50%{box-shadow:0 0 0 6px transparent}}.hc .pulse{animation:hc-pulse-border 1.2s ease-out 2}.hc .hc-page{margin:0;max-width:none;padding:0}</style>
+<link rel="stylesheet" href="/_nuxt/kurs.DD10fpVf.css" crossorigin>
+<link rel="preload" as="fetch" crossorigin="anonymous" href="/harness-workshop/snachala-specifikaciya/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BFZxJiOk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Md4VEwow.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Cx38cRZh.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BayULBOU.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B4Ey_btE.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DXJlw0Jk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/umt8mYvj.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B_31BsbJ.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/ylmHlZv_.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DqDzQPTU.js">
+<script type="module" src="/_nuxt/BFZxJiOk.js" crossorigin></script>
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CTsZqIVY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/R4uVcw0-.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DSW_zuzx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DT9HhtpA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DsIVt1uA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Csp-tBFP.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DVk6OOaH.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CHzdfqXZ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DIqqaU9V.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Caps8ti_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BzyUlbQC.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BXZQtsXx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Ba686JSa.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/D4aieIjQ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Dm8p2LOi.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DMHLwBTJ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C8s7KUif.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CfRiDiXh.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/B7QZ0aMn.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/jI-YWrlY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BbeGPlLB.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DJOctqjL.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/9d2q4aVm.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/2Z7xxhpV.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C3VDPMZ_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DYQ6arQ6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Cy5W8Jx6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DOkdDJzx.js">
+<meta name="description" content="Агент выполняет договорённость со сценариями, а не придумывает решение на каждом шаге. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="theme-color" content="#10140f">
+<link rel="icon" type="image/png" href="/images/klepa-mark.png">
+<link rel="apple-touch-icon" href="/images/klepa-mark.png">
+<meta name="keywords" content="спеки, сценарии, OpenSpec, курс ИИ-агенты, ИИ для программистов, нейросеть пишет код">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Klepa AI">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Урок 5. Сначала спецификация, потом код: требования, сценарии и жизненный цикл изменения — курс «Агент под контролем»">
+<meta property="og:description" content="Агент выполняет договорённость со сценариями, а не придумывает решение на каждом шаге. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta property="og:url" content="https://klepa.gpt-chat.by/harness-workshop/snachala-specifikaciya/">
+<meta property="og:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Klepa AI — AI-агент для VS Code">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Урок 5. Сначала спецификация, потом код: требования, сценарии и жизненный цикл изменения — курс «Агент под контролем»">
+<meta name="twitter:description" content="Агент выполняет договорённость со сценариями, а не придумывает решение на каждом шаге. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="twitter:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<link rel="canonical" href="https://klepa.gpt-chat.by/harness-workshop/snachala-specifikaciya/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Klepa AI","item":"https://klepa.gpt-chat.by/"},{"@type":"ListItem","position":2,"name":"Урок 5. Сначала спецификация, потом код","item":"https://klepa.gpt-chat.by/harness-workshop/snachala-specifikaciya/"}]}</script></head><body><div id="__nuxt"><div class="shell"><header class="topbar"><div class="topbar-row"><a href="/" class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt width="32" height="32"> Klepa AI </a><nav class="nav" aria-label="Разделы сайта"><!--[--><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Продукт <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/installing/" class="drop-item"><b>Установка</b><span>Как поставить расширение Klepa в VS Code.</span></a><a href="/quickstart/" class="drop-item"><b>Быстрый старт</b><span>Первый запрос, ключ и бесплатные модели.</span></a><a href="/features/" class="drop-item"><b>Возможности</b><span>Режимы Ask, Plan, Code и Debug и остальные функции плагина.</span></a><a href="/best-practices/" class="drop-item"><b>Практики</b><span>Как ставить задачи, чтобы агент правил нужные файлы.</span></a><a href="/vibe-coding/" class="drop-item"><b>Вайбкодинг</b><span>Что это и как начать писать код с ИИ-агентом.</span></a><a href="/harness-workshop/" class="drop-item"><b>Курс</b><span>Бесплатный курс: как работать с ИИ-агентом в своём проекте.</span></a><a href="/image-generation/" class="drop-item"><b>Картинки</b><span>Генерация изображений прямо из редактора.</span></a><a href="/marketplace/" class="drop-item"><b>Marketplace</b><span>Готовые режимы, навыки и MCP-серверы.</span></a><a href="/support/" class="drop-item"><b>Поддержка</b><span>Вопросы по установке, оплате и работе агента.</span></a><!--]--></div></div><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Сравнения <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/analogi/" class="drop-item"><b>Все агенты</b><span>Klepa рядом с другими агентами для кода.</span></a><a href="/vs-claude-code/" class="drop-item"><b>vs Claude Code</b><span>Чем плагин в редакторе отличается от Claude Code.</span></a><a href="/vs-cursor/" class="drop-item"><b>vs Cursor</b><span>Klepa и Cursor: VPN, оплата и работа в VS Code.</span></a><a href="/vs-copilot/" class="drop-item"><b>vs Copilot</b><span>Автодополнение Copilot и агент, который ведёт задачу.</span></a><a href="/claude-code-besplatno/" class="drop-item"><b>Claude Code бесплатно</b><span>Как попробовать Claude без подписки Cursor.</span></a><a href="/claude-code-oplata/" class="drop-item"><b>Оплата Claude Code</b><span>Оплата картами МИР и БЕЛКАРТ без иностранной карты.</span></a><a href="/claude-code-ustanovka/" class="drop-item"><b>Установка Claude Code</b><span>Команды для Windows, macOS и Linux и что будет при входе.</span></a><!--]--></div></div><!--]--><a href="/pricing/" class="nav-link"> Цены </a><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false"> О сервисе <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/about/" class="drop-item"><b>О нас</b><span>Кто делает Klepa и реквизиты поставщика.</span></a><a href="/offer/" class="drop-item"><b>Публичная оферта</b><span>Договор возмездного оказания услуг.</span></a><a href="/privacy-policy/" class="drop-item"><b>Политика конфиденциальности</b><span>Как обрабатываются персональные данные.</span></a><a href="/about/#requisites" class="drop-item"><b>Реквизиты и контакты</b><span>УНП, адрес и способы связи.</span></a><!--]--></div></div><a class="nav-link" href="https://agent.gpt-chat.by/" target="_blank" rel="noopener"> Агент </a><a class="nav-link studio-link" href="https://video-studio.gpt-chat.by/" target="_blank" rel="noopener"><svg class="studio-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="7" width="22" height="18" rx="4"></rect><path d="M24 13 L30 9 V23 L24 19 Z"></path><path d="M10 12 L17 16 L10 20 Z"></path></svg> Студия </a><a class="nav-link chat-link" href="https://gpt-chat.by/" target="_blank" rel="noopener"><svg class="chat-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7A2.5 2.5 0 0 1 16.5 16H9l-3.6 2.7A.8.8 0 0 1 4 18V6.5Z"></path></svg> Чат </a></nav><div class="actions"><a class="install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить</a><button type="button" class="enter"> Войти </button><button type="button" class="menu-toggle" aria-expanded="false" aria-label="Меню">☰</button></div></div><!----></header><!----><!----><main class="page"><!--[--><div></div><div class="hc lesson-page"><nav class="hc-crumbs" aria-label="Курс"><a href="/harness-workshop/" class="">Агент под контролем</a><span>Часть 3 · Работа по плану</span></nav><div class="hc-lesson"><div class="hc-page">
+  <nav class="rail" aria-label="Шаги урока">
+    <ol>
+      <li><a href="#analogy">Аналогия</a></li>
+      <li><a href="#explain">Объяснение</a></li>
+      <li><a href="#interactive">Интерактив</a></li>
+      <li><a href="#practice">Тесты</a></li>
+      <li><a href="#checklist">Чек-лист</a></li>
+      <li><a href="#links">Ссылки</a></li>
+    </ol>
+    <div class="rail-progress"><span data-meter-label>Пройдено: 0%</span><div class="meter"><i data-meter></i></div></div>
+  </nav>
+
+  <main class="content">
+    <header class="lesson-hero">
+      <span class="eyebrow">Часть 3 · Работа по плану · Урок 5</span>
+      <h1>Сначала спецификация, потом код: требования, сценарии и жизненный цикл изменения</h1>
+      <p class="lead">Если не записать решения заранее, агент придумывает их на каждом шаге. И каждый раз немного по-другому. Спецификация фиксирует, что должно получиться, до первой строки кода, и превращается в тесты.</p>
+      <div class="facts">
+        <span class="fact">~50 минут</span>
+        <span class="fact">4 интерактива</span>
+        <span class="fact">11 вопросов</span>
+        <span class="fact">Примеры: JS · TS · PHP · Python</span>
+      </div>
+      <div class="outcomes">
+        <h2>После урока вы сможете</h2>
+        <ul>
+          <li>объяснить, чем разработка по спецификации отличается от «просто попросить агента»;</li>
+          <li>писать требования со словами SHALL/MUST и сценарии WHEN/THEN;</li>
+          <li>провести изменение по циклу: предложение, дельта спецификации, дизайн, задачи, архив;</li>
+          <li>превращать сценарии в каркасы тестов на своём языке;</li>
+          <li>находить размытые требования до того, как их прочитает агент.</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ============ 1. АНАЛОГИЯ ============ -->
+    <section class="step" id="analogy">
+      <div class="step-head">
+        <span class="step-tag"><b>1</b> Аналогия</span>
+        <h2>Стройка по чертежу и без него</h2>
+      </div>
+      <div class="analogy">
+        <span class="label">Представьте</span>
+        <p>Прорабу говорят: «Построй хороший дом». Каждая бригада решает сама, где окна и сколько этажей. С чертежом все строят одно и то же, а приёмка сверяет дом с чертежом по пунктам.</p>
+      </div>
+      <div class="stand build" id="build">
+        <div class="stand-head"><h3>Пять бригад, один дом</h3><span class="badge">анимация</span></div>
+        <div class="build-row" id="build-vibe"><span>Без чертежа</span></div>
+        <div class="build-row" id="build-spec"><span>По чертежу</span></div>
+        <div class="row">
+          <button class="btn small" type="button" id="build-play">▶ Строить</button>
+          <button class="btn small quiet" type="button" id="build-reset">Сначала</button>
+          <span class="task" id="build-note" aria-live="polite"></span>
+        </div>
+      </div>
+      <div class="map-pairs" aria-label="Соответствия аналогии">
+        <div><b>Чертёж</b><span>= спецификация (spec.md)</span></div>
+        <div><b>Акт приёмки по пунктам</b><span>= сценарии, из которых делают тесты</span></div>
+        <div><b>План работ</b><span>= список задач (tasks.md)</span></div>
+        <div><b>Новая бригада каждое утро</b><span>= новая сессия агента без памяти</span></div>
+        <div><b>Журнал изменений проекта</b><span>= папка изменения и её архив</span></div>
+      </div>
+      <p>Главная мысль: спецификация — это <strong>договор, который переживает сессии</strong>. Агент может забыть разговор. Файл со спецификацией он прочитает заново, а тесты из сценариев не дадут отступить от него.</p>
+    </section>
+
+    <!-- ============ 2. ОБЪЯСНЕНИЕ ============ -->
+    <section class="step" id="explain">
+      <div class="step-head">
+        <span class="step-tag"><b>2</b> Объяснение</span>
+        <h2>От простого к сложному</h2>
+      </div>
+
+      <div class="level" data-level="1">
+        <span class="level-tag">Уровень 1 · Суть</span>
+        <h3>Сначала договориться, потом писать код</h3>
+        <p>Попросите агента: «Сделай ограничение попыток входа». Ему придётся решить за вас: сколько попыток, на какой срок блокировать, считать по IP или по логину, что ответить пользователю. Он решит. Завтра в новой сессии он решит ещё раз, и, возможно, иначе. Такой подход называют <span class="term" data-tip="Vibe coding — разработка «по ощущениям»: просим агента, принимаем то, что выглядит рабочим, без зафиксированных требований.">вайб-кодингом</span>.</p>
+        <p><strong>Spec-Driven Development</strong> (разработка от спецификации) меняет порядок. Сначала вы записываете решения в файл. Потом агент реализует ровно их. Минимальная единица — требование и сценарий его проверки:</p>
+        <pre data-lang="md">### Requirement: Ограничение попыток входа
+Система SHALL блокировать вход по логину на 15 минут
+после 5 неудачных попыток подряд.
+
+#### Scenario: Шестая попытка заблокирована
+- **WHEN** пользователь 5 раз подряд ввёл неверный пароль
+- **THEN** шестая попытка получает ответ 429
+- **AND** вход по этому логину снова доступен через 15 минут</pre>
+        <div class="tip"><b>Что важно</b>Требование говорит, что система обязана делать. Сценарий говорит, как это проверить. Требование без сценария — пожелание.</div>
+      </div>
+
+      <div class="level" data-level="2">
+        <span class="level-tag">Уровень 2 · Детали</span>
+        <h3>Как устроена спецификация и цикл изменения</h3>
+        <p><strong>Слова SHALL и MUST.</strong> Это слова обязательности из стандарта <span class="term" data-tip="RFC 2119 — короткий стандарт IETF, который фиксирует смысл слов MUST, SHALL, SHOULD, MAY в спецификациях.">RFC 2119</span>. MUST и SHALL значат «обязательно». SHOULD — «желательно». Слова «желательно, по возможности, быстро» агент прочитает как разрешение сделать как угодно.</p>
+        <p><strong>Сценарии.</strong> Формат пришёл из <span class="term" data-tip="Behavior-Driven Development — подход, где поведение описывают сценариями «дано, когда, тогда», понятными и людям, и тестам.">BDD</span>: GIVEN (дано, исходное состояние), WHEN (когда, действие), THEN (тогда, ожидаемый результат), AND (и ещё). Каждый сценарий — готовый тест.</p>
+        <p><strong>Нефункциональные требования.</strong> Скорость, безопасность, ограничения. Тоже с числами: «ответ SHALL приходить быстрее 300 мс для 95% запросов», а не «должно работать быстро».</p>
+        <p><strong>Цикл изменения.</strong> Возьмём инструмент <span class="term" data-tip="OpenSpec — открытый инструмент для разработки по спецификациям: хранит спецификации и изменения в папке openspec/ репозитория.">OpenSpec</span>. Текущая правда о системе лежит в <code>openspec/specs/</code>. Каждое изменение — отдельная папка в <code>openspec/changes/&lt;имя&gt;/</code>:</p>
+        <ol>
+          <li><code>proposal.md</code> — зачем меняем и что именно.</li>
+          <li><code>specs/&lt;возможность&gt;/spec.md</code> — дельта: какие требования добавлены (ADDED), изменены (MODIFIED), удалены (REMOVED).</li>
+          <li><code>design.md</code> — как будем делать технически, если это не очевидно.</li>
+          <li><code>tasks.md</code> — шаги-чекбоксы для реализации.</li>
+          <li>Реализация и проверка: агент идёт по задачам, тесты из сценариев зелёные.</li>
+          <li>Архив: дельта вливается в <code>openspec/specs/</code>, папка изменения уходит в архив.</li>
+        </ol>
+        <p>Похожий путь у GitHub Spec Kit: команды <code>/specify</code>, <code>/plan</code>, <code>/tasks</code> ведут от спецификации к плану и задачам. Инструменты разные, идея одна.</p>
+        <details class="more">
+          <summary>Пример файлов изменения целиком <span class="hint">— proposal, дельта, tasks</span></summary>
+          <div class="more-body">
+<pre data-lang="md"># openspec/changes/add-login-rate-limit/proposal.md
+## Why
+Ботами перебирают пароли. За неделю 12 000 неудачных входов с 40 логинов.
+
+## What Changes
+- Блокировка входа по логину после 5 неудачных попыток на 15 минут.
+- Ответ 429 с понятным текстом и временем до разблокировки.
+
+## Impact
+- Затронуто: auth (вход), redis (счётчики).</pre>
+<pre data-lang="md"># openspec/changes/add-login-rate-limit/specs/auth/spec.md
+## ADDED Requirements
+### Requirement: Ограничение попыток входа
+Система SHALL блокировать вход по логину на 15 минут после 5 неудачных попыток подряд.
+
+#### Scenario: Шестая попытка заблокирована
+- **WHEN** пользователь 5 раз подряд ввёл неверный пароль
+- **THEN** шестая попытка получает ответ 429
+
+#### Scenario: Успешный вход сбрасывает счётчик
+- **GIVEN** у логина 4 неудачные попытки
+- **WHEN** пользователь ввёл верный пароль
+- **THEN** счётчик неудачных попыток равен 0</pre>
+<pre data-lang="md"># openspec/changes/add-login-rate-limit/tasks.md
+## 1. Реализация
+- [ ] 1.1 Счётчик неудачных попыток в redis с TTL 15 минут
+- [ ] 1.2 Проверка лимита перед проверкой пароля, ответ 429
+- [ ] 1.3 Сброс счётчика при успешном входе
+## 2. Проверка
+- [ ] 2.1 Тест на каждый сценарий из spec.md
+- [ ] 2.2 Ручная проверка на стенде</pre>
+          </div>
+        </details>
+      </div>
+
+      <div class="level" data-level="3">
+        <span class="level-tag">Уровень 3 · Усложнение</span>
+        <h3>Исполняемая спецификация и связь с harness</h3>
+        <p><strong>Спецификация как часть процесса.</strong> Она не лежит мёртвым документом. Harness встраивает её в работу агента:</p>
+        <ul>
+          <li>скил «реализуй изменение» читает <code>tasks.md</code> и берёт первую незакрытую задачу;</li>
+          <li>после каждой задачи агент отмечает чекбокс, так прогресс переживает новую сессию;</li>
+          <li>из каждого сценария получается тест, и тест падает, пока поведение не совпало с договором;</li>
+          <li>проверяющий агент или скрипт сверяет: у каждого требования есть сценарий, у каждого сценария есть тест;</li>
+          <li>несколько агентов (урок 10) делят задачи из одного <code>tasks.md</code> и не спорят о целях.</li>
+        </ul>
+        <p><strong>Три ловушки.</strong></p>
+        <ul>
+          <li><strong>Размытые слова.</strong> «Быстро», «удобно», «корректно», «по возможности». Агент трактует их как хочет. Замените числом или сценарием.</li>
+          <li><strong>Требование без сценария.</strong> Нельзя проверить — значит, нельзя доказать, что сделано.</li>
+          <li><strong>Спецификация разошлась с кодом.</strong> Код поменяли руками, а спецификацию нет. Через месяц агент «починит» код обратно по старой спецификации. Лечится архивом изменений и правилом: поведение меняем только через изменение спецификации.</li>
+        </ul>
+        <div class="note"><b>Когда спецификация лишняя</b>Опечатка, правка константы, однострочный багфикс. Спецификация окупается там, где есть решения: новая функция, изменение поведения, спорная архитектура, работа сразу в нескольких сервисах.</div>
+        <details class="more">
+          <summary>Тест по сценарию на четырёх языках <span class="hint">— «Шестая попытка заблокирована»</span></summary>
+          <div class="more-body">
+            <div class="code-tabs">
+<pre data-lang="php">&lt;?php
+// tests/Auth/LoginRateLimitTest.php — PHPUnit
+final class LoginRateLimitTest extends WebTestCase
+{
+    /** Scenario: Шестая попытка заблокирована */
+    public function testSixthAttemptIsBlocked(): void
+    {
+        $client = static::createClient();
+        // WHEN пользователь 5 раз подряд ввёл неверный пароль
+        for ($i = 0; $i &lt; 5; $i++) {
+            $client->jsonRequest('POST', '/api/login', ['login' => 'anna', 'password' => 'wrong']);
+            self::assertResponseStatusCodeSame(401);
+        }
+        // THEN шестая попытка получает ответ 429
+        $client->jsonRequest('POST', '/api/login', ['login' => 'anna', 'password' => 'wrong']);
+        self::assertResponseStatusCodeSame(429);
+    }
+}</pre>
+<pre data-lang="py"># tests/test_login_rate_limit.py — pytest
+def test_sixth_attempt_is_blocked(client):
+    """Scenario: Шестая попытка заблокирована"""
+    # WHEN пользователь 5 раз подряд ввёл неверный пароль
+    for _ in range(5):
+        r = client.post("/api/login", json={"login": "anna", "password": "wrong"})
+        assert r.status_code == 401
+    # THEN шестая попытка получает ответ 429
+    r = client.post("/api/login", json={"login": "anna", "password": "wrong"})
+    assert r.status_code == 429</pre>
+<pre data-lang="js">// test/login-rate-limit.test.js — node:test
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { login } from "./helpers.js";
+
+test("Scenario: Шестая попытка заблокирована", async () => {
+  // WHEN пользователь 5 раз подряд ввёл неверный пароль
+  for (let i = 0; i &lt; 5; i++) {
+    assert.equal((await login("anna", "wrong")).status, 401);
+  }
+  // THEN шестая попытка получает ответ 429
+  assert.equal((await login("anna", "wrong")).status, 429);
+});</pre>
+<pre data-lang="ts">// test/login-rate-limit.test.ts — node:test + TypeScript
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { login } from "./helpers";
+
+test("Scenario: Шестая попытка заблокирована", async () => {
+  // WHEN пользователь 5 раз подряд ввёл неверный пароль
+  for (let i = 0; i &lt; 5; i++) {
+    const res: Response = await login("anna", "wrong");
+    assert.equal(res.status, 401);
+  }
+  // THEN шестая попытка получает ответ 429
+  assert.equal((await login("anna", "wrong")).status, 429);
+});</pre>
+            </div>
+            <p class="footer-note">Имя теста повторяет имя сценария. Так по упавшему тесту сразу видно, какой пункт договора нарушен.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ 3. ИНТЕРАКТИВ ============ -->
+    <section class="step" id="interactive">
+      <div class="step-head">
+        <span class="step-tag"><b>3</b> Интерактив</span>
+        <h2>Проведите изменение от идеи до архива</h2>
+        <p>Сквозной пример: ограничение попыток входа. Пять неудачных попыток — блокировка на 15 минут.</p>
+      </div>
+
+      <!-- 3.1 Жизненный цикл -->
+      <div class="stand" id="lc">
+        <div class="stand-head"><h3>Жизненный цикл изменения</h3><span class="badge">интерактив 1 из 4</span></div>
+        <div class="flow" id="lc-flow">
+          <div class="node"><b>Предложение</b><small>proposal.md</small></div>
+          <div class="node"><b>Дельта</b><small>spec.md</small></div>
+          <div class="node"><b>Дизайн</b><small>design.md</small></div>
+          <div class="node"><b>Задачи</b><small>tasks.md</small></div>
+          <div class="node"><b>Код</b><small>реализация</small></div>
+          <div class="node"><b>Проверка</b><small>тесты</small></div>
+          <div class="node"><b>Архив</b><small>в specs/</small></div>
+        </div>
+        <div class="lc-files">
+          <ul class="tree" id="lc-tree" aria-label="Файлы в репозитории"></ul>
+          <div class="lc-view">
+            <span class="fname" id="lc-fname">Нажмите «Дальше»</span>
+            <pre class="no-copy" id="lc-text">Изменение начинается с вопроса «зачем».</pre>
+          </div>
+        </div>
+        <p class="task" id="lc-say" aria-live="polite"></p>
+        <div class="row">
+          <button class="btn quiet" type="button" id="lc-prev">← Назад</button>
+          <button class="btn" type="button" id="lc-next">Дальше →</button>
+          <button class="btn secondary" type="button" id="lc-play">▶ Авто</button>
+          <button class="btn quiet" type="button" id="lc-reset">Сначала</button>
+          <span class="task" id="lc-label">Шаг 0</span>
+        </div>
+      </div>
+
+      <!-- 3.2 Линтер -->
+      <div class="stand" id="lint">
+        <div class="stand-head"><h3>Линтер требований</h3><span class="badge">интерактив 2 из 4</span></div>
+        <p class="task">Напишите требование или выберите пример. Линтер ищет то, что агент прочитает двусмысленно. Такую проверку можно поставить в CI или хук, чтобы размытое требование не дошло до агента.</p>
+        <div class="row" role="group" aria-label="Примеры требований">
+          <button class="chip-btn" type="button" data-lint="bad">Плохое</button>
+          <button class="chip-btn" type="button" data-lint="mid">Среднее</button>
+          <button class="chip-btn" type="button" data-lint="good">Хорошее</button>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="lint-input">Требование в формате markdown</label>
+            <textarea id="lint-input" class="mono" rows="10"></textarea>
+          </div>
+          <div class="field">
+            <span class="field" style="font-weight:600; font-size: var(--hc-fs-sm)">Как его увидит агент</span>
+            <div class="lint-preview" id="lint-preview"></div>
+          </div>
+        </div>
+        <div class="gauge"><span id="lint-score">Качество: —</span><div class="meter"><i id="lint-meter"></i></div></div>
+        <ul class="lint-out" id="lint-out" aria-live="polite"></ul>
+      </div>
+
+      <!-- 3.3 Сценарий → тест -->
+      <div class="stand" id="s2t">
+        <div class="stand-head"><h3>От сценария к тесту</h3><span class="badge">интерактив 3 из 4</span></div>
+        <p class="task">Выберите сценарий и язык. Каркас теста собирается по шаблону: имя из названия сценария, шаги — комментарии, проверки — из строк THEN.</p>
+        <div class="row" role="group" aria-label="Сценарий" id="s2t-scen"></div>
+        <div class="row" role="group" aria-label="Язык" id="s2t-lang"></div>
+        <div class="grid-2">
+          <pre class="no-copy" id="s2t-src"></pre>
+          <pre id="s2t-out"></pre>
+        </div>
+      </div>
+
+      <!-- 3.4 Вайб vs спека -->
+      <div class="stand" id="race">
+        <div class="stand-head"><h3>Две команды, пять сессий</h3><span class="badge">интерактив 4 из 4</span></div>
+        <p class="task">Одна и та же задача, пять сессий агента подряд. Между сессиями память чата пропадает. Слева есть только переписка, справа — спецификация в репозитории.</p>
+        <div class="race">
+          <div class="lane" id="race-vibe"><h4>Только чат</h4><ol id="race-vibe-list"></ol><span class="final" id="race-vibe-final"></span></div>
+          <div class="lane" id="race-spec"><h4>Спецификация в репозитории</h4><ol id="race-spec-list"></ol><span class="final" id="race-spec-final"></span></div>
+        </div>
+        <div class="row">
+          <button class="btn" type="button" id="race-next">Следующая сессия</button>
+          <button class="btn quiet" type="button" id="race-reset">Сначала</button>
+          <span class="task" id="race-label">Сессия 0 из 5</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. ПРАКТИКА ============ -->
+    <section class="step" id="practice">
+      <div class="step-head">
+        <span class="step-tag"><b>4</b> Тесты</span>
+        <h2>Проверьте себя</h2>
+        <p>Код писать не нужно. Где верный ответ один, он засчитывается по клику. Где написано «Отметьте все верные ответы», выберите все подходящие и нажмите «Проверить»: зачёт только при точном совпадении. Ответы сохраняются в браузере.</p>
+      </div>
+
+      <div class="quiz">
+        <h3>Вопросы по уроку</h3>
+        <div class="q" data-q="l6-req">
+          <p>Чем требование отличается от сценария?</p>
+          <div class="options">
+            <button>Ничем, это синонимы</button>
+            <button data-right>Требование говорит, что система обязана делать. Сценарий — конкретный пример, как это проверить</button>
+            <button>Требование пишет программист, сценарий — тестировщик</button>
+          </div>
+          <p class="why">Требование — правило. Сценарий — его проверяемый случай. Из сценария получается тест.</p>
+        </div>
+        <div class="q" data-q="l6-best">
+          <p>Какое требование агент поймёт однозначно?</p>
+          <div class="options">
+            <button>«Вход должен быть защищён от перебора паролей»</button>
+            <button>«Система должна быстро и корректно блокировать подозрительные входы»</button>
+            <button data-right>«Система SHALL блокировать вход по логину на 15 минут после 5 неудачных попыток» плюс сценарий с ответом 429</button>
+          </div>
+          <p class="why">Числа, ключ блокировки, срок и проверяемый результат. В первых двух агенту придётся решать за вас.</p>
+        </div>
+        <div class="q" data-q="l6-archive">
+          <p>Что происходит при архивации изменения?</p>
+          <div class="options">
+            <button data-right>Дельта требований вливается в основные спецификации, папка изменения уходит в архив</button>
+            <button>Изменение удаляется вместе с тестами</button>
+            <button>Код откатывается до состояния до изменения</button>
+          </div>
+          <p class="why">После архива <code>openspec/specs/</code> снова описывает систему как она есть. Следующее изменение начнётся от актуальной правды.</p>
+        </div>
+        <div class="q" data-q="l6-drift">
+          <p>В новой сессии агент поставил лимит 10 попыток вместо договорённых 5. Как исправить надёжно?</p>
+          <div class="options">
+            <button>Написать в чат «мы же договорились на 5»</button>
+            <button data-right>Записать лимит в спецификацию и сделать тест из сценария: тест упадёт при любом отступлении</button>
+            <button>Перезапустить агента с другой моделью</button>
+          </div>
+          <p class="why">Чат пропадёт вместе с сессией. Файл в репозитории и красный тест — нет.</p>
+        </div>
+        <div class="q" data-q="l5-spec-vague" data-multi>
+          <p>Какие слова в требовании агент прочитает как разрешение сделать как угодно?</p>
+          <div class="options">
+            <button data-right>«быстро»</button>
+            <button data-right>«по возможности»</button>
+            <button>«SHALL»</button>
+            <button data-right>«корректно»</button>
+          </div>
+          <p class="why">Это размытые слова: у каждого своё «быстро» и своё «корректно». Линтер из интерактива 2 помечает их. SHALL — наоборот, слово обязательности: оно убирает двусмысленность. Размытое слово заменяют числом или сценарием: «быстрее 300 мс для 95% запросов».</p>
+        </div>
+        <div class="q" data-q="l5-spec-lint" data-multi>
+          <p>Что линтер требований должен найти в строке «Вход должен работать быстро.»?</p>
+          <div class="options">
+            <button data-right>Нет слова SHALL или MUST</button>
+            <button data-right>Есть размытое слово «быстро»</button>
+            <button data-right>Нет сценария, который можно проверить</button>
+            <button>Нет номера задачи из tasks.md</button>
+          </div>
+          <p class="why">Три проблемы сразу: нет обязательности, есть размытое слово, нет сценария — значит, нечем доказать, что сделано. Номер задачи требованию не нужен: задачи живут в tasks.md, а требование описывает поведение системы.</p>
+        </div>
+        <div class="q" data-q="l5-spec-scenario" data-multi>
+          <p>Сценарий «Успешный вход сбрасывает счётчик» превращают в тест. Что верно?</p>
+          <div class="options">
+            <button data-right>GIVEN задаёт исходное состояние: у логина 4 неудачные попытки</button>
+            <button data-right>Строки THEN становятся проверками результата</button>
+            <button>AND после GIVEN добавляет ещё одну проверку результата</button>
+            <button>Тест лучше назвать по номеру задачи, а не по сценарию</button>
+          </div>
+          <p class="why">GIVEN — подготовка, WHEN — действие, THEN — проверки. AND продолжает последний раздел: после GIVEN это ещё одно условие, после THEN — ещё одна проверка. Имя теста повторяет имя сценария: по красному тесту сразу видно, какой пункт договора нарушен.</p>
+        </div>
+        <div class="q" data-q="l5-spec-files" data-multi>
+          <p>Что лежит в папке изменения <code>openspec/changes/&lt;имя&gt;/</code>?</p>
+          <div class="options">
+            <button data-right><code>proposal.md</code> — зачем меняем и что именно</button>
+            <button data-right><code>tasks.md</code> — шаги-чекбоксы реализации</button>
+            <button data-right><code>specs/…/spec.md</code> — дельта требований: что добавлено, изменено, удалено</button>
+            <button>Журнал выкладок с датами и версиями</button>
+          </div>
+          <p class="why">Предложение, дельта, задачи и при необходимости <code>design.md</code>. Журнал выкладок к изменению не относится: изменение описывает поведение, а не то, когда его выкатили.</p>
+        </div>
+        <div class="q" data-q="l5-spec-skip" data-multi>
+          <p>В каких задачах спецификация лишняя?</p>
+          <div class="options">
+            <button data-right>Исправить опечатку в тексте кнопки</button>
+            <button data-right>Поменять таймаут с 30 на 60 секунд</button>
+            <button>Добавить блокировку входа после неудачных попыток</button>
+            <button>Поменять формат ответа API, который читают два сервиса</button>
+          </div>
+          <p class="why">Спецификация окупается там, где есть решения: новая функция, изменение поведения, контракт между сервисами. Опечатка и константа решений не требуют — их правят сразу.</p>
+        </div>
+        <div class="q" data-q="l5-spec-speed">
+          <p>Как записать требование к скорости, чтобы его можно было проверить?</p>
+          <div class="options">
+            <button>«API должно работать быстро»</button>
+            <button data-right>«Ответ SHALL приходить быстрее 300 мс для 95% запросов»</button>
+            <button>«API SHOULD быть оптимальным по скорости»</button>
+          </div>
+          <p class="why">Число и доля запросов проверяются нагрузочным тестом. «Быстро» и «оптимально» — размытые слова. SHOULD значит «желательно», то есть агент вправе не сделать.</p>
+        </div>
+        <div class="q" data-q="l5-spec-sessions">
+          <p>Почему спецификация в репозитории надёжнее договорённости в чате?</p>
+          <div class="options">
+            <button>В чат помещается меньше текста</button>
+            <button data-right>Новая сессия агента не помнит прошлый чат, а файл в репозитории читает заново</button>
+            <button>Агент не умеет читать историю чата</button>
+          </div>
+          <p class="why">Между сессиями память чата пропадает. В интерактиве «Две команды, пять сессий» команда с чатом каждый раз решает заново, а команда со спецификацией строит одно и то же. Тесты из сценариев не дают отступить от файла.</p>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>Задание на своём проекте <span class="hint">— 40 минут</span></summary>
+        <div class="more-body">
+          <ol>
+            <li>Возьмите задачу из своего трекера, где есть хоть одно решение: число, срок, правило.</li>
+            <li>Напишите <code>proposal.md</code> в три строки: зачем, что меняем, что затронуто.</li>
+            <li>Напишите одно требование с SHALL и два сценария: обычный и граничный случай.</li>
+            <li>Прогоните требование через линтер из интерактива 2. Уберите размытые слова.</li>
+            <li>Разбейте работу на 4–6 задач в <code>tasks.md</code>. Дайте агенту задачу «реализуй по tasks.md, начни с тестов по сценариям». Сравните с тем, как он делал это без спецификации.</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <!-- ============ 5. ЧЕК-ЛИСТ ============ -->
+    <section class="step" id="checklist">
+      <div class="step-head">
+        <span class="step-tag"><b>5</b> Чек-лист</span>
+        <h2>Отметьте, что усвоили</h2>
+      </div>
+      <ul class="checklist" data-id="main">
+        <li>Понимаю, почему без спецификации агент каждый раз решает по-новому.</li>
+        <li>Пишу требования со словами SHALL или MUST и с числами.</li>
+        <li>Пишу сценарии WHEN/THEN и знаю, что каждый сценарий — будущий тест.</li>
+        <li>Знаю цикл изменения: предложение, дельта, дизайн, задачи, реализация, проверка, архив.</li>
+        <li>Понимаю, где лежит текущая правда (specs) и где изменения (changes).</li>
+        <li>Узнаю ловушки: размытые слова, требования без сценариев, спецификация разошлась с кодом.</li>
+        <li>Ответил на вопросы урока: размытые слова, части сценария, файлы изменения.</li>
+        <li>Знаю, когда спецификация лишняя: опечатки, константы, однострочные фиксы.</li>
+      </ul>
+      <div class="tip done-banner"><b>Урок пройден</b>Агент теперь строит по чертежу. Следующий шаг: часть кода по чертежу можно строить вообще без модели, генератором.</div>
+    </section>
+
+    <!-- ============ 6. ССЫЛКИ ============ -->
+    <section class="step" id="links">
+      <div class="step-head">
+        <span class="step-tag"><b>6</b> Ссылки</span>
+        <h2>Что почитать и где попробовать</h2>
+      </div>
+      <p class="task">Материалы на русском отмечены зелёной меткой. Все ссылки проверены 18 октября 2026 года.</p>
+      <div class="links">
+        <div><h3>Почитать</h3><ul><li><a href="https://habr.com/ru/companies/haulmont/articles/1085536/" target="_blank" rel="noopener">Что такое OpenSpec? Полный гайд по Spec-Driven Development</a><span>теория SDD и устройство изменения в OpenSpec. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/articles/982620/" target="_blank" rel="noopener">Внутри Spec-Driven Development: на что способен Spec Kit</a><span>рабочий процесс GitHub Spec Kit по этапам и реалистичные ожидания. <span class="pill ok">рус., перевод</span></span></li><li><a href="https://habr.com/ru/companies/X5Tech/articles/995466/" target="_blank" rel="noopener">От vibe coding к Spec-Driven Development</a><span>пример от X5: specification.md → plan.md → tasks.md для магазина на FastAPI. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/companies/auriga/articles/808527/" target="_blank" rel="noopener">Введение в BDD</a><span>от TDD к BDD, сценарии Given/When/Then с примерами на python-behave. <span class="pill ok">рус.</span></span></li><li><a href="https://martinfowler.com/bliki/GivenWhenThen.html" target="_blank" rel="noopener">Given When Then</a><span>короткая заметка Фаулера о формате сценариев. <span class="pill">англ.</span></span></li></ul></div>
+        <div><h3>Песочницы по теме</h3><ul><li><a href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">JupyterLite</a><span>Python прямо в браузере: записать сценарий Given/When/Then как тест-функцию и прогнать.</span></li><li><a href="https://mermaid.live/" target="_blank" rel="noopener">Mermaid Live Editor</a><span>нарисовать диаграмму состояний к спецификации до написания кода.</span></li></ul></div>
+        <div><h3>Запустить код из урока</h3><ul><li><a href="https://www.typescriptlang.org/play" target="_blank" rel="noopener">TypeScript Playground</a><span>JS и TS из примеров урока: вставить и запустить кнопкой Run.</span></li><li><a href="https://3v4l.org/" target="_blank" rel="noopener">3v4l.org</a><span>PHP-примеры урока на любой версии PHP.</span></li><li><a href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">JupyterLite</a><span>Python-примеры урока прямо в браузере, без установки.</span></li></ul></div>
+      </div>
+    </section>
+  </main>
+</div>
+<style>
+.hc .build { display: grid; gap: 0.5rem; }
+.hc .build-row { display: grid; grid-template-columns: 8.5rem repeat(5, minmax(0, 1fr)); gap: 0.35rem; align-items: stretch; }
+.hc .build-row > span:first-child { font: 600 var(--hc-fs-xs) var(--hc-f-mono); color: var(--hc-muted); align-self: center; text-transform: uppercase; letter-spacing: 0.04em; }
+.hc .brick { border: 1.5px dashed var(--hc-line); border-radius: 6px; min-height: 3.1rem; padding: 0.3rem 0.4rem; font-size: var(--hc-fs-xs); line-height: 1.3; display: grid; place-items: center; text-align: center; color: var(--hc-muted); transition: background 0.3s, border-color 0.3s; }
+.hc .brick.ok { border-style: solid; border-color: var(--hc-ok); background: var(--hc-ok-soft); color: var(--hc-ink); }
+.hc .brick.bad { border-style: solid; border-color: var(--hc-bad); background: var(--hc-bad-soft); color: var(--hc-ink); }
+@media (max-width: 640px) {
+.hc .build-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.hc .build-row > span:first-child { grid-column: 1 / -1; }
+.hc .brick { font-size: 0.68rem; }
+}
+.hc .lc-files { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 0.75rem; }
+@media (max-width: 760px) {
+.hc .lc-files { grid-template-columns: minmax(0, 1fr); }
+}
+.hc .tree { list-style: none; padding: 0; margin: 0; font: 400 0.8rem/1.7 var(--hc-f-mono); background: var(--hc-bg); border-radius: var(--hc-r-sm); padding: 0.6rem 0.75rem; min-width: 0; overflow-x: auto; }
+.hc .tree li { margin: 0; white-space: pre; color: var(--hc-muted); }
+.hc .tree li.new { color: var(--hc-ok); font-weight: 600; }
+.hc .tree li.cur { color: var(--hc-accent); font-weight: 600; }
+.hc .tree li.gone { text-decoration: line-through; }
+.hc .lc-view { display: grid; gap: 0.4rem; min-width: 0; }
+.hc .lc-view .fname { font: 600 var(--hc-fs-xs) var(--hc-f-mono); color: var(--hc-muted); }
+.hc .lc-view pre { min-height: 12rem; font-size: 0.78rem; }
+.hc .lint-out { list-style: none; padding: 0; display: grid; gap: 0.35rem; }
+.hc .lint-out li { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.6rem; align-items: start; background: var(--hc-bg); border-radius: 6px; padding: 0.45rem 0.6rem; font-size: var(--hc-fs-sm); }
+.hc .lint-out code { white-space: nowrap; }
+.hc .lint-mark { background: color-mix(in srgb, var(--hc-bad) 25%, transparent); border-radius: 2px; }
+.hc .lint-preview { background: var(--hc-bg); border-radius: var(--hc-r-sm); padding: 0.6rem 0.75rem; font: 400 0.82rem/1.55 var(--hc-f-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.hc .gauge { display: flex; gap: 0.75rem; align-items: center; font-size: var(--hc-fs-sm); }
+.hc .gauge .meter { flex: 1; height: 8px; margin: 0; }
+.hc .race { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+@media (max-width: 760px) {
+.hc .race { grid-template-columns: minmax(0, 1fr); }
+}
+.hc .lane { background: var(--hc-bg); border: 1.5px solid var(--hc-line); border-radius: var(--hc-r-sm); padding: 0.6rem 0.75rem; display: grid; gap: 0.4rem; align-content: start; min-width: 0; }
+.hc .lane h4 { font: 600 var(--hc-fs-xs) var(--hc-f-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--hc-muted); }
+.hc .lane ol { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.3rem; font-size: var(--hc-fs-sm); }
+.hc .lane li { margin: 0; }
+.hc .lane li.dev { color: var(--hc-bad); }
+.hc .lane li.keep { color: var(--hc-ok); }
+.hc .lane .final { font-weight: 600; font-size: var(--hc-fs-sm); }
+</style>
+</div><nav class="hc-pager" aria-label="Переход между уроками"><a href="/harness-workshop/mcp-i-huki/" class=""><small>← Назад</small>Урок 4. Свои системы для агента</a><a href="/harness-workshop/generator-ili-agent/" class="next"><small>Дальше →</small>Урок 6. Генератор или агент</a></nav><aside class="hc-try"><div><b>Попробуйте на своём проекте</b><p>Задания из урока можно сделать в Klepa AI: агент работает прямо в VS Code, без VPN, есть бесплатные модели.</p></div><div class="hc-try-actions"><a class="hc-try-install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить Klepa</a><a href="/quickstart/" class="">Быстрый старт</a></div></aside></div><!--]--></main><footer class="foot"><div class="foot-inner"><div><p class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt="" width="32" height="32"> Klepa AI </p><p class="foot-note"> AI-агент для VS Code. Работает без VPN, оплата МИР и БЕЛКАРТ. </p></div><!--[--><div class="foot-col"><span class="nav-label">Продукт</span><!--[--><a href="/installing/" class="">Установка</a><a href="/quickstart/" class="">Быстрый старт</a><a href="/features/" class="">Возможности</a><a href="/best-practices/" class="">Практики</a><a href="/vibe-coding/" class="">Вайбкодинг</a><a href="/harness-workshop/" class="">Курс</a><a href="/image-generation/" class="">Картинки</a><a href="/marketplace/" class="">Marketplace</a><a href="/support/" class="">Поддержка</a><!--]--></div><div class="foot-col"><span class="nav-label">Сравнения</span><!--[--><a href="/analogi/" class="">Все агенты</a><a href="/vs-claude-code/" class="">vs Claude Code</a><a href="/vs-cursor/" class="">vs Cursor</a><a href="/vs-copilot/" class="">vs Copilot</a><a href="/claude-code-besplatno/" class="">Claude Code бесплатно</a><a href="/claude-code-oplata/" class="">Оплата Claude Code</a><a href="/claude-code-ustanovka/" class="">Установка Claude Code</a><!--]--></div><!--]--><div class="foot-col"><span class="nav-label">Сервис</span><a href="/pricing/" class="">Цены и модели</a><a href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">VS Code Marketplace</a><a href="https://gpt-chat.by/" target="_blank" rel="noopener">Чат</a><!--[--><a href="/about/" class="">О нас</a><a href="/offer/" class="">Публичная оферта</a><a href="/privacy-policy/" class="">Политика конфиденциальности</a><a href="/about/#requisites" class="">Реквизиты и контакты</a><!--]--><button type="button" class="foot-button"> Настройки cookie </button></div></div></footer><span data-v-904500e8></span></div></div><div id="teleports"></div><script>window.__NUXT__={};window.__NUXT__.config={public:{siteUrl:"https://klepa.gpt-chat.by",apiBase:"https://api.gpt-chat.by/api",telegramBotId:"7714752762"},app:{baseURL:"/",buildId:"07b41eb6-5854-4672-a7f8-223f73195f9b",buildAssetsDir:"/_nuxt/",cdnURL:""}}</script>
+<script type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" id="__NUXT_DATA__" data-src="/harness-workshop/snachala-specifikaciya/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">[{"state":1,"once":7,"_errors":8,"serverRendered":10,"path":11,"prerenderedAt":12},["Reactive",2],{"$sklepa-login-open":3,"$sklepa-login-consent":3,"$sklepa-login-token":4,"$sklepa-login-refresh":4,"$sklepa-login-session":5,"$sklepa-login-key":4,"$sklepa-login-error":4,"$sklepa-account-label":4,"$sklepa-balance-byn":6,"$sklepa-cookie-consent":6,"$sklepa-cookie-restored":3,"$sklepa-cookie-reopened":3},false,"","idle",null,["Set"],["ShallowReactive",9],{"kurs-snachala-specifikaciya":6},true,"\u002Fharness-workshop\u002Fsnachala-specifikaciya\u002F",1793027418612]</script></body></html>

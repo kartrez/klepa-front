@@ -1,0 +1,582 @@
+<!DOCTYPE html><html  lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Урок 7. Ловим ошибки агента автоматически: слои проверок, бюджеты, петли и выдуманные методы — курс «Агент под контролем»</title>
+<style>:root{color-scheme:dark;--bg:#10140f;--bg-raised:#171d15;--ink:#e7f0df;--muted:#a3b09c;--line:#2a3526;--accent:#d6f25c;--accent-ink:#17200c;--mono:"IBM Plex Mono","Cascadia Mono","Segoe UI Mono",ui-monospace,monospace;--sans:"Segoe UI","PT Root UI",system-ui,sans-serif;--topbar:64px}*{box-sizing:border-box}html{scroll-padding-top:calc(var(--topbar) + 1rem)}#__nuxt,body,html{background:var(--bg);color:var(--ink);margin:0;min-height:100%}body{font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}a{color:inherit}::-moz-selection{background:var(--accent);color:var(--accent-ink)}::selection{background:var(--accent);color:var(--accent-ink)}.shell{display:flex;flex-direction:column;min-height:100vh}.topbar{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:#10140fe0;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.topbar-row{align-items:center;display:flex;gap:1.5rem;height:var(--topbar);margin:0 auto;width:min(1280px,calc(100% - 2rem))}.wordmark{align-items:center;display:inline-flex;font-family:var(--mono);font-weight:700;gap:.5rem;letter-spacing:.02em;margin:0;text-decoration:none;white-space:nowrap}.mark{height:2rem;-o-object-fit:contain;object-fit:contain;width:2rem}.nav{align-items:center;display:flex;gap:.25rem}.nav-link{background:none;border:0;border-radius:8px;color:var(--muted);cursor:pointer;font:inherit;font-size:.93rem;padding:.45rem .65rem;text-decoration:none;white-space:nowrap}.drop.open .drop-toggle,.nav-link.router-link-active,.nav-link:hover{background:var(--bg-raised);color:var(--ink)}.nav-link.chat-link,.nav-link.studio-link{align-items:center;background:var(--accent);color:var(--accent-ink);display:inline-flex;font-weight:700;gap:.35rem}.nav-link.chat-link:hover,.nav-link.studio-link:hover{background:var(--accent);color:var(--accent-ink);filter:brightness(1.08)}.chat-icon,.studio-icon{fill:currentColor;height:1rem;width:1rem}.studio-icon path:last-child{fill:var(--accent)}.caret{font-size:.7rem;opacity:.7}.drop{position:relative}.drop-panel{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px #00000073;display:none;left:0;padding:.5rem;position:absolute;top:100%;width:22rem}.drop.open .drop-panel{display:grid;gap:.15rem}.drop-item{border-radius:8px;display:flex;flex-direction:column;padding:.55rem .7rem;text-decoration:none}.drop-item span{color:var(--muted);font-size:.82rem}.drop-item.router-link-active,.drop-item:hover{background:#d6f25c14}.drop-item:hover b{color:var(--accent)}.actions{align-items:center;display:flex;gap:.6rem;margin-left:auto}.install{color:var(--muted);font-size:.93rem;padding:.45rem .8rem;text-decoration:none}.install:hover{color:var(--ink)}.enter{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font:inherit;font-weight:700;padding:.5rem 1rem}.enter:hover{filter:brightness(1.08)}.menu-toggle{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;display:none;font-size:1rem;height:2.4rem;width:2.4rem}.cabinet,.signed-in{color:var(--ink);font-size:.93rem;font-weight:700;text-decoration:none}.cabinet:hover{color:var(--accent)}.account{align-items:center;display:flex;gap:.6rem}.balance{font-family:var(--mono);font-size:.85rem}.topup{position:relative}.topup summary{background:var(--accent);border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;list-style:none;padding:.45rem .7rem}.topup summary::-webkit-details-marker{display:none}.topup-menu{background:var(--bg-raised);border:1px solid var(--line);border-radius:8px;min-width:7rem;padding:.3rem;position:absolute;right:0;top:calc(100% + .3rem);z-index:5}.topup button{background:none;border:0;color:var(--ink);cursor:pointer;display:block;font:inherit;padding:.4rem .7rem;text-align:left;width:100%}.topup button:hover{color:var(--accent)}.logout{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit}.logout:hover{color:var(--ink)}.nav-label{color:var(--muted);font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.mobile-nav{display:grid;gap:1rem;margin:0 auto;padding:.5rem 0 1.25rem;width:min(1280px,calc(100% - 2rem))}.mobile-nav a{text-decoration:none}.mobile-group{display:grid;gap:.5rem}.session-banner{background:var(--bg-raised);color:var(--accent);margin:0;padding:.7rem 1.5rem;text-align:center}.page{flex:1;margin:0 auto;padding:2rem 0 5rem;width:min(1280px,calc(100% - 2rem))}.foot{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding:3rem 0}.foot-inner{display:grid;gap:2rem;grid-template-columns:1.4fr repeat(2,1fr) 1.2fr;margin:0 auto;width:min(1280px,calc(100% - 2rem))}.foot .wordmark{color:var(--ink)}.foot-note{margin:.8rem 0 0;max-width:18rem}.foot-col{align-content:start;display:grid;gap:.45rem}.foot-col a{text-decoration:none}.foot-col a:hover{color:var(--accent)}.foot-button{background:none;border:0;color:inherit;cursor:pointer;font:inherit;justify-self:start;padding:0}.foot-button:hover{color:var(--accent)}@media(max-width:960px){.install,.nav{display:none}.menu-toggle{display:inline-grid;place-items:center}.foot-inner{grid-template-columns:1fr 1fr}}@media(max-width:520px){.foot-inner{grid-template-columns:1fr}}</style>
+<style>.dialog[data-v-7579e13d]{background:#080a07b8;display:grid;inset:0;padding:1rem;place-items:center;position:fixed;z-index:20}.dialog-card[data-v-7579e13d]{background:var(--bg-raised);border:1px solid var(--line);border-radius:12px;padding:1.25rem;width:min(28rem,100%)}label a[data-v-7579e13d]{color:var(--accent)}.error[data-v-7579e13d]{color:#ffb4a8;margin:0 0 .6rem}.choices[data-v-7579e13d]{display:flex;gap:.6rem;margin-top:.8rem}.choices button[data-v-7579e13d],.dialog-card>button[data-v-7579e13d]{background:var(--accent);border:0;border-radius:8px;color:var(--accent-ink);cursor:pointer;font-weight:700;padding:.7rem 1.1rem}button[data-v-7579e13d]:disabled{cursor:not-allowed;opacity:.45}.dismiss[data-v-7579e13d]{background:transparent;border:1px solid var(--line);color:var(--muted);margin-top:1rem}</style>
+<style>.cookie-notice[data-v-904500e8]{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;bottom:calc(1rem + env(safe-area-inset-bottom,0px));box-shadow:0 12px 32px #00000073;display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;left:50%;padding:.9rem 1.1rem;position:fixed;transform:translate(-50%);width:min(960px,calc(100% - 2rem));z-index:20}.cookie-notice p[data-v-904500e8]{color:var(--muted);flex:1 1 22rem;font-size:.9rem;margin:0}.cookie-notice a[data-v-904500e8]{color:var(--accent)}.cookie-actions[data-v-904500e8]{display:flex;gap:.6rem;margin-left:auto}.cookie-deny[data-v-904500e8]{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font:inherit;padding:.5rem .9rem}.cookie-deny[data-v-904500e8]:hover{border-color:var(--muted)}</style>
+<style>.lesson-page{display:grid;gap:2.5rem;width:100%}.hc-crumbs{color:var(--muted);display:flex;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;gap:.35rem .75rem}.hc-crumbs a{color:var(--accent);text-decoration:none}.hc-crumbs span:before{color:var(--line);content:"/";margin-right:.75rem}.hc-try{align-items:center;background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;padding:1.1rem 1.25rem}.hc-try p{color:var(--muted);margin:.3rem 0 0;max-width:40rem}.hc-try-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.75rem}.hc-try-actions a{color:var(--accent)}.hc-try-actions .hc-try-install{background:var(--accent);border-radius:6px;color:var(--accent-ink);font-weight:700;padding:.55rem 1rem;text-decoration:none}.hc-pager{display:grid;gap:.75rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc-pager a{background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;color:var(--ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc-pager a:hover{border-color:var(--accent)}.hc-pager small{color:var(--muted)}.hc-pager .next{grid-column:2;text-align:right}@media(max-width:560px){.hc-pager{grid-template-columns:minmax(0,1fr)}.hc-pager .next{grid-column:1}}</style>
+<style>.hc{--hc-bg:var(--bg);--hc-surface:var(--bg-raised);--hc-surface-2:#1f281c;--hc-ink:var(--ink);--hc-muted:var(--muted);--hc-line:var(--line);--hc-accent:var(--accent);--hc-accent-soft:rgba(214,242,92,.12);--hc-accent-ink:var(--accent-ink);--hc-warm:#f0a35e;--hc-warm-soft:#33261a;--hc-ok:#62d38f;--hc-ok-soft:#15301f;--hc-bad:#ff8a7e;--hc-bad-soft:#3a1c19;--hc-warn:#e6c14d;--hc-warn-soft:#352d12;--hc-code-bg:#0b0f0a;--hc-code-ink:#dfe8d6;--hc-shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);--hc-f-display:var(--sans);--hc-f-body:var(--sans);--hc-f-mono:var(--mono);--hc-fs-xs:.78rem;--hc-fs-sm:.9rem;--hc-fs-md:1.02rem;--hc-fs-lg:1.22rem;--hc-fs-xl:1.45rem;--hc-fs-2xl:clamp(1.6rem,3vw,2.2rem);--hc-r-sm:6px;--hc-r-md:10px;--hc-col:46rem;--hc-wide:80rem;color-scheme:dark}.hc *{box-sizing:border-box}@media(prefers-reduced-motion:reduce){.hc *,.hc :after,.hc :before{animation-duration:.01ms!important;transition-duration:.01ms!important}}.hc{background:var(--hc-bg);color:var(--hc-ink);font:400 var(--hc-fs-md)/1.62 var(--hc-f-body);margin:0;-webkit-font-smoothing:antialiased}.hc a{color:var(--hc-accent);text-underline-offset:3px}.hc a:hover{text-decoration-thickness:2px}.hc :focus-visible{border-radius:4px;outline:3px solid var(--hc-accent);outline-offset:2px}.hc h1,.hc h2,.hc h3,.hc h4{line-height:1.2;margin:0;text-wrap:balance}.hc h1,.hc h2{font-family:var(--hc-f-display);font-weight:600;letter-spacing:-.01em}.hc h1{font-size:var(--hc-fs-2xl)}.hc h2{font-size:var(--hc-fs-xl)}.hc h3{font-size:var(--hc-fs-lg)}.hc h3,.hc h4{font-weight:650}.hc h4{font-size:var(--hc-fs-md)}.hc ol,.hc p,.hc ul{margin:0}.hc ol,.hc ul{padding-left:1.3em}.hc li+li{margin-top:.3em}.hc code,.hc kbd,.hc pre{font-family:var(--hc-f-mono);font-size:.88em}.hc :not(pre)>code{background:var(--hc-code-bg);border-radius:4px;color:var(--hc-code-ink);overflow-wrap:anywhere;padding:.08em .36em}.hc kbd{background:var(--hc-surface);border:solid var(--hc-line);border-radius:4px;border-width:1px 1px 2px;padding:0 .35em}.hc strong{font-weight:650}.hc [hidden]{display:none!important}.hc .visually-hidden{clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}.hc .hc-page{display:grid;gap:2.5rem;grid-template-columns:12rem minmax(0,1fr);margin:0 auto;max-width:var(--hc-wide);padding-block:2rem 4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.hc .rail{align-self:start;position:sticky;top:calc(var(--topbar) + 1.5rem)}.hc .rail ol{counter-reset:step;display:grid;gap:.15rem;list-style:none;margin:0;padding:0}.hc .rail li{margin:0}.hc .rail a{align-items:center;border-radius:var(--hc-r-sm);color:var(--hc-muted);display:flex;font-size:var(--hc-fs-sm);gap:.6rem;padding:.35rem .5rem;text-decoration:none}.hc .rail a:before{border:1.5px solid var(--hc-line);border-radius:50%;content:counter(step);counter-increment:step;display:grid;flex:none;font:600 .72rem var(--hc-f-mono);height:1.5rem;place-items:center;width:1.5rem}.hc .rail a:hover{background:var(--hc-surface-2);color:var(--hc-ink)}.hc .rail a.is-current{color:var(--hc-ink);font-weight:600}.hc .rail a.is-current:before{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .rail .rail-progress{color:var(--hc-muted);font-size:var(--hc-fs-xs);margin-top:1rem}.hc .meter{background:var(--hc-surface-2);border-radius:99px;height:6px;margin-top:.35rem;overflow:hidden}.hc .meter>i{background:var(--hc-ok);display:block;height:100%;transition:width .4s;width:0}.hc .content{display:grid;gap:3.5rem;min-width:0}.hc .content>*{min-width:0}.hc .analogy,.hc .content,.hc .lesson-hero,.hc .level,.hc .outcomes,.hc .prose,.hc .q,.hc .quiz,.hc .stand,.hc .step{grid-template-columns:minmax(0,1fr)}.hc .lesson-hero{display:grid;gap:1rem;max-width:var(--hc-col)}.hc .eyebrow{color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .lead{color:var(--hc-muted);font-size:var(--hc-fs-lg);line-height:1.5}.hc .facts{display:flex;flex-wrap:wrap;gap:.5rem}.hc .fact{border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-muted);font-size:var(--hc-fs-xs);padding:.2rem .65rem}.hc .fact,.hc .outcomes{background:var(--hc-surface)}.hc .outcomes{border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.5rem;padding:1rem 1.2rem}.hc .outcomes h2{color:var(--hc-muted);font:650 var(--hc-fs-sm) var(--hc-f-body);letter-spacing:.06em;text-transform:uppercase}.hc .step{display:grid;gap:1.1rem;scroll-margin-top:5rem}.hc .step>:not(.stand):not(.wide){max-width:var(--hc-col)}.hc .step-head{display:grid;gap:.35rem}.hc .step-tag{align-items:center;color:var(--hc-muted);display:inline-flex;font:600 var(--hc-fs-xs) var(--hc-f-mono);gap:.5rem;letter-spacing:.08em;text-transform:uppercase}.hc .step-tag b{background:var(--hc-ink);border-radius:4px;color:var(--hc-bg);font-weight:600;padding:.05rem .4rem}.hc .step ol+p,.hc .step p+ol,.hc .step p+p,.hc .step p+ul,.hc .step ul+p{margin-top:0}.hc .prose{display:grid;gap:.85rem}.hc .level{border-left:3px solid var(--hc-line);display:grid;gap:.75rem;padding-left:1rem}.hc .level[data-level="1"]{border-color:var(--hc-ok)}.hc .level[data-level="2"]{border-color:var(--hc-accent)}.hc .level[data-level="3"]{border-color:var(--hc-warm)}.hc .level-tag{color:var(--hc-muted);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.06em;text-transform:uppercase}.hc .analogy{background:var(--hc-warm-soft);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:1.1rem 1.25rem}.hc .analogy .label{color:var(--hc-warm);font:600 var(--hc-fs-xs) var(--hc-f-mono);letter-spacing:.08em;text-transform:uppercase}.hc .analogy p{font-size:var(--hc-fs-lg);line-height:1.45}.hc .map-pairs{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))}.hc .map-pairs>div{background:var(--hc-surface);border-radius:var(--hc-r-sm);display:grid;font-size:var(--hc-fs-sm);gap:.1rem;padding:.55rem .75rem}.hc .map-pairs b{font-weight:600}.hc .map-pairs span{color:var(--hc-muted)}.hc .note,.hc .tip,.hc .warn{border-radius:var(--hc-r-md);display:block;font-size:var(--hc-fs-sm);padding:.85rem 1rem}.hc .note{background:var(--hc-accent-soft)}.hc .tip{background:var(--hc-ok-soft)}.hc .warn{background:var(--hc-bad-soft)}.hc .note>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .tip>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div),.hc .warn>:is(p,ul,ol,pre,div)+:is(p,ul,ol,pre,div){margin-top:.45rem}.hc .note>b:first-child,.hc .tip>b:first-child,.hc .warn>b:first-child{display:block;font-size:var(--hc-fs-xs);letter-spacing:.06em;margin-bottom:.35rem;text-transform:uppercase}.hc .term{border-bottom:1.5px dotted var(--hc-accent);cursor:help;position:relative}.hc .term:focus:after,.hc .term:hover:after{background:var(--hc-ink);border-radius:var(--hc-r-sm);box-shadow:var(--hc-shadow);color:var(--hc-bg);content:attr(data-tip);font:400 var(--hc-fs-xs)/1.45 var(--hc-f-body);left:0;max-width:min(20rem,80vw);padding:.5rem .65rem;position:absolute;top:calc(100% + 6px);white-space:normal;width:-moz-max-content;width:max-content;z-index:30}.hc details.more{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md)}.hc details.more>summary{align-items:baseline;cursor:pointer;display:flex;font-size:var(--hc-fs-sm);font-weight:600;gap:.6rem;list-style:none;padding:.7rem 1rem}.hc details.more>summary::-webkit-details-marker{display:none}.hc details.more>summary:before{color:var(--hc-accent);content:"+";flex:none;font:600 1rem var(--hc-f-mono);width:1rem}.hc details.more[open]>summary:before{content:"−"}.hc details.more>summary .hint{color:var(--hc-muted);font-weight:400}.hc details.more>.more-body{display:grid;gap:.75rem;min-width:0;padding:0 1rem 1rem}.hc pre{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font-size:.84rem;line-height:1.55;margin:0;overflow-x:auto;padding:.85rem 1rem;position:relative;-moz-tab-size:2;-o-tab-size:2;tab-size:2}.hc pre .c{color:var(--hc-muted);font-style:italic}.hc pre .k{color:var(--hc-accent);font-weight:600}.hc pre .s{color:var(--hc-ok)}.hc pre .w{color:var(--hc-warm)}.hc .code-wrap{min-width:0;position:relative}.hc .copy-btn{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-body);opacity:.85;padding:.15rem .5rem;position:absolute;right:.4rem;top:.4rem}.hc .copy-btn:hover{color:var(--hc-ink);opacity:1}.hc .code-tabs{display:grid;gap:0;min-width:0}.hc .code-tabs .tab-bar{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:-1px}.hc .code-tabs .tab-bar button{background:transparent;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--hc-muted);cursor:pointer;font:500 var(--hc-fs-xs) var(--hc-f-mono);padding:.35rem .7rem}.hc .code-tabs .tab-bar button[aria-selected=true]{background:var(--hc-code-bg);border-color:var(--hc-line);color:var(--hc-ink)}.hc .code-tabs pre{border-top-left-radius:0}.hc .stand{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);box-shadow:var(--hc-shadow);display:grid;gap:1rem;min-width:0;padding:1.1rem}.hc .stand-head{align-items:baseline;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between}.hc .stand-head h3{font-size:var(--hc-fs-md)}.hc .stand-head .badge{background:var(--hc-accent-soft);border-radius:4px;color:var(--hc-accent);font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.15rem .5rem}.hc .stand .task{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .row{align-items:center;display:flex;flex-wrap:wrap;gap:.6rem}.hc .grid-2{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}.hc .grid-3{display:grid;gap:.75rem;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.hc .grid-2,.hc .grid-3{grid-template-columns:minmax(0,1fr)}}.hc .btn{align-items:center;background:var(--hc-accent);border:1px solid var(--hc-accent);border-radius:var(--hc-r-sm);color:var(--hc-accent-ink);cursor:pointer;display:inline-flex;font:600 var(--hc-fs-sm) var(--hc-f-body);gap:.4rem;padding:.5rem .95rem}.hc .btn:hover{filter:brightness(1.08)}.hc .btn:disabled{cursor:not-allowed;filter:none;opacity:.45}.hc .btn.secondary{background:transparent;color:var(--hc-accent)}.hc .btn.quiet{background:transparent;border-color:var(--hc-line);color:var(--hc-muted)}.hc .btn.small{font-size:var(--hc-fs-xs);padding:.25rem .6rem}.hc .chip-btn{background:var(--hc-surface-2);border:1px solid var(--hc-line);border-radius:99px;color:var(--hc-ink);cursor:pointer;font:500 var(--hc-fs-sm) var(--hc-f-body);padding:.3rem .8rem}.hc .chip-btn[aria-pressed=true]{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc label{font-size:var(--hc-fs-sm);font-weight:600}.hc .field{display:grid;gap:.3rem;min-width:0}.hc .field small{color:var(--hc-muted);font-weight:400}.hc input[type=number],.hc input[type=text],.hc select,.hc textarea{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);font:400 var(--hc-fs-sm) var(--hc-f-body);min-width:0;padding:.5rem .65rem;width:100%}.hc textarea{line-height:1.5;resize:vertical}.hc .mono,.hc textarea.code{font-family:var(--hc-f-mono);font-size:.84rem}.hc textarea.code{background:var(--hc-code-bg);color:var(--hc-code-ink);min-height:14rem;overflow:auto;-moz-tab-size:2;-o-tab-size:2;tab-size:2;white-space:pre}.hc input[type=range]{accent-color:var(--hc-accent);width:100%}.hc input[type=checkbox],.hc input[type=radio]{accent-color:var(--hc-accent);height:1.05rem;width:1.05rem}.hc .output{background:var(--hc-code-bg);border-radius:var(--hc-r-sm);color:var(--hc-code-ink);font:400 .82rem/1.55 var(--hc-f-mono);max-height:22rem;min-height:3rem;overflow:auto;overflow-wrap:anywhere;padding:.75rem .9rem;white-space:pre-wrap}.hc .output:empty:before{color:var(--hc-muted);content:attr(data-empty)}.hc .output .ok{color:var(--hc-ok)}.hc .output .bad{color:var(--hc-bad)}.hc .output .dim{color:var(--hc-muted)}.hc .result-line{font-size:var(--hc-fs-sm);font-weight:600}.hc .result-line.ok{color:var(--hc-ok)}.hc .result-line.bad{color:var(--hc-bad)}.hc .pill{background:var(--hc-surface-2);border-radius:4px;color:var(--hc-muted);display:inline-block;font:600 var(--hc-fs-xs) var(--hc-f-mono);padding:.1rem .45rem}.hc .pill.ok{background:var(--hc-ok-soft);color:var(--hc-ok)}.hc .pill.bad{background:var(--hc-bad-soft);color:var(--hc-bad)}.hc .pill.warn{background:var(--hc-warn-soft);color:var(--hc-warn)}.hc .pill.accent{background:var(--hc-accent-soft);color:var(--hc-accent)}.hc .flow{align-items:stretch;display:flex;flex-wrap:wrap;gap:.4rem}.hc .flow .node{background:var(--hc-surface-2);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);display:grid;flex:1 1 8rem;font-size:var(--hc-fs-sm);gap:.15rem;min-width:0;padding:.55rem .7rem;transition:border-color .25s,background .25s,transform .25s}.hc .flow .node small{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .flow .node.is-active{background:var(--hc-accent-soft);border-color:var(--hc-accent);transform:translateY(-2px)}.hc .flow .node.is-done{border-color:var(--hc-ok)}.hc .flow .node.is-bad{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .flow .arrow{align-self:center;color:var(--hc-muted);font-family:var(--hc-f-mono)}@media(max-width:560px){.hc .flow{flex-direction:column}.hc .flow .arrow{align-self:center;transform:rotate(90deg)}}.hc .table-wrap{min-width:0;overflow-x:auto}.hc table{border-collapse:collapse;font-size:var(--hc-fs-sm);width:100%}.hc td,.hc th{border-bottom:1px solid var(--hc-line);padding:.45rem .6rem;text-align:left;vertical-align:top}.hc th{color:var(--hc-muted);font-size:var(--hc-fs-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase}.hc td.num,.hc th.num{font-variant-numeric:tabular-nums;text-align:right}.hc .quiz{display:grid;gap:1rem}.hc .q{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;padding:.9rem 1rem}.hc .q>p{font-weight:600}.hc .q .options{display:grid;gap:.4rem}.hc .q .options button{background:var(--hc-bg);border:1.5px solid var(--hc-line);border-radius:var(--hc-r-sm);color:var(--hc-ink);cursor:pointer;font:400 var(--hc-fs-sm)/1.45 var(--hc-f-body);padding:.5rem .75rem;text-align:left}.hc .q .options button:hover{border-color:var(--hc-accent)}.hc .q .options button.is-right{background:var(--hc-ok-soft);border-color:var(--hc-ok)}.hc .q .options button.is-wrong{background:var(--hc-bad-soft);border-color:var(--hc-bad)}.hc .q .why{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .quiz-score{color:var(--hc-muted)}.hc .q .q-kind,.hc .quiz-score{font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs)}.hc .q .q-kind{background:var(--hc-warn-soft);border-radius:999px;color:var(--hc-warn);justify-self:start;padding:.1rem .6rem}.hc .q[data-multi] .options button{padding-left:2.1rem;position:relative}.hc .q[data-multi] .options button:before{border:1.5px solid var(--hc-muted);border-radius:3px;content:"";height:.85rem;left:.7rem;position:absolute;top:.68rem;width:.85rem}.hc .q[data-multi] .options button[aria-pressed=true]{border-color:var(--hc-accent)}.hc .q[data-multi] .options button[aria-pressed=true]:before{background:var(--hc-accent);border-color:var(--hc-accent);box-shadow:inset 0 0 0 2px var(--hc-bg)}.hc .q[data-multi] .options button.is-right{border-color:var(--hc-ok)}.hc .q[data-multi] .options button.is-wrong{border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-wrong:before{background:var(--hc-bad);border-color:var(--hc-bad)}.hc .q[data-multi] .options button.is-right:before{background:var(--hc-ok);border-color:var(--hc-ok)}.hc .q>p.why{font-weight:400}.hc .q .options button.is-missed{border-color:var(--hc-ok);border-style:dashed}.hc .q .options button.is-missed:after{color:var(--hc-ok);content:" — тоже верный";font-size:var(--hc-fs-xs)}.hc .q .q-actions{display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);display:grid;gap:.6rem;margin:0;min-width:0;padding:.75rem}.hc .stage3d-view{aspect-ratio:16/9;background:radial-gradient(120% 90% at 50% 30%,#1d2619 0,var(--hc-bg) 75%);border-radius:var(--hc-r-sm);min-height:16rem;overflow:hidden;position:relative}.hc .stage3d-view canvas{cursor:grab;display:block;height:100%;width:100%}.hc .stage3d-view canvas:active{cursor:grabbing}.hc .stage3d-labels{inset:0;overflow:hidden;pointer-events:none;position:absolute}.hc .stage3d-label{background:#10140fc7;border:1px solid var(--hc-line);border-radius:4px;color:var(--hc-ink);font:600 var(--hc-fs-xs)/1.2 var(--hc-f-mono);left:0;margin-top:-6px;padding:.12rem .4rem;position:absolute;top:0;transition:opacity .2s;white-space:nowrap}.hc .stage3d-label.accent{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-label.warm{background:var(--hc-warm);border-color:var(--hc-warm);color:#2a1a0c}.hc .stage3d-label.bad{background:var(--hc-bad);border-color:var(--hc-bad);color:#2a0f0c}.hc .stage3d-label.ok{background:var(--hc-ok);border-color:var(--hc-ok);color:#0c2416}.hc .stage3d-label.dim{color:var(--hc-muted);font-weight:400}.hc .stage3d-gate{background:var(--hc-accent);border:0;border-radius:999px;bottom:.5rem;color:var(--hc-accent-ink);font:600 var(--hc-fs-xs)/1 var(--hc-f-body);padding:.55rem .9rem;position:absolute;right:.5rem}.hc .stage3d.is-active .stage3d-view{outline:2px solid var(--hc-accent)}.hc .stage3d-bar{align-items:center;display:flex;flex-wrap:wrap;gap:.5rem}.hc .stage3d-range{accent-color:var(--hc-accent);flex:1 1 8rem;min-width:6rem}.hc .stage3d-clock{color:var(--hc-muted);font-family:var(--hc-f-mono);font-size:var(--hc-fs-xs);min-width:6.5rem}.hc .stage3d-zoom{min-width:2.2rem}.hc .stage3d-chapters{display:flex;flex-wrap:wrap;gap:.35rem}.hc .stage3d-chip{background:var(--hc-bg);border:1px solid var(--hc-line);border-radius:999px;color:var(--hc-muted);cursor:pointer;font:400 var(--hc-fs-xs)/1.2 var(--hc-f-body);padding:.3rem .65rem}.hc .stage3d-chip:hover{border-color:var(--hc-accent);color:var(--hc-ink)}.hc .stage3d-chip.is-current{background:var(--hc-accent);border-color:var(--hc-accent);color:var(--hc-accent-ink)}.hc .stage3d-caption{font-size:var(--hc-fs-sm);min-height:3.2em}.hc .stage3d-caption b{color:var(--hc-accent)}.hc .stage3d-hint{color:var(--hc-muted);font-size:var(--hc-fs-xs)}.hc .stage3d-alt{color:var(--hc-muted);font-size:var(--hc-fs-sm)}.hc .stage3d.is-ready .stage3d-alt{height:1px;overflow:hidden;position:absolute;width:1px;clip:rect(0 0 0 0);white-space:nowrap}.hc .stage3d.is-fallback .stage3d-bar,.hc .stage3d.is-fallback .stage3d-caption,.hc .stage3d.is-fallback .stage3d-chapters,.hc .stage3d.is-fallback .stage3d-hint,.hc .stage3d.is-fallback .stage3d-view{display:none}.hc .stage3d.is-fallback .stage3d-alt{height:auto;overflow:visible;position:static;width:auto;clip:auto;white-space:normal}@media(max-width:640px){.hc .stage3d-view{aspect-ratio:1/1}.hc .stage3d-chapters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.1rem;scrollbar-width:none}.hc .stage3d-chip{flex:none}.hc .stage3d-label{font-size:.66rem;padding:.08rem .3rem}}.hc .checklist{display:grid;gap:.35rem;list-style:none;padding:0}.hc .checklist li{margin:0}.hc .checklist label{align-items:flex-start;border-radius:var(--hc-r-sm);cursor:pointer;display:flex;font-size:var(--hc-fs-md);font-weight:400;gap:.65rem;padding:.45rem .6rem}.hc .checklist label:hover{background:var(--hc-surface)}.hc .checklist input{flex:none;margin-top:.3rem}.hc .checklist input:checked+span{color:var(--hc-muted);text-decoration:line-through;text-decoration-color:var(--hc-ok)}.hc .done-banner{display:none}.hc .done-banner.is-shown{display:block}.hc .links{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr))}.hc .links h3{color:var(--hc-muted);font-size:var(--hc-fs-sm);letter-spacing:.06em;margin-bottom:.5rem;text-transform:uppercase}.hc .links ul{display:grid;gap:.6rem;list-style:none;padding:0}.hc .links li{display:grid;font-size:var(--hc-fs-sm);gap:.1rem;margin:0}.hc .links li a{font-weight:600}.hc .links li span{color:var(--hc-muted)}.hc .pager{display:grid;gap:.75rem;grid-template-columns:1fr 1fr}.hc .pager a{background:var(--hc-surface);border:1px solid var(--hc-line);border-radius:var(--hc-r-md);color:var(--hc-ink);display:grid;gap:.15rem;padding:.8rem 1rem;text-decoration:none}.hc .pager a:hover{border-color:var(--hc-accent)}.hc .pager small{color:var(--hc-muted)}.hc .pager .next{grid-column:2;text-align:right}.hc .footer-note{color:var(--hc-muted);font-size:var(--hc-fs-xs)}@media(max-width:900px){.hc .hc-page{gap:1.5rem;grid-template-columns:minmax(0,1fr);padding-block:1.25rem 3rem}.hc .rail{background:var(--hc-bg);margin-inline:-4px;padding-block:.4rem;position:sticky;top:var(--topbar);z-index:15}.hc .rail ol{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none}.hc .rail a{padding:.25rem .5rem;white-space:nowrap}.hc .rail .rail-progress{display:none}.hc .content{gap:2.75rem}}@keyframes hc-pop{0%{opacity:.4;transform:scale(.92)}to{opacity:1;transform:scale(1)}}.hc .pop{animation:hc-pop .25s ease-out}@keyframes hc-pulse-border{0%,to{box-shadow:0 0 color-mix(in srgb,var(--hc-accent) 45%,transparent)}50%{box-shadow:0 0 0 6px transparent}}.hc .pulse{animation:hc-pulse-border 1.2s ease-out 2}.hc .hc-page{margin:0;max-width:none;padding:0}</style>
+<link rel="stylesheet" href="/_nuxt/kurs.DD10fpVf.css" crossorigin>
+<link rel="preload" as="fetch" crossorigin="anonymous" href="/harness-workshop/oshibki-agenta/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BFZxJiOk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Md4VEwow.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/Cx38cRZh.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/BayULBOU.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B4Ey_btE.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DXJlw0Jk.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/umt8mYvj.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/B_31BsbJ.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/ylmHlZv_.js">
+<link rel="modulepreload" as="script" crossorigin href="/_nuxt/DqDzQPTU.js">
+<script type="module" src="/_nuxt/BFZxJiOk.js" crossorigin></script>
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CTsZqIVY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/R4uVcw0-.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DSW_zuzx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DT9HhtpA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DsIVt1uA.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Csp-tBFP.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DVk6OOaH.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CHzdfqXZ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DIqqaU9V.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Caps8ti_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BzyUlbQC.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BXZQtsXx.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Ba686JSa.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/D4aieIjQ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Dm8p2LOi.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DMHLwBTJ.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C8s7KUif.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/CfRiDiXh.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/B7QZ0aMn.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/jI-YWrlY.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/BbeGPlLB.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DJOctqjL.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/9d2q4aVm.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/2Z7xxhpV.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/C3VDPMZ_.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DYQ6arQ6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/Cy5W8Jx6.js">
+<link rel="prefetch" as="script" crossorigin href="/_nuxt/DOkdDJzx.js">
+<meta name="description" content="Слои проверок, бюджеты, петли и выдуманные методы. Ошибки агента ловит среда, а не вы. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="theme-color" content="#10140f">
+<link rel="icon" type="image/png" href="/images/klepa-mark.png">
+<link rel="apple-touch-icon" href="/images/klepa-mark.png">
+<meta name="keywords" content="guardrails, бюджет, трейсы, курс ИИ-агенты, ИИ для программистов, нейросеть пишет код">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Klepa AI">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Урок 7. Ловим ошибки агента автоматически: слои проверок, бюджеты, петли и выдуманные методы — курс «Агент под контролем»">
+<meta property="og:description" content="Слои проверок, бюджеты, петли и выдуманные методы. Ошибки агента ловит среда, а не вы. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta property="og:url" content="https://klepa.gpt-chat.by/harness-workshop/oshibki-agenta/">
+<meta property="og:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Klepa AI — AI-агент для VS Code">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Урок 7. Ловим ошибки агента автоматически: слои проверок, бюджеты, петли и выдуманные методы — курс «Агент под контролем»">
+<meta name="twitter:description" content="Слои проверок, бюджеты, петли и выдуманные методы. Ошибки агента ловит среда, а не вы. Бесплатный урок с интерактивами и тестами прямо в браузере.">
+<meta name="twitter:image" content="https://klepa.gpt-chat.by/images/og-klepa.png">
+<link rel="canonical" href="https://klepa.gpt-chat.by/harness-workshop/oshibki-agenta/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Klepa AI","item":"https://klepa.gpt-chat.by/"},{"@type":"ListItem","position":2,"name":"Урок 7. Ловим ошибки агента автоматически","item":"https://klepa.gpt-chat.by/harness-workshop/oshibki-agenta/"}]}</script></head><body><div id="__nuxt"><div class="shell"><header class="topbar"><div class="topbar-row"><a href="/" class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt width="32" height="32"> Klepa AI </a><nav class="nav" aria-label="Разделы сайта"><!--[--><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Продукт <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/installing/" class="drop-item"><b>Установка</b><span>Как поставить расширение Klepa в VS Code.</span></a><a href="/quickstart/" class="drop-item"><b>Быстрый старт</b><span>Первый запрос, ключ и бесплатные модели.</span></a><a href="/features/" class="drop-item"><b>Возможности</b><span>Режимы Ask, Plan, Code и Debug и остальные функции плагина.</span></a><a href="/best-practices/" class="drop-item"><b>Практики</b><span>Как ставить задачи, чтобы агент правил нужные файлы.</span></a><a href="/vibe-coding/" class="drop-item"><b>Вайбкодинг</b><span>Что это и как начать писать код с ИИ-агентом.</span></a><a href="/harness-workshop/" class="drop-item"><b>Курс</b><span>Бесплатный курс: как работать с ИИ-агентом в своём проекте.</span></a><a href="/image-generation/" class="drop-item"><b>Картинки</b><span>Генерация изображений прямо из редактора.</span></a><a href="/marketplace/" class="drop-item"><b>Marketplace</b><span>Готовые режимы, навыки и MCP-серверы.</span></a><a href="/support/" class="drop-item"><b>Поддержка</b><span>Вопросы по установке, оплате и работе агента.</span></a><!--]--></div></div><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false">Сравнения <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/analogi/" class="drop-item"><b>Все агенты</b><span>Klepa рядом с другими агентами для кода.</span></a><a href="/vs-claude-code/" class="drop-item"><b>vs Claude Code</b><span>Чем плагин в редакторе отличается от Claude Code.</span></a><a href="/vs-cursor/" class="drop-item"><b>vs Cursor</b><span>Klepa и Cursor: VPN, оплата и работа в VS Code.</span></a><a href="/vs-copilot/" class="drop-item"><b>vs Copilot</b><span>Автодополнение Copilot и агент, который ведёт задачу.</span></a><a href="/claude-code-besplatno/" class="drop-item"><b>Claude Code бесплатно</b><span>Как попробовать Claude без подписки Cursor.</span></a><a href="/claude-code-oplata/" class="drop-item"><b>Оплата Claude Code</b><span>Оплата картами МИР и БЕЛКАРТ без иностранной карты.</span></a><a href="/claude-code-ustanovka/" class="drop-item"><b>Установка Claude Code</b><span>Команды для Windows, macOS и Linux и что будет при входе.</span></a><!--]--></div></div><!--]--><a href="/pricing/" class="nav-link"> Цены </a><div class="drop"><button type="button" class="nav-link drop-toggle" aria-expanded="false"> О сервисе <span class="caret">▾</span></button><div class="drop-panel"><!--[--><a href="/about/" class="drop-item"><b>О нас</b><span>Кто делает Klepa и реквизиты поставщика.</span></a><a href="/offer/" class="drop-item"><b>Публичная оферта</b><span>Договор возмездного оказания услуг.</span></a><a href="/privacy-policy/" class="drop-item"><b>Политика конфиденциальности</b><span>Как обрабатываются персональные данные.</span></a><a href="/about/#requisites" class="drop-item"><b>Реквизиты и контакты</b><span>УНП, адрес и способы связи.</span></a><!--]--></div></div><a class="nav-link" href="https://agent.gpt-chat.by/" target="_blank" rel="noopener"> Агент </a><a class="nav-link studio-link" href="https://video-studio.gpt-chat.by/" target="_blank" rel="noopener"><svg class="studio-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="7" width="22" height="18" rx="4"></rect><path d="M24 13 L30 9 V23 L24 19 Z"></path><path d="M10 12 L17 16 L10 20 Z"></path></svg> Студия </a><a class="nav-link chat-link" href="https://gpt-chat.by/" target="_blank" rel="noopener"><svg class="chat-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7A2.5 2.5 0 0 1 16.5 16H9l-3.6 2.7A.8.8 0 0 1 4 18V6.5Z"></path></svg> Чат </a></nav><div class="actions"><a class="install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить</a><button type="button" class="enter"> Войти </button><button type="button" class="menu-toggle" aria-expanded="false" aria-label="Меню">☰</button></div></div><!----></header><!----><!----><main class="page"><!--[--><div></div><div class="hc lesson-page"><nav class="hc-crumbs" aria-label="Курс"><a href="/harness-workshop/" class="">Агент под контролем</a><span>Часть 4 · Доверяй, но проверяй</span></nav><div class="hc-lesson"><div class="hc-page">
+  <nav class="rail" aria-label="Шаги урока">
+    <ol>
+      <li><a href="#analogy">Аналогия</a></li>
+      <li><a href="#explain">Объяснение</a></li>
+      <li><a href="#interactive">Интерактив</a></li>
+      <li><a href="#practice">Тесты</a></li>
+      <li><a href="#checklist">Чек-лист</a></li>
+      <li><a href="#links">Ссылки</a></li>
+    </ol>
+    <div class="rail-progress"><span data-meter-label>Пройдено: 0%</span><div class="meter"><i data-meter></i></div></div>
+  </nav>
+
+  <main class="content">
+    <header class="lesson-hero">
+      <span class="eyebrow">Часть 4 · Доверяй, но проверяй · Урок 7</span>
+      <h1>Ловим ошибки агента автоматически: слои проверок, бюджеты, петли и выдуманные методы</h1>
+      <p class="lead">Агент ошибается не так, как человек: быстро, уверенно и иногда с отчётом «всё готово». Разберём, какие ошибки бывают и как встроить в harness проверки, которые ловят их без вас.</p>
+      <div class="facts">
+        <span class="fact">~50 минут</span>
+        <span class="fact">4 интерактива</span>
+        <span class="fact">3D-фильм и 11 вопросов</span>
+        <span class="fact">Примеры: JS · TS · PHP · Python</span>
+      </div>
+      <div class="outcomes">
+        <h2>После урока вы сможете</h2>
+        <ul>
+          <li>узнавать семь типовых ошибок агента в логе его работы;</li>
+          <li>собрать слои защиты: проверки кодом, бюджеты, трейсы и человек на воротах;</li>
+          <li>узнавать петлю и выдуманные методы и ставить на них автоматические проверки;</li>
+          <li>подключить линтер и тесты к агенту через хуки.</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ============ 1. АНАЛОГИЯ ============ -->
+    <section class="step" id="analogy">
+      <div class="step-head">
+        <span class="step-tag"><b>1</b> Аналогия</span>
+        <h2>Конвейер с ОТК</h2>
+      </div>
+      <div class="analogy">
+        <span class="label">Представьте</span>
+        <p>Завод выпускает детали очень быстро. Никто не смотрит на каждую руками. Вместо этого на ленте стоят датчики, и брак снимают до упаковки. Агент — такая же быстрая линия. Ему нужен свой ОТК (отдел технического контроля).</p>
+      </div>
+      <div class="stand" id="belt">
+        <div class="stand-head"><h3>Лента: зелёные — годные, красные — брак</h3><span class="badge">анимация</span></div>
+        <div class="belt" id="belt-track" aria-hidden="true">
+          <div class="station" style="left:30%"><span>линтер</span></div>
+          <div class="station" style="left:55%"><span>тесты</span></div>
+          <div class="station" style="left:80%"><span>ревью</span></div>
+        </div>
+        <div class="row">
+          <button class="btn small" type="button" id="belt-run">▶ Запустить ленту</button>
+          <label class="row" style="gap:0.4rem; font-weight:500"><input type="checkbox" id="belt-on" checked> Контроль включён</label>
+        </div>
+        <div class="belt-stats">
+          <div><b id="belt-made">0</b>деталей</div>
+          <div><b id="belt-caught">0</b>брака снято</div>
+          <div><b id="belt-escaped">0</b>брака дошло до клиента</div>
+        </div>
+      </div>
+      <div class="map-pairs" aria-label="Соответствия аналогии">
+        <div><b>Датчик размера</b><span>= линтер и типы: ловят выдуманные методы</span></div>
+        <div><b>Проверка на стенде</b><span>= тесты: ловят неверную логику</span></div>
+        <div><b>Пломба на станке</b><span>= защищённые файлы: агент не ослабит тест</span></div>
+        <div><b>Счётчик с автоматом</b><span>= бюджет токенов и шагов: стоп-кран для петли</span></div>
+        <div><b>Журнал смены</b><span>= трейс: что агент делал на каждом шаге</span></div>
+        <div><b>Мастер смены</b><span>= человек на ключевых воротах</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 2. ОБЪЯСНЕНИЕ ============ -->
+    <section class="step" id="explain">
+      <div class="step-head">
+        <span class="step-tag"><b>2</b> Объяснение</span>
+        <h2>От простого к сложному</h2>
+      </div>
+
+      <div class="level" data-level="1">
+        <span class="level-tag">Уровень 1 · Суть</span>
+        <h3>Каждый шаг проверяет код, у каждой задачи есть бюджет</h3>
+        <p>Человек ошибается медленно и обычно сомневается. Агент делает десятки правок в минуту и звучит одинаково уверенно, когда прав и когда нет (урок 1). Читать всё руками невозможно. Поэтому правило простое:</p>
+        <ul>
+          <li>после каждого действия агента его результат проверяет <strong>код</strong>: линтер, типы, тесты;</li>
+          <li>у каждой задачи есть <strong>лимиты</strong>: шаги, токены, время;</li>
+          <li>каждый шаг <strong>записывается</strong>, чтобы потом разобраться.</li>
+        </ul>
+        <div class="tip"><b>Главное</b>Не верьте отчёту агента «всё готово». Верьте результатам проверок, которые агент не может подделать.</div>
+      </div>
+
+      <div class="level" data-level="2">
+        <span class="level-tag">Уровень 2 · Детали</span>
+        <h3>Семь типовых ошибок и чем их ловить</h3>
+        <div class="errs">
+          <div class="err"><b>Выдуманный API</b><span>Вызов метода или импорт, которого нет: <code>Money::fromFloatSafe()</code>.</span><span>Ловят: статанализ (phpstan, tsc, mypy), тесты.</span></div>
+          <div class="err"><b>Неверная логика</b><span>Код работает, но считает не то: скидка не применяется.</span><span>Ловят: тесты, особенно написанные до правки.</span></div>
+          <div class="err"><b>Правки вне задачи</b><span>«Заодно поправил» конфиг безопасности или соседний модуль.</span><span>Ловят: проверка diff — какие файлы можно трогать.</span></div>
+          <div class="err"><b>Ослабленный тест</b><span>Тест красный, и агент поменял ожидание в тесте, а не код.</span><span>Ловят: запрет правки tests/ без явного разрешения, ревью.</span></div>
+          <div class="err"><b>Петля</b><span>Одна и та же команда раз за разом, с тем же результатом.</span><span>Ловят: детектор повторов, лимит шагов.</span></div>
+          <div class="err"><b>Перерасход</b><span>Задача на 50 тысяч токенов съела 2 миллиона.</span><span>Ловят: бюджет токенов и денег на задачу.</span></div>
+          <div class="err"><b>Ложный отчёт</b><span>«Готово, тесты проходят», а тесты не запускались.</span><span>Ловят: Stop-хук, который сам запускает тесты.</span></div>
+        </div>
+        <h3>Слои защиты</h3>
+        <div class="flow">
+          <div class="node"><b>Проверки кодом</b><small>линтер, типы, тесты</small></div><span class="arrow">→</span>
+          <div class="node"><b>Проверки артефактов</b><small>схема JSON, границы diff</small></div><span class="arrow">→</span>
+          <div class="node"><b>Лимиты</b><small>шаги, токены, время</small></div><span class="arrow">→</span>
+          <div class="node"><b>Наблюдаемость</b><small>трейсы, логи шагов</small></div><span class="arrow">→</span>
+          <div class="node"><b>Человек</b><small>на ключевых воротах</small></div>
+        </div>
+        <p>Слои ставят от дешёвых к дорогим. Линтер стоит секунды и ловит много. Человек стоит дорого, поэтому он смотрит только то, что прошло все автоматические слои, и только в важных точках: слияние в main, миграция, выкладка.</p>
+        <p>Как слои работают вместе, видно в фильме — 50 секунд. Остановите его, перемотайте, поверните сцену и посмотрите вдоль пути ошибки.</p>
+        <figure class="stage3d" data-stage="shvejcarskij-syr">
+          <div class="stage3d-view"></div>
+          <figcaption class="stage3d-alt">3D-фильм «Швейцарский сыр». Агент быстро сыплет правками, часть из них с ошибками. Пять слоёв защиты стоят от дешёвых к дорогим: линтер и типы, тесты, границы diff, бюджет и петли, ревью человеком. Каждый слой — решётка с дырами. Выдуманный метод застревает в линтере, неверная логика — в тестах, правка вне задачи — в diff, петля — в бюджете. У ошибки «логика без теста» дыры четырёх слоёв совпали, её ловит только человек. Если убрать ревью, она доходит до прода. Новый слой — Stop-хук с тестами — закрывает эту дыру.</figcaption>
+        </figure>
+      </div>
+
+      <div class="level" data-level="3">
+        <span class="level-tag">Уровень 3 · Усложнение</span>
+        <h3>Как встроить контроль в harness</h3>
+        <ul>
+          <li><strong>PostToolUse-хук</strong> после каждой правки файла запускает линтер для этого файла. Ошибки уходят модели сразу (код выхода 2 и текст в stderr), и она исправляет их на следующем шаге, а не через час в CI.</li>
+          <li><strong>Stop-хук</strong> не даёт агенту закончить, пока тесты красные. Ложный отчёт «всё готово» становится невозможным.</li>
+          <li><strong>PreToolUse-хук</strong> запрещает правку защищённых файлов: тестов, конфигов линтера, CI. Иначе агент «починит» проверку, а не код.</li>
+          <li><strong>Оркестратор</strong> (урок 4) держит бюджет: максимум шагов, токенов и времени. Превысил — остановка с отчётом, а не тихий счёт на сотни долларов.</li>
+          <li><strong>Трейс</strong>: каждый шаг пишется в JSON-лог: номер, инструмент, аргументы, токены, время, результат. По нему находят петли, дорогие шаги и причины аварий.</li>
+        </ul>
+        <p><strong>Метрики процесса</strong>, которые стоит считать: стоимость решённой задачи, доля задач с вмешательством человека, сколько брака дошло до ревью и до прода, сколько раз сработал каждый слой. Если слой не сработал ни разу за месяц — проверьте, работает ли он вообще.</p>
+        <div class="warn"><b>Ловушка</b>Не делайте единственным контролем «вторую модель, которая проверит первую». Это полезный слой (урок 8), но у проверяющей модели те же слабости. Основа — детерминированные проверки, которые дают один и тот же ответ на один и тот же код.</div>
+        <details class="more">
+          <summary>Хуки контроля в коде <span class="hint">— линтер после правки, тесты перед финишем</span></summary>
+          <div class="more-body">
+<pre data-lang="json">{
+  "hooks": {
+    "PostToolUse": [
+      { "matcher": "Edit|Write", "hooks": [{ "type": "command", "command": "node .claude/hooks/lint-after-edit.js" }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "python3 .claude/hooks/tests-before-stop.py" }] }
+    ]
+  }
+}</pre>
+            <div class="code-tabs">
+<pre data-lang="js">// .claude/hooks/lint-after-edit.js — PostToolUse: ESLint для правленого файла
+import { execFileSync } from "node:child_process";
+
+let raw = "";
+process.stdin.on("data", (c) =&gt; (raw += c));
+process.stdin.on("end", () =&gt; {
+  const file = JSON.parse(raw).tool_input?.file_path ?? "";
+  if (!/\.(ts|js)$/.test(file)) process.exit(0);
+  try {
+    execFileSync("npx", ["eslint", "--max-warnings=0", file], { encoding: "utf8" });
+    process.exit(0);
+  } catch (e) {
+    // код 2: ошибки уйдут модели, она исправит их на следующем шаге
+    process.stderr.write(`ESLint нашёл проблемы в ${file}:\n${e.stdout}`);
+    process.exit(2);
+  }
+});</pre>
+<pre data-lang="php">#!/usr/bin/env php
+&lt;?php
+// .claude/hooks/lint-after-edit.php — PostToolUse: phpstan для правленого файла
+$event = json_decode(stream_get_contents(STDIN), true, flags: JSON_THROW_ON_ERROR);
+$file = $event['tool_input']['file_path'] ?? '';
+if (!str_ends_with($file, '.php')) {
+    exit(0);
+}
+exec('vendor/bin/phpstan analyse --no-progress --error-format=raw ' . escapeshellarg($file) . ' 2>&1', $out, $code);
+if ($code !== 0) {
+    fwrite(STDERR, "phpstan нашёл ошибки в $file:\n" . implode("\n", $out));
+    exit(2);
+}
+exit(0);</pre>
+<pre data-lang="py">#!/usr/bin/env python3
+# .claude/hooks/tests-before-stop.py — Stop: не отпускать агента с красными тестами
+import json
+import subprocess
+import sys
+
+event = json.load(sys.stdin)
+# Если агент уже продолжает работу из-за этого хука, не держим его вечно
+if event.get("stop_hook_active"):
+    sys.exit(0)
+
+proc = subprocess.run(["pytest", "-q", "-x"], capture_output=True, text=True)
+if proc.returncode != 0:
+    tail = (proc.stdout + proc.stderr)[-3000:]
+    print("Тесты красные, задачу нельзя считать готовой:\n" + tail, file=sys.stderr)
+    sys.exit(2)
+sys.exit(0)</pre>
+<pre data-lang="ts">// trace.ts — простой трейс шагов агента в JSON Lines
+import { appendFileSync } from "node:fs";
+
+interface TraceStep {
+  task: string;
+  step: number;
+  tool: string;
+  input: unknown;
+  inputTokens: number;
+  outputTokens: number;
+  ms: number;
+  ok: boolean;
+}
+
+export function trace(s: TraceStep): void {
+  // одна строка — один шаг: легко грепать, считать и грузить в Grafana/Loki
+  appendFileSync("var/agent-trace.jsonl", JSON.stringify({ at: new Date().toISOString(), ...s }) + "\n");
+}
+
+// В цикле агента после каждого шага:
+// trace({ task: "fix-price", step, tool: block.name, input: block.input,
+//         inputTokens: res.usage.input_tokens, outputTokens: res.usage.output_tokens, ms, ok: !isError });</pre>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ 3. ИНТЕРАКТИВ ============ -->
+    <section class="step" id="interactive">
+      <div class="step-head">
+        <span class="step-tag"><b>3</b> Интерактив</span>
+        <h2>Ловим ошибки руками и кодом</h2>
+      </div>
+
+      <!-- 3.1 Лента агента -->
+      <div class="stand" id="feed">
+        <div class="stand-head"><h3>Найдите ошибки в логе агента</h3><span class="badge">интерактив 1 из 4</span></div>
+        <p class="task">Задача агента: «скидка 10% для заказов от 100 BYN не применяется, почини». Для каждого шага выберите, что это. Потом нажмите «Проверить».</p>
+        <div class="log" id="feed-log"></div>
+        <div class="row"><button class="btn" type="button" id="feed-check">Проверить</button><button class="btn quiet" type="button" id="feed-reset">Сбросить</button><span class="result-line" id="feed-score"></span></div>
+      </div>
+
+      <!-- 3.2 Слои защиты -->
+      <div class="stand" id="sim">
+        <div class="stand-head"><h3>Соберите слои защиты</h3><span class="badge">интерактив 2 из 4</span></div>
+        <p class="task">Агент решает 100 задач. В части задач он ошибается: 15% выдуманный API, 20% логика, 10% правки вне задачи, 6% ослабленный тест, 5% петля. Включайте слои и смотрите, сколько брака дойдёт до прода и сколько это стоит.</p>
+        <div class="layers">
+          <label><input type="checkbox" id="sim-lint"> <span>Линтер и типы<small>+0,5 мин на задачу</small></span></label>
+          <label><input type="checkbox" id="sim-tests"> <span>Тесты<small>+2 мин на задачу</small></span></label>
+          <label><input type="checkbox" id="sim-scope"> <span>Границы diff и защита tests/<small>секунды</small></span></label>
+          <label><input type="checkbox" id="sim-budget"> <span>Бюджет и детектор петли<small>бесплатно</small></span></label>
+          <label><input type="checkbox" id="sim-human"> <span>Ревью человеком<small>+12 мин человека на задачу</small></span></label>
+        </div>
+        <div class="row"><button class="btn" type="button" id="sim-run">▶ Прогнать 100 задач</button><span class="task">Случайность фиксирована: один и тот же набор задач для честного сравнения.</span></div>
+        <div class="kpis">
+          <div class="kpi" id="kpi-made"><b id="sim-made">—</b>ошибок сделано</div>
+          <div class="kpi ok"><b id="sim-caught">—</b>поймано слоями</div>
+          <div class="kpi bad"><b id="sim-escaped">—</b>дошло до прода</div>
+          <div class="kpi"><b id="sim-human-min">—</b>минут человека</div>
+          <div class="kpi"><b id="sim-tokens">—</b>млн токенов</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Тип ошибки</th><th class="num">Сделано</th><th class="num">Поймано</th><th class="num">До прода</th><th>Кто поймал больше всех</th></tr></thead>
+            <tbody id="sim-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3.3 Бюджет -->
+      <div class="stand" id="bud">
+        <div class="stand-head"><h3>Монитор бюджета: стоп-кран</h3><span class="badge">интерактив 3 из 4</span></div>
+        <p class="task">График — сколько входных токенов агент потратил к каждому шагу. С 11-го шага агент застрял: гоняет одну и ту же команду. Поставьте лимит и включите детектор петли.</p>
+        <div class="grid-2">
+          <div class="field"><label for="bud-limit">Лимит токенов на задачу: <span class="mono" id="bud-limit-val">800 тыс.</span></label><input type="range" id="bud-limit" min="200000" max="1600000" step="100000" value="800000"></div>
+          <div class="row">
+            <label class="row" style="gap:0.4rem; font-weight:500"><input type="checkbox" id="bud-loop"> Детектор петли</label>
+            <button class="btn" type="button" id="bud-run">▶ Запустить агента</button>
+          </div>
+        </div>
+        <svg class="chart" id="bud-chart" viewBox="0 0 600 250" role="img" aria-label="Накопленные токены по шагам"></svg>
+        <p class="task" id="bud-text" aria-live="polite">Нажмите «Запустить агента».</p>
+      </div>
+
+      <!-- 3.4 Индекс символов -->
+      <div class="stand" id="sym">
+        <div class="stand-head"><h3>Ловим выдуманный метод по индексу проекта</h3><span class="badge">интерактив 4 из 4</span></div>
+        <p class="task">Агент прислал правку. Проверим каждый вызов по индексу символов проекта — списку настоящих классов и методов. Такой индекс строят статанализатор или IDE. Поправьте код и проверьте снова.</p>
+        <details class="more">
+          <summary>Индекс символов проекта <span class="hint">— что на самом деле есть в коде</span></summary>
+          <div class="more-body"><pre data-lang="json" id="sym-index" class="no-copy"></pre></div>
+        </details>
+        <div class="field">
+          <label for="sym-code">Правка агента (PHP)</label>
+          <textarea id="sym-code" class="code" rows="9" style="min-height:11rem">$total = Money::fromFloat($order->getTotal());
+if ($total-&gt;greaterThan(Money::fromFloat(100))) {
+    $discount = $total-&gt;percent(10);
+    $total = $total-&gt;minus($discount);
+    $this-&gt;logger-&gt;info('discount applied');
+}
+$order-&gt;applyDiscountMagic($discount);
+return Money::fromFloatSafe($total-&gt;toCents() / 100);</textarea>
+        </div>
+        <div class="row"><button class="btn" type="button" id="sym-check">Проверить по индексу</button></div>
+        <ul class="diff-out" id="sym-out" aria-live="polite"></ul>
+      </div>
+    </section>
+
+    <!-- ============ 4. ПРАКТИКА ============ -->
+    <section class="step" id="practice">
+      <div class="step-head">
+        <span class="step-tag"><b>4</b> Тесты</span>
+        <h2>Проверьте себя</h2>
+        <p>Код писать не нужно. Где верный ответ один, он засчитывается по клику. Где написано «Отметьте все верные ответы», выберите все подходящие и нажмите «Проверить»: зачёт только при точном совпадении. Ответы сохраняются в браузере.</p>
+      </div>
+
+      <div class="quiz">
+        <h3>Вопросы по уроку</h3>
+        <div class="q" data-q="l4-weak">
+          <p>Агент поменял ожидаемое значение в тесте с 90 на 100, и тест позеленел. Как ловить такое автоматически?</p>
+          <div class="options">
+            <button>Попросить агента в CLAUDE.md не трогать тесты</button>
+            <button data-right>Хук или проверка diff, которые запрещают правку tests/ без явного разрешения</button>
+            <button>Запускать тесты два раза</button>
+          </div>
+          <p class="why">Просьба — мягкое правило. Защищённые файлы — жёсткое: агент получит отказ и будет вынужден чинить код, а не проверку.</p>
+        </div>
+        <div class="q" data-q="l4-halluc">
+          <p>Что быстрее и дешевле всего ловит вызов несуществующего метода?</p>
+          <div class="options">
+            <button data-right>Статанализ и типы сразу после правки файла</button>
+            <button>Ревью человеком перед слиянием</button>
+            <button>Вторая модель, которая читает код</button>
+          </div>
+          <p class="why">Phpstan, tsc или mypy находят такие ошибки за секунды и всегда одинаково. Через PostToolUse-хук агент узнаёт об ошибке на следующем же шаге.</p>
+        </div>
+        <div class="q" data-q="l4-loop">
+          <p>Агент сорок раз подряд запускает одну и ту же команду. Что должно сработать?</p>
+          <div class="options">
+            <button>Ничего, рано или поздно он догадается</button>
+            <button>Человек заметит в конце дня по счёту</button>
+            <button data-right>Детектор петли и лимит шагов или токенов: остановка с отчётом</button>
+          </div>
+          <p class="why">Каждый повтор отправляет модели всю историю заново, поэтому петля дорожает быстрее, чем линейно (урок 1). Стоп-кран должен быть кодом.</p>
+        </div>
+        <div class="q" data-q="l4-report">
+          <p>Почему нельзя верить итоговому сообщению агента «всё готово, тесты проходят»?</p>
+          <div class="options">
+            <button>Агенты специально обманывают</button>
+            <button data-right>Сообщение — тоже генерация текста. Верить нужно результатам проверок, которые запустил harness</button>
+            <button>Можно, если модель самая новая</button>
+          </div>
+          <p class="why">Модель пишет правдоподобный отчёт, даже если тесты не запускались. Stop-хук, который сам запускает тесты, превращает отчёт в факт.</p>
+        </div>
+        <div class="q" data-q="l7-guard-loop" data-multi>
+          <p>Какие шаги агента похожи на петлю?</p>
+          <div class="options">
+            <button data-right>Один и тот же вызов три раза подряд с тем же результатом</button>
+            <button data-right>Пара вызовов, повторённая три раза: A, B, A, B, A, B</button>
+            <button>Чтение файла, правка, запуск тестов</button>
+            <button data-right>Три раза те же аргументы, только ключи в другом порядке: <code>{a:1, b:2}</code> и <code>{b:2, a:1}</code></button>
+          </div>
+          <p class="why">Детектор петли ищет повторы одного вызова и пары вызовов. Аргументы сравнивают после сортировки ключей, иначе петля спрячется за другим порядком. Чтение, правка и тесты — нормальный рабочий цикл, а не петля.</p>
+        </div>
+        <div class="q" data-q="l7-guard-index" data-multi>
+          <p>В индексе проекта у класса Money есть методы fromFloat, greaterThan, percent, minus, toCents. Какие вызовы в правке агента выдуманы?</p>
+          <div class="options">
+            <button data-right><code>Money::fromFloatSafe(…)</code></button>
+            <button data-right><code>$order-&gt;applyDiscountMagic(…)</code></button>
+            <button><code>Money::fromFloat(100)</code></button>
+            <button><code>$total-&gt;percent(10)</code></button>
+          </div>
+          <p class="why">Как в интерактиве 4: каждый вызов сверяют с индексом символов. fromFloatSafe и applyDiscountMagic в индексе нет — это выдумка модели. Статанализ находит такое за секунды, ещё до тестов.</p>
+        </div>
+        <div class="q" data-q="l7-guard-hooks" data-multi>
+          <p>Что верно про хуки контроля?</p>
+          <div class="options">
+            <button data-right>PostToolUse после правки файла запускает линтер, ошибки сразу уходят модели</button>
+            <button data-right>Stop не даёт агенту закончить, пока тесты красные</button>
+            <button>PreToolUse запускает все тесты после каждого шага</button>
+            <button data-right>PreToolUse запрещает правку тестов и конфигов линтера</button>
+          </div>
+          <p class="why">PreToolUse срабатывает до действия, поэтому им запрещают опасное: правку tests/, CI, конфигов проверок. Тесты после каждого шага гонять дорого — их запускает Stop перед финишем, а после правки хватает быстрого линтера.</p>
+        </div>
+        <div class="q" data-q="l7-guard-order" data-multi>
+          <p>Почему слои защиты ставят от дешёвых к дорогим?</p>
+          <div class="options">
+            <button data-right>Линтер за секунды отсеивает много ошибок, и до дорогих слоёв доходит меньше</button>
+            <button data-right>Человек дорогой, поэтому смотрит только то, что прошло автоматику, и только в ключевых точках</button>
+            <button>Дорогие слои ловят всё, поэтому дешёвые можно не ставить</button>
+          </div>
+          <p class="why">У каждого слоя есть дыры, как в фильме про сыр. Дешёвые слои снимают массовый брак, дорогие ловят редкое. Без дешёвых слоёв человек утонет в ошибках, которые нашёл бы линтер.</p>
+        </div>
+        <div class="q" data-q="l7-guard-trace" data-multi>
+          <p>Что стоит записывать в трейс каждого шага агента?</p>
+          <div class="options">
+            <button data-right>Инструмент и его аргументы</button>
+            <button data-right>Сколько токенов и времени ушло на шаг</button>
+            <button>Только итоговое сообщение агента</button>
+            <button data-right>Результат шага</button>
+          </div>
+          <p class="why">По трейсу находят петли, самые дорогие шаги и причины аварий. Итоговое сообщение — тоже генерация текста: по нему не видно, что агент делал на самом деле.</p>
+        </div>
+        <div class="q" data-q="l7-guard-holes">
+          <p>В фильме ошибка «логика без теста» прошла четыре слоя подряд. Что это значит?</p>
+          <div class="options">
+            <button>Эти слои сломаны, их надо убрать</button>
+            <button data-right>На её пути совпали дыры четырёх слоёв: нужен слой, который закрывает эту дыру, например тест на этот случай или Stop-хук</button>
+            <button>Ошибка летела слишком быстро</button>
+          </div>
+          <p class="why">Каждый слой ловит своё и пропускает остальное. Опасно, когда дыры совпадают. Лечится не удалением слоёв, а ещё одним слоем там, где у прошлых дыра.</p>
+        </div>
+        <div class="q" data-q="l7-guard-judge">
+          <p>Можно ли сделать единственным контролем вторую модель, которая проверяет первую?</p>
+          <div class="options">
+            <button>Да, если вторая модель сильнее первой</button>
+            <button data-right>Нет: у проверяющей модели те же слабости. Основа — детерминированные проверки, вторая модель — дополнительный слой</button>
+            <button>Да, если запустить её два раза</button>
+          </div>
+          <p class="why">Проверяющая модель тоже может уверенно ошибиться. Линтер, типы и тесты дают один и тот же ответ на один и тот же код — на них и держится защита. Модель-судья полезна сверху (урок 8).</p>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>Задание на своём проекте <span class="hint">— 40 минут</span></summary>
+        <div class="more-body">
+          <ol>
+            <li>Подключите PostToolUse-хук с линтером или статанализатором вашего языка. Попросите агента написать код с заведомо несуществующим методом и посмотрите, как он исправится сам.</li>
+            <li>Поставьте Stop-хук с тестами. Убедитесь, что агент не может закончить с красным тестом.</li>
+            <li>Добавьте PreToolUse-хук, который запрещает правку <code>tests/</code> и конфигов линтера. Сломайте тест и попросите агента «сделать тесты зелёными». Что он сделал?</li>
+            <li>Запишите трейс одной задачи в JSON Lines. Посчитайте: сколько шагов, сколько токенов, какой шаг самый дорогой.</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <!-- ============ 5. ЧЕК-ЛИСТ ============ -->
+    <section class="step" id="checklist">
+      <div class="step-head">
+        <span class="step-tag"><b>5</b> Чек-лист</span>
+        <h2>Отметьте, что усвоили</h2>
+      </div>
+      <ul class="checklist" data-id="main">
+        <li>Знаю семь типовых ошибок агента и могу узнать их в логе.</li>
+        <li>Понимаю слои защиты и почему их ставят от дешёвых к дорогим.</li>
+        <li>Знаю, как подключить линтер через PostToolUse и тесты через Stop.</li>
+        <li>Понимаю, зачем защищать тесты и конфиги проверок от правок агента.</li>
+        <li>Умею задать бюджет задачи и понимаю, почему петля дорожает быстро.</li>
+        <li>Знаю, что писать в трейс шага и какие метрики процесса считать.</li>
+        <li>Ответил на вопросы урока: признаки петли, выдуманные методы, хуки и порядок слоёв.</li>
+      </ul>
+      <div class="tip done-banner"><b>Урок пройден</b>Теперь брак агента снимается с ленты автоматически. Дальше — как доказать цифрами, что агент и скилы стали работать лучше, а не хуже.</div>
+    </section>
+
+    <!-- ============ 6. ССЫЛКИ ============ -->
+    <section class="step" id="links">
+      <div class="step-head">
+        <span class="step-tag"><b>6</b> Ссылки</span>
+        <h2>Что почитать и где попробовать</h2>
+      </div>
+      <p class="task">Материалы на русском отмечены зелёной меткой. Все ссылки проверены 18 октября 2026 года.</p>
+      <div class="links">
+        <div><h3>Почитать</h3><ul><li><a href="https://habr.com/ru/companies/globalsign/articles/946872/" target="_blank" rel="noopener">Фантазии LLM воплощаются в реальности — фальшивые опенсорсные библиотеки</a><span>slopsquatting: модель выдумывает пакет, а злоумышленник его публикует. <span class="pill ok">рус.</span></span></li><li><a href="https://code.claude.com/docs/ru/costs" target="_blank" rel="noopener">Эффективное управление затратами</a><span>откуда берётся расход токенов в Claude Code и как его снизить. <span class="pill ok">рус., офиц.</span></span></li><li><a href="https://habr.com/ru/companies/pgkdigital/articles/1013700/" target="_blank" rel="noopener">Как не дать проекту деградировать при работе с Claude Code: правила, хуки и автоматизация</a><span>правила в инфраструктуру, а не в промпт: хуки и автопроверки. <span class="pill ok">рус.</span></span></li><li><a href="https://habr.com/ru/articles/936156/" target="_blank" rel="noopener">ИИ под контролем: Guardrails как щит от рисков в агентных системах</a><span>что такое guardrails (ограничители), на каких этапах и какими бывают. <span class="pill ok">рус., перевод</span></span></li><li><a href="https://habr.com/ru/articles/972480/" target="_blank" rel="noopener">LLM Observability &amp; AI Agent Tracing: большой гайд</a><span>что отслеживать у агента и обзор open-source трассировки (Langfuse, Phoenix и др.). <span class="pill ok">рус.</span></span></li></ul></div>
+        <div><h3>Песочницы по теме</h3><ul><li><a href="https://phpstan.org/try" target="_blank" rel="noopener">PHPStan Playground</a><span>вставить код с выдуманным методом и увидеть, как статический анализ ловит «галлюцинацию» до запуска.</span></li><li><a href="https://regex101.com/" target="_blank" rel="noopener">regex101</a><span>написать регулярку-фильтр на секреты (ключи, токены) для guardrail или hook.</span></li></ul></div>
+        <div><h3>Запустить код из урока</h3><ul><li><a href="https://www.typescriptlang.org/play" target="_blank" rel="noopener">TypeScript Playground</a><span>JS и TS из примеров урока: вставить и запустить кнопкой Run.</span></li><li><a href="https://3v4l.org/" target="_blank" rel="noopener">3v4l.org</a><span>PHP-примеры урока на любой версии PHP.</span></li><li><a href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">JupyterLite</a><span>Python-примеры урока прямо в браузере, без установки.</span></li></ul></div>
+      </div>
+    </section>
+  </main>
+</div>
+<style>
+.hc .belt { position: relative; height: 5.5rem; background: var(--hc-surface-2); border-radius: var(--hc-r-sm); overflow: hidden; }
+.hc .belt::after { content: ""; position: absolute; left: 0; right: 0; bottom: 1rem; border-top: 2px dashed var(--hc-line); }
+.hc .belt .station { position: absolute; top: 0.3rem; bottom: 0.3rem; width: 2px; background: var(--hc-accent); }
+.hc .belt .station span { position: absolute; top: 0; left: 6px; font: 600 var(--hc-fs-xs) var(--hc-f-mono); color: var(--hc-accent); white-space: nowrap; }
+.hc .belt .item { position: absolute; bottom: 1.15rem; left: 0; width: 1.3rem; height: 1.3rem; margin-left: -0.65rem; border-radius: 4px; background: var(--hc-ok); transition: left 0.9s linear, transform 0.4s, opacity 0.4s; }
+.hc .belt .item.defect { background: var(--hc-bad); }
+.hc .belt .item.caught { transform: translateY(2.2rem) rotate(25deg); opacity: 0; }
+.hc .belt-stats { display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: var(--hc-fs-sm); }
+.hc .belt-stats b { font: 600 var(--hc-fs-lg) var(--hc-f-mono); display: block; font-variant-numeric: tabular-nums; }
+.hc .errs { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); }
+.hc .err { background: var(--hc-surface); border: 1px solid var(--hc-line); border-radius: var(--hc-r-sm); padding: 0.6rem 0.75rem; display: grid; gap: 0.25rem; font-size: var(--hc-fs-sm); }
+.hc .err b { font-size: var(--hc-fs-sm); }
+.hc .err span { color: var(--hc-muted); }
+.hc .log { display: grid; gap: 0.4rem; }
+.hc .log-row { display: grid; grid-template-columns: 2rem minmax(0, 1fr) 11rem; gap: 0.6rem; align-items: start; padding: 0.5rem 0.6rem; border-radius: var(--hc-r-sm); background: var(--hc-bg); font-size: var(--hc-fs-sm); border-left: 4px solid var(--hc-line); }
+@media (max-width: 640px) {
+.hc .log-row { grid-template-columns: 2rem minmax(0, 1fr); }
+.hc .log-row select { grid-column: 2; }
+}
+.hc .log-row .n { font: 600 var(--hc-fs-xs) var(--hc-f-mono); color: var(--hc-muted); padding-top: 0.15rem; }
+.hc .log-row code { overflow-wrap: anywhere; }
+.hc .log-row.right { border-left-color: var(--hc-ok); }
+.hc .log-row.wrong { border-left-color: var(--hc-bad); }
+.hc .log-row .why { display: block; margin-top: 0.25rem; color: var(--hc-muted); }
+.hc .layers { display: grid; gap: 0.4rem; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); }
+.hc .layers label { font-weight: 400; display: flex; gap: 0.5rem; align-items: flex-start; background: var(--hc-bg); border: 1px solid var(--hc-line); border-radius: var(--hc-r-sm); padding: 0.5rem 0.6rem; }
+.hc .layers label input { margin-top: 0.2rem; flex: none; }
+.hc .layers small { display: block; color: var(--hc-muted); }
+.hc .kpis { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr)); }
+.hc .kpi { background: var(--hc-bg); border-radius: var(--hc-r-sm); padding: 0.6rem 0.75rem; display: grid; gap: 0.1rem; font-size: var(--hc-fs-xs); color: var(--hc-muted); }
+.hc .kpi b { font: 600 var(--hc-fs-xl) var(--hc-f-mono); color: var(--hc-ink); font-variant-numeric: tabular-nums; }
+.hc .kpi.bad b { color: var(--hc-bad); }
+.hc .kpi.ok b { color: var(--hc-ok); }
+.hc .chart { width: 100%; height: auto; display: block; }
+.hc .chart .grid { stroke: var(--hc-line); stroke-width: 1; }
+.hc .chart .axis { fill: var(--hc-muted); font: 500 10px var(--hc-f-mono); }
+.hc .chart .line { fill: none; stroke: var(--hc-accent); stroke-width: 2.5; }
+.hc .chart .area { fill: color-mix(in srgb, var(--hc-accent) 14%, transparent); stroke: none; }
+.hc .chart .limit { stroke: var(--hc-bad); stroke-width: 1.5; stroke-dasharray: 6 4; }
+.hc .chart .limit-label { fill: var(--hc-bad); font: 600 10px var(--hc-f-mono); }
+.hc .chart .dot { fill: var(--hc-accent); }
+.hc .chart .dot.loop { fill: var(--hc-bad); }
+.hc .chart .stop { fill: var(--hc-bad); }
+.hc .diff-out { list-style: none; padding: 0; display: grid; gap: 0.3rem; font-size: var(--hc-fs-sm); }
+.hc .diff-out li { margin: 0; display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap; }
+</style>
+</div><nav class="hc-pager" aria-label="Переход между уроками"><a href="/harness-workshop/generator-ili-agent/" class=""><small>← Назад</small>Урок 6. Генератор или агент</a><a href="/harness-workshop/izmeryaem-kachestvo/" class="next"><small>Дальше →</small>Урок 8. Измеряем качество</a></nav><aside class="hc-try"><div><b>Попробуйте на своём проекте</b><p>Задания из урока можно сделать в Klepa AI: агент работает прямо в VS Code, без VPN, есть бесплатные модели.</p></div><div class="hc-try-actions"><a class="hc-try-install" href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">Установить Klepa</a><a href="/quickstart/" class="">Быстрый старт</a></div></aside></div><!--]--></main><footer class="foot"><div class="foot-inner"><div><p class="wordmark"><img class="mark" src="/images/klepa-mark.png" alt="" width="32" height="32"> Klepa AI </p><p class="foot-note"> AI-агент для VS Code. Работает без VPN, оплата МИР и БЕЛКАРТ. </p></div><!--[--><div class="foot-col"><span class="nav-label">Продукт</span><!--[--><a href="/installing/" class="">Установка</a><a href="/quickstart/" class="">Быстрый старт</a><a href="/features/" class="">Возможности</a><a href="/best-practices/" class="">Практики</a><a href="/vibe-coding/" class="">Вайбкодинг</a><a href="/harness-workshop/" class="">Курс</a><a href="/image-generation/" class="">Картинки</a><a href="/marketplace/" class="">Marketplace</a><a href="/support/" class="">Поддержка</a><!--]--></div><div class="foot-col"><span class="nav-label">Сравнения</span><!--[--><a href="/analogi/" class="">Все агенты</a><a href="/vs-claude-code/" class="">vs Claude Code</a><a href="/vs-cursor/" class="">vs Cursor</a><a href="/vs-copilot/" class="">vs Copilot</a><a href="/claude-code-besplatno/" class="">Claude Code бесплатно</a><a href="/claude-code-oplata/" class="">Оплата Claude Code</a><a href="/claude-code-ustanovka/" class="">Установка Claude Code</a><!--]--></div><!--]--><div class="foot-col"><span class="nav-label">Сервис</span><a href="/pricing/" class="">Цены и модели</a><a href="https://marketplace.visualstudio.com/items?itemName=copy-code.copy-coder">VS Code Marketplace</a><a href="https://gpt-chat.by/" target="_blank" rel="noopener">Чат</a><!--[--><a href="/about/" class="">О нас</a><a href="/offer/" class="">Публичная оферта</a><a href="/privacy-policy/" class="">Политика конфиденциальности</a><a href="/about/#requisites" class="">Реквизиты и контакты</a><!--]--><button type="button" class="foot-button"> Настройки cookie </button></div></div></footer><span data-v-904500e8></span></div></div><div id="teleports"></div><script>window.__NUXT__={};window.__NUXT__.config={public:{siteUrl:"https://klepa.gpt-chat.by",apiBase:"https://api.gpt-chat.by/api",telegramBotId:"7714752762"},app:{baseURL:"/",buildId:"07b41eb6-5854-4672-a7f8-223f73195f9b",buildAssetsDir:"/_nuxt/",cdnURL:""}}</script>
+<script type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" id="__NUXT_DATA__" data-src="/harness-workshop/oshibki-agenta/_payload.json?_b=07b41eb6-5854-4672-a7f8-223f73195f9b">[{"state":1,"once":7,"_errors":8,"serverRendered":10,"path":11,"prerenderedAt":12},["Reactive",2],{"$sklepa-login-open":3,"$sklepa-login-consent":3,"$sklepa-login-token":4,"$sklepa-login-refresh":4,"$sklepa-login-session":5,"$sklepa-login-key":4,"$sklepa-login-error":4,"$sklepa-account-label":4,"$sklepa-balance-byn":6,"$sklepa-cookie-consent":6,"$sklepa-cookie-restored":3,"$sklepa-cookie-reopened":3},false,"","idle",null,["Set"],["ShallowReactive",9],{"kurs-oshibki-agenta":6},true,"\u002Fharness-workshop\u002Foshibki-agenta\u002F",1793027418612]</script></body></html>
