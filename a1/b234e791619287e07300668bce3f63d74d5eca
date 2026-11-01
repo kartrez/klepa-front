@@ -1,0 +1,61 @@
+cli/linux-x64/latest
+  s_298d2b38435530::t_2ffdbd86dba895 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "0.0.67",
+  "base_commit_sha": "a1b234e791619287e07300668bce3f63d74d5eca",
+  "prompts": {},
+  "sessions": {
+    "s_298d2b38435530": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a196e1-d487-7051-9c2e-00b882cbf495",
+        "model": "gpt-6.1-terra"
+      },
+      "human_author": "azhaliazouski <azhaliazouski@marfa-tech.com>",
+      "usage": [
+        {
+          "model": "gpt-6.1-terra",
+          "input_tokens": 97041,
+          "output_tokens": 20508,
+          "cache_read_tokens": 10715776,
+          "cache_write_5m_tokens": 0,
+          "cache_write_1h_tokens": 0,
+          "assistant_messages": 102,
+          "turns": 5,
+          "ai_wall_ms": 373597,
+          "first_ts": "2026-11-01T11:33:47.921Z",
+          "last_ts": "2026-11-01T11:46:11.798Z",
+          "session_total_output_tokens": 20508
+        }
+      ],
+      "tools": [
+        {
+          "tool": "exec",
+          "model": "gpt-6.1-terra",
+          "calls": 98,
+          "result_chars": 270122,
+          "result_input_tokens": 95410,
+          "result_cache_write_5m_tokens": 0,
+          "result_cache_write_1h_tokens": 0,
+          "call_output_tokens": 19984
+        },
+        {
+          "tool": "request_user_input_async",
+          "model": "gpt-6.1-terra",
+          "calls": 1,
+          "result_chars": 17,
+          "result_input_tokens": 150,
+          "result_cache_write_5m_tokens": 0,
+          "result_cache_write_1h_tokens": 0,
+          "call_output_tokens": 257
+        }
+      ],
+      "context_at_start_tokens": 30765,
+      "accepted_lines": 1,
+      "overridden_lines": 0
+    }
+  },
+  "install_id": "6bb35f1b-13de-4f29-82d6-96fc6b3ae5f8"
+}
