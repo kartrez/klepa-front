@@ -1,0 +1,1 @@
+function o(e){function r(){if(typeof window>"u")return null;try{return e(window)}catch{return null}}return{getItem(t){try{return r()?.getItem(t)??null}catch{return null}},setItem(t,n){try{r()?.setItem(t,n)}catch{}},removeItem(t){try{r()?.removeItem(t)}catch{}}}}const u=o(e=>e.localStorage);export{u as s};
