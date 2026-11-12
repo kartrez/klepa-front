@@ -1,0 +1,1 @@
+function a(t,e=Date.now()){const n=Date.parse(t??"");return!Number.isFinite(n)||e-n>6e5}function u(t){return Array.isArray(t)?t.filter(e=>Number(e?.contextWindow)>0):[]}async function o(t,e,n=Date.now()){if(!a(t?.fetchedAt,n))return null;try{const r=await e();return r?.models?.length?r:null}catch{return null}}export{o as r,u};
