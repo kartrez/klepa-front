@@ -1,0 +1,23 @@
+# Переадресации витрины. Статика лежит на Apache хостинга, этот файл копируется в сборку из public/.
+# Страница Codanna снята с витрины (OpenSpec klepa-remove-codanna, 18.10.2026): адрес из поиска ведёт на MCP-серверы в Marketplace.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^codanna(/.*)?$ /marketplace/ [R=301,L]
+# Курс «Агент под контролем» переехал на сайт уроков (25.11.2026, OpenSpec add-lesson-site): один 301
+# со старых адресов /harness-workshop/… и ещё более старых /kurs/… на те же уроки. Query (UTM) сохраняется.
+RewriteRule ^(?:harness-workshop|kurs)/?(?:index\.html)?$ https://lesson.gpt-chat.by/agent-pod-kontrolem/ [R=301,L]
+RewriteRule ^(?:harness-workshop|kurs)/([^/]+)/?(?:index\.html)?$ https://lesson.gpt-chat.by/agent-pod-kontrolem/$1/ [R=301,L]
+# Курс «Клёпа в терминале» сразу живёт на сайте уроков: адрес черновика витрины ведёт туда же.
+RewriteRule ^klepa-cli-kurs/?(?:index\.html)?$ https://lesson.gpt-chat.by/klepa-v-terminale/ [R=301,L]
+RewriteRule ^klepa-cli-kurs/([^/]+)/?(?:index\.html)?$ https://lesson.gpt-chat.by/klepa-v-terminale/$1/ [R=301,L]
+</IfModule>
+<IfModule mod_headers.c>
+<Files "sw-cli-releases.js">
+Header set Cache-Control "no-cache"
+</Files>
+</IfModule>
+<IfModule mod_headers.c>
+<FilesMatch "^(latest|release\.json)$">
+Header set Cache-Control "no-store, max-age=0"
+</FilesMatch>
+</IfModule>
